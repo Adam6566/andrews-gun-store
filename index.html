@@ -1757,9 +1757,62 @@ body::before {
 // IMAGE DATABASE — Real gun images from Wikipedia/Wikimedia
 // ═══════════════════════════════════════════════════════════════
 
-// All visuals are SVG — no external images (blocked by CSP in sandbox environments)
-// When deployed to GitHub Pages, you can add real image URLs to GUN_IMAGES
-const GUN_IMAGES = {};
+// Real firearm photos from Wikimedia Commons (CC-licensed, educational)
+// These load on GitHub Pages / iPad / any normal browser
+// In Claude.ai preview they are blocked by CSP — SVG fallback handles that
+const GUN_IMAGES = {
+  glock17:'https://upload.wikimedia.org/wikipedia/commons/8/88/Glock17.jpg',
+  colt1911:'https://upload.wikimedia.org/wikipedia/commons/8/83/M1911A1.png',
+  beretta92:'https://upload.wikimedia.org/wikipedia/commons/d/d5/Beretta_M9_-_1.jpg',
+  deagle:'https://upload.wikimedia.org/wikipedia/commons/4/4e/DesertEagle_50AE.jpg',
+  sig226:'https://upload.wikimedia.org/wikipedia/commons/4/40/SIG_Sauer_P226.jpg',
+  walther:'https://upload.wikimedia.org/wikipedia/commons/9/9c/Walther_PPK_1848.jpg',
+  hkusp:'https://upload.wikimedia.org/wikipedia/commons/a/aa/HK_USP_9mm_Pragl.jpg',
+  fn57:'https://upload.wikimedia.org/wikipedia/commons/d/d2/FN_Five-seven_USG_variant.jpg',
+  cz75:'https://upload.wikimedia.org/wikipedia/commons/7/7c/CZ_75B.jpg',
+  kimber:'https://upload.wikimedia.org/wikipedia/commons/8/83/M1911A1.png',
+  colt45:'https://upload.wikimedia.org/wikipedia/commons/e/e1/Colt_Buntline.jpg',
+  sw686:'https://upload.wikimedia.org/wikipedia/commons/2/22/Smith_%26_Wesson_686.jpg',
+  ruger:'https://upload.wikimedia.org/wikipedia/commons/3/34/Ruger_Super_Redhawk_454Casull.jpg',
+  swmod29:'https://upload.wikimedia.org/wikipedia/commons/7/7a/S%26W_Model_29.jpg',
+  mauser98:'https://upload.wikimedia.org/wikipedia/commons/3/3a/Karabiner_98k.jpg',
+  mosinnagant:'https://upload.wikimedia.org/wikipedia/commons/6/65/Mosin-Nagant_M1891_-_Ryssland_-_AM.045810.jpg',
+  lee:'https://upload.wikimedia.org/wikipedia/commons/7/7a/Lee-Enfield_Mk_III_%28No_1_Mk_3%29_-_AM.032056.jpg',
+  m1garand:'https://upload.wikimedia.org/wikipedia/commons/e/ea/M1_Garand_rifle_-_USA_-_30-06_-_Arm%C3%A9museum.jpg',
+  ar15:'https://upload.wikimedia.org/wikipedia/commons/5/5e/AR-15_Sporter_SP1_-_1963.jpg',
+  sks:'https://upload.wikimedia.org/wikipedia/commons/0/04/SKS_-_Ryssland_-_AM.045810.jpg',
+  ak47:'https://upload.wikimedia.org/wikipedia/commons/5/57/AK-47_type_II_Part_DM-ST-89-01131.jpg',
+  ak74:'https://upload.wikimedia.org/wikipedia/commons/5/55/AK-74_assault_rifle.jpg',
+  m16:'https://upload.wikimedia.org/wikipedia/commons/a/ae/M16A2_-_AM.006996.jpg',
+  m4:'https://upload.wikimedia.org/wikipedia/commons/0/03/M4A1_ACOG.jpg',
+  scar:'https://upload.wikimedia.org/wikipedia/commons/e/e7/FN_SCAR_H_%28Standard%29_noBG.jpg',
+  hk416:'https://upload.wikimedia.org/wikipedia/commons/9/9e/Heckler_%26_Koch_HK416.jpg',
+  aug:'https://upload.wikimedia.org/wikipedia/commons/e/e8/Steyr_AUG_A1_508mm_04.jpg',
+  tavormx:'https://upload.wikimedia.org/wikipedia/commons/9/9f/IWI-X95-db.jpg',
+  g36:'https://upload.wikimedia.org/wikipedia/commons/3/3e/HK_G36.jpg',
+  mp5:'https://upload.wikimedia.org/wikipedia/commons/d/d4/Heckler_%26_Koch_MP5-2.jpg',
+  thompsons:'https://upload.wikimedia.org/wikipedia/commons/3/39/Thompson_submachine_gun.jpg',
+  uzi:'https://upload.wikimedia.org/wikipedia/commons/6/65/Uzi_of_the_hungarian_army.jpg',
+  p90:'https://upload.wikimedia.org/wikipedia/commons/a/a8/FN-P90.jpg',
+  ppsh41:'https://upload.wikimedia.org/wikipedia/commons/2/2b/PPSh-41_from_soviet.jpg',
+  mp40:'https://upload.wikimedia.org/wikipedia/commons/5/58/MP_40_Schmeisser.jpg',
+  rem870:'https://upload.wikimedia.org/wikipedia/commons/7/7e/Remington_870.jpg',
+  mossberg:'https://upload.wikimedia.org/wikipedia/commons/f/f7/Mossberg500.jpg',
+  benelli:'https://upload.wikimedia.org/wikipedia/commons/f/f4/Benelli_M4_Super_90_%28M1014_JSCS%29.jpg',
+  spas:'https://upload.wikimedia.org/wikipedia/commons/c/c7/SPAS12_stock_folded.jpg',
+  m249:'https://upload.wikimedia.org/wikipedia/commons/c/cb/M249_FN_MINIMI_DM-SD-05-05342.jpg',
+  mg42:'https://upload.wikimedia.org/wikipedia/commons/a/a6/Maschinengewehr_42.jpg',
+  m2browning:'https://upload.wikimedia.org/wikipedia/commons/6/6d/Machine_gun_M2_1.jpg',
+  minigun:'https://upload.wikimedia.org/wikipedia/commons/e/e5/Minigun_M134.jpg',
+  barrett:'https://upload.wikimedia.org/wikipedia/commons/6/6b/M82A1_barrett.jpg',
+  awm:'https://upload.wikimedia.org/wikipedia/commons/2/28/AI-AXMC_.338_Lapua_Magnum.jpg',
+  dragunov:'https://upload.wikimedia.org/wikipedia/commons/1/18/SVD_-_Ryssland_-_AM.045785.jpg',
+  cheytac:'https://upload.wikimedia.org/wikipedia/commons/d/d6/CheyTac_M200_Intervention.jpg',
+  gatling:'https://upload.wikimedia.org/wikipedia/commons/e/e1/Gatling_gun_%28AM_2007.3.2-1%29.jpg',
+  flintlock:'https://upload.wikimedia.org/wikipedia/commons/5/5d/Brown_Bess.jpg',
+  kentucky:'https://upload.wikimedia.org/wikipedia/commons/4/42/Kentucky_Rifle.jpg',
+  spencerrepeating:'https://upload.wikimedia.org/wikipedia/commons/a/ab/Spencer_Carbine_and_Indian_Department_Carbine.jpg',
+};
 
 // Part SVG illustrations — detailed technical drawings for each component
 function getPartSVG(partType) {
@@ -2127,6 +2180,12 @@ let currentCategory = 'all';
 let currentSearch = '';
 
 function getGunImage(gun) {
+  const src = GUN_IMAGES[gun.id];
+  if(src) {
+    // Real photo with SVG fallback if image fails to load (e.g. in sandboxed previews)
+    const fallback = getGunSVG(gun.type, 'small', gun.name).replace(/"/g, '&quot;');
+    return `<img src="${src}" alt="${gun.name}" loading="lazy" style="max-width:90%;max-height:90%;object-fit:contain;filter:drop-shadow(0 4px 16px rgba(200,146,42,0.15))" onerror="this.outerHTML=decodeURIComponent('${encodeURIComponent(getGunSVG(gun.type, 'small', gun.name))}')"/>`;
+  }
   return getGunSVG(gun.type, 'small', gun.name);
 }
 
@@ -2249,7 +2308,11 @@ function buildDetailBody(gun) {
     return `<div class="stat-bar-row"><div class="stat-bar-label">${labels[k]}</div><div class="stat-bar"><div class="stat-bar-fill" style="width:${v}%"></div></div><div class="stat-bar-val">${v}</div></div>`;
   }).join('');
 
-  const imgHTML = getGunSVG(gun.type, 'large', gun.name);
+  const imgSrc = GUN_IMAGES[gun.id];
+  const svgFallback = getGunSVG(gun.type, 'large', gun.name);
+  const imgHTML = imgSrc
+    ? `<img src="${imgSrc}" alt="${gun.name}" style="max-width:95%;max-height:260px;object-fit:contain;filter:drop-shadow(0 8px 32px rgba(200,146,42,0.2));position:relative;z-index:2" onerror="this.outerHTML=decodeURIComponent('${encodeURIComponent(svgFallback)}')"/><div class="img-credit">Photo: Wikimedia Commons (CC)</div>`
+    : svgFallback;
 
   body.innerHTML = `
     <div class="gun-visual-panel">${imgHTML}</div>
@@ -2497,7 +2560,11 @@ function selectCompareGun(id) {
 function renderCompareSlot(slot, gun) {
   const el = document.getElementById('compare-slot-' + slot);
   el.classList.add('filled');
-  const gunVisual = `<div style="display:flex;align-items:center;justify-content:center;height:100px;background:rgba(0,0,0,0.2);border:1px solid var(--border);margin-bottom:8px">${getGunSVG(gun.type,'small',gun.name)}</div>`;
+  const compareSrc = GUN_IMAGES[gun.id];
+  const compareSvg = getGunSVG(gun.type,'small',gun.name);
+  const gunVisual = compareSrc
+    ? `<div style="display:flex;align-items:center;justify-content:center;height:120px;background:rgba(0,0,0,0.2);border:1px solid var(--border);margin-bottom:8px;overflow:hidden"><img src="${compareSrc}" alt="${gun.name}" style="max-width:90%;max-height:110px;object-fit:contain" onerror="this.outerHTML=decodeURIComponent('${encodeURIComponent(compareSvg)}')"/></div>`
+    : `<div style="display:flex;align-items:center;justify-content:center;height:100px;background:rgba(0,0,0,0.2);border:1px solid var(--border);margin-bottom:8px">${compareSvg}</div>`;
   const statNames = {damage:'DAMAGE',accuracy:'ACCURACY',range:'RANGE',reload:'RELOAD',rate:'FIRE RATE'};
   const colors = {damage:'#ff4757',accuracy:'#74b9ff',range:'#00b894',reload:'#e8b84b',rate:'#a29bfe'};
   const otherGun = compareGuns[slot === 0 ? 1 : 0];
