@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <title>Andrew's Gun Store — Firearms Encyclopedia</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;600;700&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
@@ -32,6 +34,7 @@
 }
 
 *{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
 
 body {
   background: var(--bg-deep);
@@ -40,9 +43,10 @@ body {
   font-size: 16px;
   overflow-x: hidden;
   cursor: default;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
 }
 
-/* Animated background grid */
 body::before {
   content: '';
   position: fixed;
@@ -55,7 +59,7 @@ body::before {
   z-index: 0;
 }
 
-/* ─── HEADER ─────────────────────────────────────────────────── */
+/* ─── HEADER ─── */
 #app-header {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -63,8 +67,9 @@ body::before {
   background: linear-gradient(180deg, rgba(8,10,12,0.98) 0%, rgba(8,10,12,0.9) 100%);
   border-bottom: 1px solid var(--border);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   padding: 0 24px;
-  height: 70px;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -76,6 +81,7 @@ body::before {
   bottom: 0; left: 0; right: 0;
   height: 2px;
   background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+  background-size: 200% 100%;
   animation: scanline 4s linear infinite;
 }
 
@@ -87,18 +93,19 @@ body::before {
 .logo-area {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
+  flex-shrink: 0;
 }
 
 .logo-icon {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
   clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 18px;
   animation: pulse-logo 3s ease-in-out infinite;
 }
 
@@ -107,62 +114,61 @@ body::before {
   50%{filter:brightness(1.2) drop-shadow(0 0 16px rgba(200,146,42,0.9))}
 }
 
-.logo-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1;
-}
-
+.logo-text { display: flex; flex-direction: column; line-height: 1; }
 .logo-main {
   font-family: var(--font-title);
-  font-size: 28px;
+  font-size: 24px;
   letter-spacing: 3px;
   background: linear-gradient(90deg, var(--gold) 0%, var(--gold-pale) 50%, var(--gold) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: none;
 }
-
 .logo-sub {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 9px;
   color: var(--text-dim);
-  letter-spacing: 4px;
+  letter-spacing: 3px;
   text-transform: uppercase;
 }
 
 .header-nav {
   display: flex;
-  gap: 4px;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex-shrink: 1;
+  min-width: 0;
 }
+.header-nav::-webkit-scrollbar{display:none}
 
 .nav-btn {
   background: none;
   border: 1px solid transparent;
   color: var(--text-dim);
   font-family: var(--font-sub);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
-  padding: 8px 16px;
+  padding: 7px 12px;
   cursor: pointer;
   transition: all 0.2s;
-  position: relative;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .nav-btn:hover, .nav-btn.active {
   color: var(--gold);
   border-color: var(--gold);
   background: rgba(200,146,42,0.08);
-  text-shadow: 0 0 12px rgba(200,146,42,0.5);
 }
 
 .header-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  flex-shrink: 0;
 }
 
 #search-input {
@@ -171,8 +177,8 @@ body::before {
   color: var(--text);
   font-family: var(--font-mono);
   font-size: 13px;
-  padding: 8px 14px;
-  width: 220px;
+  padding: 7px 12px;
+  width: 180px;
   outline: none;
   transition: all 0.2s;
 }
@@ -182,22 +188,59 @@ body::before {
   background: rgba(200,146,42,0.06);
   box-shadow: 0 0 0 2px rgba(200,146,42,0.12);
 }
-
 #search-input::placeholder { color: var(--text-muted); }
 
-/* ─── MAIN CONTENT ────────────────────────────────────────────── */
-#main-content {
-  margin-top: 70px;
-  position: relative;
-  z-index: 1;
+/* ─── MOBILE BOTTOM NAV ─── */
+#mobile-nav {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: rgba(8,10,12,0.98);
+  border-top: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 6px 0 env(safe-area-inset-bottom, 6px);
 }
 
-/* ─── HERO ────────────────────────────────────────────────────── */
+.mobile-nav-inner {
+  display: flex;
+  justify-content: space-around;
+}
+
+.mob-nav-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 8px 6px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  transition: color 0.2s;
+}
+.mob-nav-btn .mob-icon{font-size:20px;}
+.mob-nav-btn.active{color:var(--gold);}
+
+/* ─── MAIN CONTENT ─── */
+#main-content {
+  margin-top: 64px;
+  position: relative;
+  z-index: 1;
+  padding-bottom: 20px;
+}
+
+/* ─── HERO ─── */
 #hero {
   position: relative;
-  padding: 60px 48px;
+  padding: 48px 32px;
   overflow: hidden;
-  min-height: 240px;
+  min-height: 200px;
   display: flex;
   align-items: center;
   border-bottom: 1px solid var(--border);
@@ -207,36 +250,32 @@ body::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: 
+  background:
     radial-gradient(ellipse 80% 60% at 50% 0%, rgba(200,146,42,0.12) 0%, transparent 70%),
     linear-gradient(180deg, transparent 0%, rgba(8,10,12,0.8) 100%);
 }
 
-.hero-content {
-  position: relative;
-  z-index: 2;
-  max-width: 700px;
-}
+.hero-content { position: relative; z-index: 2; max-width: 700px; }
 
 .hero-badge {
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 4px;
+  font-size: 10px;
+  letter-spacing: 3px;
   color: var(--gold);
   text-transform: uppercase;
   background: rgba(200,146,42,0.1);
   border: 1px solid rgba(200,146,42,0.3);
-  padding: 5px 14px;
+  padding: 4px 12px;
   display: inline-block;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .hero-title {
   font-family: var(--font-title);
-  font-size: 72px;
+  font-size: 60px;
   line-height: 0.9;
   letter-spacing: 4px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   background: linear-gradient(135deg, #ffffff 30%, var(--gold-light) 70%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -244,51 +283,35 @@ body::before {
 }
 
 .hero-desc {
-  font-size: 17px;
+  font-size: 16px;
   color: var(--text-dim);
   font-weight: 400;
   line-height: 1.6;
-  max-width: 550px;
+  max-width: 500px;
 }
 
 .hero-stats {
   display: flex;
-  gap: 40px;
-  margin-top: 30px;
+  gap: 32px;
+  margin-top: 24px;
+  flex-wrap: wrap;
 }
 
-.stat-item {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
+.stat-item { display: flex; flex-direction: column; gap: 2px; }
+.stat-num { font-family: var(--font-title); font-size: 32px; color: var(--gold); line-height: 1; }
+.stat-label { font-family: var(--font-mono); font-size: 9px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; }
 
-.stat-num {
-  font-family: var(--font-title);
-  font-size: 36px;
-  color: var(--gold);
-  line-height: 1;
-}
-
-.stat-label {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--text-muted);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-/* ─── CATEGORIES BAR ──────────────────────────────────────────── */
+/* ─── CATEGORIES BAR ─── */
 #categories-bar {
   display: flex;
   gap: 0;
   background: var(--bg-dark);
   border-bottom: 1px solid var(--border);
   overflow-x: auto;
-  padding: 0 24px;
+  padding: 0 16px;
   scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
 }
-
 #categories-bar::-webkit-scrollbar { display: none; }
 
 .cat-btn {
@@ -297,64 +320,48 @@ body::before {
   border-bottom: 3px solid transparent;
   color: var(--text-dim);
   font-family: var(--font-sub);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
-  padding: 16px 20px;
+  padding: 14px 14px;
   cursor: pointer;
   transition: all 0.2s;
   white-space: nowrap;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
-
 .cat-btn:hover { color: var(--text); }
-
-.cat-btn.active {
-  color: var(--gold);
-  border-bottom-color: var(--gold);
-}
+.cat-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
 
 .cat-count {
   background: rgba(200,146,42,0.15);
   color: var(--gold);
-  font-size: 10px;
-  padding: 2px 6px;
+  font-size: 9px;
+  padding: 2px 5px;
   font-family: var(--font-mono);
 }
 
-/* ─── GUNS GRID ───────────────────────────────────────────────── */
-#guns-section {
-  padding: 32px 24px;
-}
+/* ─── GUNS GRID ─── */
+#guns-section { padding: 24px 16px; }
 
 .section-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
-
-.section-title {
-  font-family: var(--font-title);
-  font-size: 32px;
-  letter-spacing: 3px;
-  color: var(--text);
-}
-
-.section-title span {
-  color: var(--gold);
-}
+.section-title { font-family: var(--font-title); font-size: 28px; letter-spacing: 3px; }
+.section-title span { color: var(--gold); }
 
 .guns-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
 }
 
-/* ─── GUN CARD ────────────────────────────────────────────────── */
+/* ─── GUN CARD ─── */
 .gun-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -362,7 +369,6 @@ body::before {
   transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
   position: relative;
   overflow: hidden;
-  group: true;
 }
 
 .gun-card::before {
@@ -374,21 +380,18 @@ body::before {
   transform: translateX(-100%);
   transition: transform 0.4s ease;
 }
-
-.gun-card:hover::before {
-  transform: translateX(100%);
-}
+.gun-card:hover::before { transform: translateX(100%); }
 
 .gun-card:hover {
   border-color: var(--gold);
   background: var(--bg-card2);
-  transform: translateY(-4px);
+  transform: translateY(-3px);
   box-shadow: 0 12px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(200,146,42,0.2);
 }
 
 .gun-card-img {
   width: 100%;
-  height: 160px;
+  height: 180px;
   background: linear-gradient(135deg, #0d1117 0%, #1a2332 100%);
   display: flex;
   align-items: center;
@@ -398,6 +401,18 @@ body::before {
   border-bottom: 1px solid var(--border);
 }
 
+.gun-card-img img {
+  max-width: 88%;
+  max-height: 88%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 16px rgba(200,146,42,0.15));
+  transition: transform 0.3s ease;
+}
+.gun-card:hover .gun-card-img img {
+  transform: scale(1.06);
+  filter: drop-shadow(0 4px 24px rgba(200,146,42,0.35));
+}
+
 .gun-card-img .gun-svg {
   width: 85%;
   height: 85%;
@@ -405,76 +420,70 @@ body::before {
   filter: drop-shadow(0 4px 16px rgba(200,146,42,0.2));
   transition: transform 0.3s ease;
 }
-
-.gun-card:hover .gun-svg {
-  transform: scale(1.05);
-  filter: drop-shadow(0 4px 24px rgba(200,146,42,0.4));
-}
+.gun-card:hover .gun-svg { transform: scale(1.05); }
 
 .gun-card-era {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 8px;
+  right: 8px;
   font-family: var(--font-mono);
   font-size: 10px;
   color: var(--gold);
   background: rgba(8,10,12,0.85);
   border: 1px solid rgba(200,146,42,0.3);
-  padding: 3px 8px;
+  padding: 2px 7px;
   letter-spacing: 1px;
 }
 
 .gun-card-origin {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  font-size: 22px;
+  top: 8px;
+  left: 8px;
+  font-size: 20px;
   filter: drop-shadow(0 1px 4px rgba(0,0,0,0.5));
 }
 
-.gun-card-body {
-  padding: 16px;
-}
+.gun-card-body { padding: 14px; }
 
 .gun-card-type {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 9px;
   color: var(--text-muted);
   letter-spacing: 3px;
   text-transform: uppercase;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .gun-card-name {
   font-family: var(--font-sub);
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   letter-spacing: 1px;
   color: var(--text);
-  margin-bottom: 6px;
+  margin-bottom: 5px;
   line-height: 1.1;
 }
 
 .gun-card-desc {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-muted);
   line-height: 1.5;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.gun-card-specs {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
+.gun-card-specs { display: flex; gap: 8px; flex-wrap: wrap; }
 
 .spec-tag {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 9px;
   color: var(--text-dim);
   background: rgba(255,255,255,0.04);
   border: 1px solid var(--border);
-  padding: 3px 8px;
+  padding: 2px 7px;
   letter-spacing: 1px;
 }
 
@@ -482,25 +491,24 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
+  padding: 10px 14px;
   border-top: 1px solid var(--border);
   background: rgba(0,0,0,0.2);
 }
 
 .btn-details {
   font-family: var(--font-sub);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--gold);
   background: rgba(200,146,42,0.1);
   border: 1px solid rgba(200,146,42,0.3);
-  padding: 7px 16px;
+  padding: 6px 14px;
   cursor: pointer;
   transition: all 0.2s;
 }
-
 .btn-details:hover {
   background: var(--gold);
   color: var(--bg-deep);
@@ -508,12 +516,11 @@ body::before {
 }
 
 .fire-btn {
-  width: 34px;
-  height: 34px;
+  width: 32px; height: 32px;
   background: rgba(214,48,49,0.15);
   border: 1px solid rgba(214,48,49,0.3);
   color: var(--red-bright);
-  font-size: 16px;
+  font-size: 14px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -521,19 +528,13 @@ body::before {
   transition: all 0.2s;
   border-radius: 50%;
 }
-
 .fire-btn:hover {
   background: var(--red-bright);
   color: white;
   box-shadow: 0 0 12px rgba(255,71,87,0.5);
   transform: scale(1.1);
 }
-
-.fire-btn.firing {
-  animation: recoil 0.15s ease-out;
-  background: var(--red-bright);
-  box-shadow: 0 0 20px rgba(255,71,87,0.9);
-}
+.fire-btn.firing { animation: recoil 0.15s ease-out; background: var(--red-bright); }
 
 @keyframes recoil {
   0%{transform:scale(1.3) rotate(-5deg)}
@@ -541,17 +542,18 @@ body::before {
   100%{transform:scale(1) rotate(0)}
 }
 
-/* ─── GUN DETAIL MODAL ────────────────────────────────────────── */
+/* ─── GUN DETAIL OVERLAY ─── */
 #detail-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.85);
+  background: rgba(0,0,0,0.9);
   z-index: 2000;
   display: none;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
-
 #detail-overlay.open { display: block; }
 
 #detail-panel {
@@ -569,13 +571,14 @@ body::before {
 .detail-header {
   background: linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-dark) 100%);
   border-bottom: 1px solid var(--border);
-  padding: 24px 40px;
+  padding: 16px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: sticky;
   top: 0;
   z-index: 10;
+  gap: 12px;
 }
 
 .detail-header::after {
@@ -588,71 +591,64 @@ body::before {
 
 .detail-back {
   font-family: var(--font-sub);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
   color: var(--text-dim);
   background: none;
   border: 1px solid var(--border);
-  padding: 8px 18px;
+  padding: 7px 14px;
   cursor: pointer;
   text-transform: uppercase;
   transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  white-space: nowrap;
 }
-
 .detail-back:hover { color: var(--gold); border-color: var(--gold); }
 
-.detail-title-area {
-  text-align: center;
-}
+.detail-title-area { text-align: center; flex: 1; min-width: 0; }
 
 .detail-gun-name {
   font-family: var(--font-title);
-  font-size: 48px;
-  letter-spacing: 4px;
+  font-size: 36px;
+  letter-spacing: 3px;
   background: linear-gradient(90deg, var(--gold) 0%, var(--gold-pale) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .detail-gun-type {
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 4px;
+  font-size: 10px;
+  letter-spacing: 3px;
   color: var(--text-muted);
   text-transform: uppercase;
 }
 
 .detail-fire-btn {
   font-family: var(--font-sub);
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
   background: linear-gradient(135deg, var(--red) 0%, var(--red-bright) 100%);
   border: none;
   color: white;
-  padding: 12px 28px;
+  padding: 10px 20px;
   cursor: pointer;
   transition: all 0.2s;
   display: flex;
   align-items: center;
-  gap: 10px;
-  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  gap: 8px;
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
-
-.detail-fire-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 24px rgba(214,48,49,0.6);
-}
-
-.detail-fire-btn.firing {
-  animation: bigRecoil 0.2s ease-out;
-}
+.detail-fire-btn:hover { transform: scale(1.05); box-shadow: 0 0 24px rgba(214,48,49,0.6); }
+.detail-fire-btn.firing { animation: bigRecoil 0.2s ease-out; }
 
 @keyframes bigRecoil {
   0%{transform:scale(1.1) translateX(-4px)}
@@ -661,57 +657,74 @@ body::before {
 }
 
 .detail-body {
-  padding: 40px;
+  padding: 24px;
   display: grid;
-  grid-template-columns: 1fr 380px;
-  gap: 32px;
-  max-width: 1400px;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+  max-width: 1300px;
   margin: 0 auto;
 }
 
-/* Gun visual panel */
+/* Gun image panel */
 .gun-visual-panel {
   background: linear-gradient(135deg, #0a0e14 0%, #131c28 100%);
   border: 1px solid var(--border);
-  padding: 40px;
+  padding: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 320px;
+  min-height: 280px;
   position: relative;
   overflow: hidden;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .gun-visual-panel::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, rgba(200,146,42,0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(200,146,42,0.06) 0%, transparent 70%);
+}
+
+.gun-visual-panel img {
+  max-width: 95%;
+  max-height: 260px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 32px rgba(200,146,42,0.2));
+  animation: float 4s ease-in-out infinite;
+  position: relative;
+  z-index: 2;
 }
 
 .gun-visual-panel .big-gun-svg {
   max-width: 100%;
-  max-height: 280px;
+  max-height: 200px;
   filter: drop-shadow(0 8px 32px rgba(200,146,42,0.3));
   animation: float 4s ease-in-out infinite;
 }
 
 @keyframes float {
   0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-8px)}
+  50%{transform:translateY(-6px)}
+}
+
+.img-credit {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+  position: relative;
+  z-index: 2;
+  text-align: center;
 }
 
 /* Specs sidebar */
-.specs-sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
+.specs-sidebar { display: flex; flex-direction: column; gap: 14px; }
 
 .spec-block {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  padding: 20px;
+  padding: 16px;
 }
 
 .spec-block-title {
@@ -720,8 +733,8 @@ body::before {
   color: var(--gold);
   letter-spacing: 3px;
   text-transform: uppercase;
-  margin-bottom: 14px;
-  padding-bottom: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
   border-bottom: 1px solid var(--border);
 }
 
@@ -729,70 +742,67 @@ body::before {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 7px 0;
+  padding: 6px 0;
   border-bottom: 1px solid rgba(255,255,255,0.03);
-  font-size: 14px;
+  font-size: 13px;
 }
-
 .spec-row:last-child { border-bottom: none; }
-
 .spec-key { color: var(--text-muted); font-weight: 400; }
-.spec-val { color: var(--text); font-weight: 600; font-family: var(--font-mono); font-size: 13px; }
+.spec-val { color: var(--text); font-weight: 600; font-family: var(--font-mono); font-size: 12px; }
 
 /* Tabs */
 .detail-tabs {
   display: flex;
   gap: 0;
   border-bottom: 1px solid var(--border);
-  margin-top: 32px;
+  margin-top: 20px;
   margin-bottom: 0;
   grid-column: 1 / -1;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
 }
+.detail-tabs::-webkit-scrollbar{display:none}
 
 .detail-tab {
   font-family: var(--font-sub);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
   color: var(--text-muted);
   background: none;
   border: none;
   border-bottom: 3px solid transparent;
-  padding: 14px 24px;
+  padding: 12px 16px;
   cursor: pointer;
   transition: all 0.2s;
+  white-space: nowrap;
 }
-
 .detail-tab:hover { color: var(--text); }
-
-.detail-tab.active {
-  color: var(--gold);
-  border-bottom-color: var(--gold);
-}
+.detail-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
 
 .detail-tab-content {
   grid-column: 1 / -1;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  padding: 32px;
-  min-height: 300px;
+  padding: 24px;
+  min-height: 250px;
 }
 
-/* AI content area */
+/* AI content */
 .ai-loading {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
-  min-height: 200px;
+  gap: 16px;
+  min-height: 180px;
   color: var(--text-dim);
 }
 
 .ai-spinner {
-  width: 48px;
-  height: 48px;
+  width: 40px; height: 40px;
   border: 3px solid var(--border);
   border-top-color: var(--gold);
   border-radius: 50%;
@@ -803,166 +813,522 @@ body::before {
 
 .ai-loading-text {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 11px;
   letter-spacing: 2px;
   color: var(--text-muted);
   animation: blink 1.5s ease-in-out infinite;
 }
 
-@keyframes blink {
-  0%,100%{opacity:1}
-  50%{opacity:0.3}
-}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-.ai-content {
-  font-size: 16px;
-  line-height: 1.8;
-  color: var(--text-dim);
-}
-
+.ai-content { font-size: 15px; line-height: 1.8; color: var(--text-dim); }
 .ai-content h3 {
   font-family: var(--font-title);
-  font-size: 28px;
+  font-size: 24px;
   letter-spacing: 2px;
   color: var(--gold-light);
-  margin: 28px 0 14px;
+  margin: 24px 0 12px;
 }
-
 .ai-content h3:first-child { margin-top: 0; }
-
-.ai-content p { margin-bottom: 14px; }
-
+.ai-content p { margin-bottom: 12px; }
 .ai-content strong { color: var(--text); }
-
-.ai-content ul {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 14px;
-}
-
+.ai-content ul { list-style: none; padding: 0; margin-bottom: 12px; }
 .ai-content ul li {
-  padding: 6px 0 6px 20px;
+  padding: 5px 0 5px 18px;
   position: relative;
   border-bottom: 1px solid rgba(255,255,255,0.03);
 }
+.ai-content ul li::before { content: '▸'; position: absolute; left: 0; color: var(--gold); }
 
-.ai-content ul li::before {
-  content: '▸';
-  position: absolute;
-  left: 0;
-  color: var(--gold);
+/* ─── EXPLODED PARTS VIEW ─── */
+.exploded-view {
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+  margin-bottom: 24px;
 }
 
-/* Parts diagram */
-.parts-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  margin-top: 16px;
-}
-
-.part-card {
-  background: rgba(0,0,0,0.3);
-  border: 1px solid var(--border);
-  padding: 16px;
-  transition: all 0.2s;
-  cursor: default;
-}
-
-.part-card:hover {
-  border-color: var(--gold);
-  background: rgba(200,146,42,0.05);
-}
-
-.part-number {
+.exploded-instruction {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 11px;
   color: var(--gold);
-  margin-bottom: 6px;
   letter-spacing: 2px;
+  text-align: center;
+  margin-bottom: 16px;
+  animation: blink 2s ease-in-out infinite;
 }
 
-.part-name {
+.parts-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  perspective: 800px;
+}
+
+.part-piece {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.2,0,0,1);
+  position: relative;
+  overflow: hidden;
+  width: calc(50% - 6px);
+  min-width: 140px;
+}
+
+.part-piece::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(200,146,42,0) 0%, rgba(200,146,42,0.08) 100%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.part-piece:hover::before { opacity: 1; }
+
+.part-piece:hover, .part-piece.active {
+  border-color: var(--gold);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(200,146,42,0.2);
+}
+
+.part-piece.active {
+  background: rgba(200,146,42,0.08);
+}
+
+.part-piece .part-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.part-piece .part-number {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+
+.part-piece .part-name {
   font-family: var(--font-sub);
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--text);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
-.part-desc {
-  font-size: 13px;
+.part-piece .part-short-desc {
+  font-size: 11px;
   color: var(--text-muted);
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
-/* ─── CUSTOM BUILDER ──────────────────────────────────────────── */
-#builder-section {
-  padding: 40px;
+.part-piece svg {
+  width: 100%;
+  max-height: 55px;
+}
+
+.part-detail-panel svg {
+  width: 100%;
+  max-height: 100px;
+}
+
+/* Part detail panel */
+.part-detail-panel {
+  background: var(--bg-card);
+  border: 2px solid var(--gold);
+  padding: 24px;
+  margin-top: 16px;
+  animation: slideIn 0.3s ease;
   display: none;
 }
 
-#builder-section.active { display: block; }
+.part-detail-panel.show { display: block; }
 
-.builder-grid {
-  display: grid;
-  grid-template-columns: 1fr 400px;
-  gap: 32px;
-}
-
-.builder-canvas {
-  background: linear-gradient(135deg, #0a0e14 0%, #131c28 100%);
-  border: 1px solid var(--border);
-  min-height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  flex-direction: column;
-  gap: 20px;
-  padding: 40px;
-}
-
-.builder-preview-text {
+.part-detail-panel h3 {
   font-family: var(--font-title);
   font-size: 24px;
+  letter-spacing: 2px;
+  color: var(--gold-light);
+  margin-bottom: 12px;
+}
+
+.part-detail-panel .part-function {
+  background: rgba(200,146,42,0.08);
+  border-left: 3px solid var(--gold);
+  padding: 12px 16px;
+  margin: 12px 0;
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+.part-detail-panel .part-materials {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.material-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--cyan);
+  background: rgba(116,185,255,0.08);
+  border: 1px solid rgba(116,185,255,0.2);
+  padding: 3px 8px;
+  letter-spacing: 1px;
+}
+
+/* ─── AMMO SECTION ─── */
+.ammo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.ammo-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.ammo-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
+.ammo-card .ammo-name {
+  font-family: var(--font-sub);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gold-light);
+  margin-bottom: 6px;
+}
+
+.ammo-card .ammo-type {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.ammo-card .ammo-stats {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ammo-stat {
+  text-align: center;
+}
+.ammo-stat-val {
+  font-family: var(--font-title);
+  font-size: 18px;
+  color: var(--gold);
+  display: block;
+}
+.ammo-stat-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Ammo detail popup */
+.ammo-detail {
+  background: var(--bg-card);
+  border: 2px solid var(--gold);
+  padding: 24px;
+  margin-top: 16px;
+  display: none;
+}
+.ammo-detail.show { display: block; animation: slideIn 0.3s ease; }
+
+/* ─── COMPARE SECTION ─── */
+.compare-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.compare-slot {
+  background: var(--bg-card);
+  border: 2px dashed var(--border);
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.compare-slot.filled {
+  border-style: solid;
+  border-color: var(--gold);
+  justify-content: flex-start;
+  cursor: default;
+}
+
+.compare-slot .compare-prompt {
+  font-family: var(--font-title);
+  font-size: 22px;
   letter-spacing: 3px;
   color: var(--text-muted);
   text-align: center;
 }
 
-.custom-gun-display {
+.compare-gun-info {
   width: 100%;
-  max-width: 500px;
+}
+.compare-gun-info img {
+  max-width: 100%;
+  max-height: 120px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 12px;
+}
+
+.compare-bar-wrap { margin-top: 10px; }
+.compare-bar-row { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+.compare-bar-label { font-family:var(--font-mono); font-size:10px; color:var(--text-muted); width:70px; letter-spacing:1px; }
+.compare-bar { flex:1; height:8px; background:rgba(255,255,255,0.06); border:1px solid var(--border); position: relative; }
+.compare-bar-fill { height:100%; transition:width 1s ease; }
+.compare-bar-val { font-family:var(--font-mono); font-size:10px; color:var(--text-dim); width:30px; text-align:right; }
+
+/* Compare picker dropdown */
+.compare-picker {
+  background: var(--bg-dark);
+  border: 1px solid var(--border);
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 12px;
+  width: 100%;
+  display: none;
+}
+.compare-picker.show { display: block; }
+.compare-picker-item {
+  padding: 10px 14px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  transition: background 0.15s;
   display: flex;
-  flex-direction: column;
   align-items: center;
   gap: 8px;
 }
+.compare-picker-item:hover { background: rgba(200,146,42,0.1); color: var(--gold); }
 
-.builder-controls {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+/* ─── QUIZ SECTION ─── */
+.quiz-container {
+  max-width: 700px;
+  margin: 0 auto;
 }
 
-.builder-section-title {
+.quiz-question-box {
+  background: var(--bg-card);
+  border: 2px solid var(--gold);
+  padding: 28px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.quiz-q-number {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--gold);
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+}
+
+.quiz-question {
+  font-family: var(--font-sub);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.quiz-hint {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.quiz-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.quiz-option {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  padding: 16px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--text);
+  text-align: center;
+  transition: all 0.2s;
+}
+.quiz-option:hover { border-color: var(--gold); background: rgba(200,146,42,0.06); }
+.quiz-option.correct { border-color: var(--green); background: rgba(0,184,148,0.1); color: var(--green); }
+.quiz-option.wrong { border-color: var(--red-bright); background: rgba(255,71,87,0.1); color: var(--red-bright); }
+.quiz-option.disabled { pointer-events: none; opacity: 0.7; }
+
+.quiz-score-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+
+.quiz-score-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+}
+.quiz-score-val {
   font-family: var(--font-title);
   font-size: 28px;
+  color: var(--gold);
+}
+
+/* ─── TIMELINE ─── */
+.timeline-wrap {
+  position: relative;
+  padding: 20px 0 20px 32px;
+  margin-top: 20px;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 14px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 24px;
+  padding-left: 24px;
+  cursor: pointer;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -25px;
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  background: var(--gold);
+  border-radius: 50%;
+  border: 2px solid var(--bg-dark);
+  box-shadow: 0 0 8px rgba(200,146,42,0.5);
+}
+
+.timeline-year {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+
+.timeline-title {
+  font-family: var(--font-sub);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+
+.timeline-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.timeline-item:hover .timeline-title { color: var(--gold); }
+.timeline-item:hover .timeline-dot { transform: scale(1.3); box-shadow: 0 0 12px rgba(200,146,42,0.8); }
+
+/* ─── BUILDER & LIBRARY (same as before but improved) ─── */
+.section-page {
+  padding: 24px;
+  display: none;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.section-page.active { display: block; }
+
+.section-page-title {
+  font-family: var(--font-title);
+  font-size: 32px;
   letter-spacing: 3px;
   color: var(--text);
   margin-bottom: 8px;
 }
 
-.builder-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+.section-page-desc {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 24px;
 }
+
+.builder-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 24px;
+}
+
+.builder-canvas {
+  background: linear-gradient(135deg, #0a0e14 0%, #131c28 100%);
+  border: 1px solid var(--border);
+  min-height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-direction: column;
+  gap: 16px;
+  padding: 32px;
+}
+
+.builder-preview-text {
+  font-family: var(--font-title);
+  font-size: 22px;
+  letter-spacing: 3px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.builder-controls { display: flex; flex-direction: column; gap: 12px; }
+
+.builder-field { display: flex; flex-direction: column; gap: 4px; }
 
 .builder-label {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 10px;
   letter-spacing: 3px;
   color: var(--text-muted);
   text-transform: uppercase;
@@ -973,52 +1339,92 @@ body::before {
   border: 1px solid var(--border);
   color: var(--text);
   font-family: var(--font-body);
-  font-size: 15px;
-  padding: 10px 14px;
+  font-size: 14px;
+  padding: 8px 12px;
   outline: none;
   transition: all 0.2s;
   width: 100%;
 }
-
 .builder-select:focus, .builder-input:focus {
   border-color: var(--gold);
   box-shadow: 0 0 0 2px rgba(200,146,42,0.12);
 }
-
 .builder-select option { background: var(--bg-dark); }
 
 .btn-generate {
   width: 100%;
-  padding: 16px;
+  padding: 14px;
   background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
   border: none;
   color: var(--bg-deep);
   font-family: var(--font-title);
-  font-size: 22px;
+  font-size: 20px;
   letter-spacing: 3px;
   cursor: pointer;
   transition: all 0.2s;
-  clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
-  margin-top: 8px;
+  margin-top: 6px;
 }
+.btn-generate:hover { transform: scale(1.02); box-shadow: 0 0 24px rgba(200,146,42,0.5); }
 
-.btn-generate:hover {
-  transform: scale(1.02);
-  box-shadow: 0 0 24px rgba(200,146,42,0.5);
-}
-
-/* Generated result */
 #custom-result {
-  margin-top: 32px;
+  margin-top: 24px;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  padding: 28px;
+  padding: 24px;
+  display: none;
+}
+#custom-result.show { display: block; }
+
+/* Library */
+.library-grid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 24px;
+}
+
+.library-qa-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 20px;
+}
+
+.library-textarea {
+  width: 100%;
+  background: var(--bg-dark);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  padding: 12px;
+  resize: vertical;
+  min-height: 90px;
+  outline: none;
+}
+.library-textarea:focus { border-color: var(--gold); }
+
+#library-answer {
+  margin-top: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 20px;
   display: none;
 }
 
-#custom-result.show { display: block; }
+.quick-q-btn {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-family: var(--font-body);
+  font-size: 12px;
+  padding: 9px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+}
+.quick-q-btn:hover { border-color: var(--gold); color: var(--gold); }
 
-/* ─── GUNSHOT FLASH ───────────────────────────────────────────── */
+/* ─── FLASH & EFFECTS ─── */
 #flash-overlay {
   position: fixed;
   inset: 0;
@@ -1026,233 +1432,220 @@ body::before {
   pointer-events: none;
   z-index: 9999;
   opacity: 0;
-  transition: opacity 0.05s;
 }
+#flash-overlay.flash { animation: flashAnim 0.12s ease-out forwards; }
+@keyframes flashAnim { 0%{opacity:1} 100%{opacity:0} }
 
-#flash-overlay.flash {
-  animation: flashAnim 0.12s ease-out forwards;
-}
-
-@keyframes flashAnim {
-  0%{opacity:1}
-  100%{opacity:0}
-}
-
-/* Muzzle flash popup */
 .muzzle-flash {
   position: fixed;
   pointer-events: none;
   z-index: 9998;
-  font-size: 48px;
+  font-size: 42px;
   animation: muzzlePop 0.3s ease-out forwards;
 }
+@keyframes muzzlePop { 0%{transform:scale(0.5);opacity:1} 100%{transform:scale(2);opacity:0} }
 
-@keyframes muzzlePop {
-  0%{transform:scale(0.5);opacity:1}
-  100%{transform:scale(2);opacity:0}
-}
-
-/* ─── ABOUT / LIBRARY ─────────────────────────────────────────── */
-#library-section {
-  padding: 40px;
-  display: none;
-}
-
-#library-section.active { display: block; }
-
-/* ─── SCROLLBAR ───────────────────────────────────────────────── */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-dark); }
-::-webkit-scrollbar-thumb { background: var(--border); }
-::-webkit-scrollbar-thumb:hover { background: var(--gold); }
-
-/* ─── RESPONSIVE ──────────────────────────────────────────────── */
-@media(max-width:900px){
-  .hero-title{font-size:48px}
-  .detail-body{grid-template-columns:1fr;padding:20px}
-  .builder-grid{grid-template-columns:1fr}
-  #app-header{padding:0 16px}
-  .header-nav{display:none}
-  #search-input{width:150px}
-}
-
-/* ─── EMPTY STATE ─────────────────────────────────────────────── */
-.empty-state {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 80px 20px;
-  color: var(--text-muted);
-  font-family: var(--font-mono);
-  font-size: 14px;
-  letter-spacing: 2px;
-}
-
-/* ─── TOAST ───────────────────────────────────────────────────── */
+/* ─── TOAST ─── */
 #toast {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  bottom: 80px;
+  right: 20px;
   background: var(--bg-card);
   border: 1px solid var(--gold);
   color: var(--gold);
   font-family: var(--font-mono);
-  font-size: 13px;
-  padding: 12px 20px;
+  font-size: 12px;
+  padding: 10px 16px;
   z-index: 5000;
-  transform: translateY(100px);
+  transform: translateY(80px);
   opacity: 0;
   transition: all 0.3s;
   letter-spacing: 1px;
 }
+#toast.show { transform: translateY(0); opacity: 1; }
 
-#toast.show {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-/* Custom gun output */
-.custom-gun-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 12px;
-  margin-top: 16px;
-}
-
-.custom-stat {
-  background: rgba(0,0,0,0.3);
-  border: 1px solid var(--border);
-  padding: 12px;
-  text-align: center;
-}
-
-.custom-stat-val {
-  font-family: var(--font-title);
-  font-size: 24px;
-  color: var(--gold);
-}
-
-.custom-stat-label {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--text-muted);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-/* Color bar stat */
-.stat-bar-wrap { margin-top: 20px; }
-.stat-bar-row { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
-.stat-bar-label { font-family:var(--font-mono); font-size:11px; color:var(--text-muted); width:90px; letter-spacing:1px; }
+/* Stat bars (shared) */
+.stat-bar-wrap { margin-top: 12px; }
+.stat-bar-row { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+.stat-bar-label { font-family:var(--font-mono); font-size:10px; color:var(--text-muted); width:70px; letter-spacing:1px; }
 .stat-bar { flex:1; height:6px; background:rgba(255,255,255,0.06); border:1px solid var(--border); }
 .stat-bar-fill { height:100%; background:linear-gradient(90deg,var(--gold),var(--gold-light)); transition:width 1s ease; }
-.stat-bar-val { font-family:var(--font-mono); font-size:11px; color:var(--text-dim); width:36px; text-align:right; }
+.stat-bar-val { font-family:var(--font-mono); font-size:10px; color:var(--text-dim); width:30px; text-align:right; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-dark); }
+::-webkit-scrollbar-thumb { background: var(--border); }
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+/* Empty state */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px) {
+  .hero-title { font-size: 42px; }
+  .detail-body { grid-template-columns: 1fr; padding: 16px; }
+  .builder-grid { grid-template-columns: 1fr; }
+  .library-grid { grid-template-columns: 1fr; }
+  .compare-container { grid-template-columns: 1fr; }
+  .quiz-options { grid-template-columns: 1fr; }
+  .header-nav { display: none; }
+  #mobile-nav { display: block; }
+  #main-content { padding-bottom: 80px; }
+  #search-input { width: 140px; }
+  .detail-gun-name { font-size: 24px; }
+  .detail-fire-btn { padding: 8px 12px; font-size: 10px; }
+  .detail-back { padding: 6px 10px; font-size: 10px; }
+  .part-piece { width: 100%; }
+  .part-detail-panel [style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+  .ammo-grid { grid-template-columns: 1fr; }
+  .guns-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+}
+
+@media(max-width:600px) {
+  #app-header { padding: 0 12px; height: 56px; }
+  #main-content { margin-top: 56px; }
+  .hero-title { font-size: 36px; }
+  #hero { padding: 32px 16px; }
+  .logo-main { font-size: 18px; }
+  .detail-header { padding: 10px 12px; flex-wrap: wrap; }
+  .detail-body { padding: 12px; gap: 12px; }
+  .detail-tab { padding: 10px 12px; font-size: 10px; }
+  .guns-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
 
-<!-- Flash overlay for gunshot effect -->
 <div id="flash-overlay"></div>
 <div id="toast"></div>
 
-<!-- ─── HEADER ─────────────────────────────────────────────────── -->
+<!-- HEADER -->
 <header id="app-header">
   <div class="logo-area">
     <div class="logo-icon">🔫</div>
     <div class="logo-text">
       <span class="logo-main">ANDREW'S GUN STORE</span>
-      <span class="logo-sub">Firearms Encyclopedia &amp; Armory</span>
+      <span class="logo-sub">Firearms Encyclopedia</span>
     </div>
   </div>
   <nav class="header-nav">
     <button class="nav-btn active" onclick="showSection('catalog')">Catalog</button>
-    <button class="nav-btn" onclick="showSection('builder')">Custom Builder</button>
+    <button class="nav-btn" onclick="showSection('ammo')">Ammo</button>
+    <button class="nav-btn" onclick="showSection('compare')">Compare</button>
+    <button class="nav-btn" onclick="showSection('timeline')">Timeline</button>
+    <button class="nav-btn" onclick="showSection('quiz')">Quiz</button>
+    <button class="nav-btn" onclick="showSection('builder')">Builder</button>
     <button class="nav-btn" onclick="showSection('library')">Library</button>
   </nav>
   <div class="header-right">
-    <input type="text" id="search-input" placeholder="Search firearms..." oninput="filterGuns(this.value)"/>
+    <input type="text" id="search-input" placeholder="Search..." oninput="filterGuns(this.value)"/>
   </div>
 </header>
 
-<!-- ─── MAIN ───────────────────────────────────────────────────── -->
+<!-- MOBILE BOTTOM NAV -->
+<nav id="mobile-nav">
+  <div class="mobile-nav-inner">
+    <button class="mob-nav-btn active" onclick="showSection('catalog')"><span class="mob-icon">🔫</span>Catalog</button>
+    <button class="mob-nav-btn" onclick="showSection('ammo')"><span class="mob-icon">💣</span>Ammo</button>
+    <button class="mob-nav-btn" onclick="showSection('compare')"><span class="mob-icon">⚖️</span>Compare</button>
+    <button class="mob-nav-btn" onclick="showSection('timeline')"><span class="mob-icon">📅</span>Timeline</button>
+    <button class="mob-nav-btn" onclick="showSection('quiz')"><span class="mob-icon">🧠</span>Quiz</button>
+    <button class="mob-nav-btn" onclick="showSection('builder')"><span class="mob-icon">⚙️</span>Builder</button>
+    <button class="mob-nav-btn" onclick="showSection('library')"><span class="mob-icon">📚</span>Library</button>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
 <div id="main-content">
 
-  <!-- ─── CATALOG SECTION ──────────────────────────────────────── -->
+  <!-- CATALOG -->
   <div id="catalog-section">
-    <!-- Hero -->
     <section id="hero">
       <div class="hero-content">
         <div class="hero-badge">⬡ OFFICIAL ARMORY DATABASE</div>
         <h1 class="hero-title">FIREARMS<br/>ENCYCLOPEDIA</h1>
-        <p class="hero-desc">Explore the complete history of firearms — from flintlock pistols to modern assault rifles. Every weapon, every era, every detail.</p>
+        <p class="hero-desc">Explore the complete history of firearms — from flintlock muskets to modern assault rifles. Every weapon, every era, every detail.</p>
         <div class="hero-stats">
-          <div class="stat-item">
-            <span class="stat-num" id="gun-count">150+</span>
-            <span class="stat-label">Firearms</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-num">12</span>
-            <span class="stat-label">Categories</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-num">500+</span>
-            <span class="stat-label">Years of History</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-num">AI</span>
-            <span class="stat-label">Powered Info</span>
-          </div>
+          <div class="stat-item"><span class="stat-num" id="gun-count">70+</span><span class="stat-label">Firearms</span></div>
+          <div class="stat-item"><span class="stat-num">9</span><span class="stat-label">Categories</span></div>
+          <div class="stat-item"><span class="stat-num">500+</span><span class="stat-label">Years of History</span></div>
+          <div class="stat-item"><span class="stat-num">AI</span><span class="stat-label">Powered</span></div>
         </div>
       </div>
     </section>
 
-    <!-- Categories Bar -->
     <div id="categories-bar">
-      <button class="cat-btn active" onclick="filterCategory('all')">
-        🔫 All <span class="cat-count" id="count-all">150</span>
-      </button>
-      <button class="cat-btn" onclick="filterCategory('pistol')">
-        🔧 Pistols <span class="cat-count" id="count-pistol"></span>
-      </button>
-      <button class="cat-btn" onclick="filterCategory('revolver')">
-        🌀 Revolvers <span class="cat-count" id="count-revolver"></span>
-      </button>
-      <button class="cat-btn" onclick="filterCategory('rifle')">
-        🎯 Rifles <span class="cat-count" id="count-rifle"></span>
-      </button>
-      <button class="cat-btn" onclick="filterCategory('shotgun')">
-        💥 Shotguns <span class="cat-count" id="count-shotgun"></span>
-      </button>
-      <button class="cat-btn" onclick="filterCategory('smg')">
-        ⚡ SMGs <span class="cat-count" id="count-smg"></span>
-      </button>
-      <button class="cat-btn" onclick="filterCategory('machinegun')">
-        🔥 Machine Guns <span class="cat-count" id="count-machinegun"></span>
-      </button>
-      <button class="cat-btn" onclick="filterCategory('sniper')">
-        🎯 Snipers <span class="cat-count" id="count-sniper"></span>
-      </button>
-      <button class="cat-btn" onclick="filterCategory('assault')">
-        ⚔️ Assault Rifles <span class="cat-count" id="count-assault"></span>
-      </button>
-      <button class="cat-btn" onclick="filterCategory('historical')">
-        ⚜️ Historical <span class="cat-count" id="count-historical"></span>
-      </button>
+      <button class="cat-btn active" onclick="filterCategory('all')">🔫 All <span class="cat-count" id="count-all"></span></button>
+      <button class="cat-btn" onclick="filterCategory('pistol')">🔧 Pistols <span class="cat-count" id="count-pistol"></span></button>
+      <button class="cat-btn" onclick="filterCategory('revolver')">🌀 Revolvers <span class="cat-count" id="count-revolver"></span></button>
+      <button class="cat-btn" onclick="filterCategory('rifle')">🎯 Rifles <span class="cat-count" id="count-rifle"></span></button>
+      <button class="cat-btn" onclick="filterCategory('assault')">⚔️ Assault <span class="cat-count" id="count-assault"></span></button>
+      <button class="cat-btn" onclick="filterCategory('shotgun')">💥 Shotguns <span class="cat-count" id="count-shotgun"></span></button>
+      <button class="cat-btn" onclick="filterCategory('smg')">⚡ SMGs <span class="cat-count" id="count-smg"></span></button>
+      <button class="cat-btn" onclick="filterCategory('machinegun')">🔥 MGs <span class="cat-count" id="count-machinegun"></span></button>
+      <button class="cat-btn" onclick="filterCategory('sniper')">🎯 Snipers <span class="cat-count" id="count-sniper"></span></button>
+      <button class="cat-btn" onclick="filterCategory('historical')">⚜️ Historical <span class="cat-count" id="count-historical"></span></button>
     </div>
 
-    <!-- Guns Grid -->
     <section id="guns-section">
       <div class="section-header">
         <h2 class="section-title">THE <span>ARMORY</span></h2>
-        <div style="font-family:var(--font-mono);font-size:12px;color:var(--text-muted)" id="results-count"></div>
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted)" id="results-count"></div>
       </div>
       <div class="guns-grid" id="guns-grid"></div>
     </section>
   </div>
 
-  <!-- ─── BUILDER SECTION ───────────────────────────────────────── -->
-  <div id="builder-section">
-    <div class="builder-section-title">⚙️ CUSTOM FIREARM BUILDER</div>
-    <p style="color:var(--text-muted);font-size:15px;margin-bottom:28px;">Design your own unique firearm. Choose every component and let AI describe your custom creation.</p>
+  <!-- AMMO SECTION -->
+  <div id="ammo-section" class="section-page">
+    <div class="section-page-title">💣 AMMUNITION ENCYCLOPEDIA</div>
+    <div class="section-page-desc">Learn about every caliber — from rimfire to BMG. Click any round to explore its history, ballistics, and use cases.</div>
+    <div class="ammo-grid" id="ammo-grid"></div>
+    <div id="ammo-detail-box" class="ammo-detail"></div>
+  </div>
+
+  <!-- COMPARE SECTION -->
+  <div id="compare-section" class="section-page">
+    <div class="section-page-title">⚖️ SIDE-BY-SIDE COMPARISON</div>
+    <div class="section-page-desc">Select two firearms to compare their specifications, stats, and capabilities head-to-head.</div>
+    <div class="compare-container" id="compare-container">
+      <div class="compare-slot" id="compare-slot-0" onclick="openComparePicker(0)">
+        <div class="compare-prompt">+ SELECT<br/>FIREARM 1</div>
+      </div>
+      <div class="compare-slot" id="compare-slot-1" onclick="openComparePicker(1)">
+        <div class="compare-prompt">+ SELECT<br/>FIREARM 2</div>
+      </div>
+    </div>
+    <div class="compare-picker" id="compare-picker"></div>
+  </div>
+
+  <!-- TIMELINE SECTION -->
+  <div id="timeline-section" class="section-page">
+    <div class="section-page-title">📅 FIREARMS TIMELINE</div>
+    <div class="section-page-desc">Walk through 500+ years of firearms evolution — from flintlocks to smart weapons.</div>
+    <div class="timeline-wrap" id="timeline-wrap"></div>
+  </div>
+
+  <!-- QUIZ SECTION -->
+  <div id="quiz-section" class="section-page">
+    <div class="section-page-title">🧠 FIREARMS KNOWLEDGE QUIZ</div>
+    <div class="section-page-desc">Test your knowledge across all eras and categories.</div>
+    <div class="quiz-container" id="quiz-container"></div>
+  </div>
+
+  <!-- BUILDER SECTION -->
+  <div id="builder-section" class="section-page">
+    <div class="section-page-title">⚙️ CUSTOM FIREARM BUILDER</div>
+    <div class="section-page-desc">Design your own unique firearm. Choose every component and let AI describe your custom creation.</div>
     <div class="builder-grid">
       <div class="builder-canvas" id="builder-canvas">
         <div class="builder-preview-text">🔫<br/>YOUR CUSTOM<br/>FIREARM</div>
@@ -1273,111 +1666,70 @@ body::before {
             <option value="shotgun">Pump Shotgun</option>
             <option value="smg">Submachine Gun</option>
             <option value="sniper">Sniper Rifle</option>
-            <option value="dmr">Designated Marksman Rifle</option>
           </select>
         </div>
         <div class="builder-field">
-          <label class="builder-label">Caliber / Ammunition</label>
+          <label class="builder-label">Caliber</label>
           <select class="builder-select" id="b-caliber">
-            <option>.22 LR</option>
-            <option>9mm Parabellum</option>
-            <option>.45 ACP</option>
-            <option>5.56x45mm NATO</option>
-            <option>7.62x39mm</option>
-            <option>7.62x51mm NATO</option>
-            <option>.308 Winchester</option>
-            <option>.338 Lapua Magnum</option>
-            <option>.50 BMG</option>
-            <option>12 Gauge</option>
-            <option>10mm Auto</option>
-            <option>.357 Magnum</option>
-            <option>.44 Magnum</option>
+            <option>.22 LR</option><option>9mm Parabellum</option><option>.45 ACP</option>
+            <option>5.56x45mm NATO</option><option>7.62x39mm</option><option>7.62x51mm NATO</option>
+            <option>.308 Winchester</option><option>.338 Lapua Magnum</option><option>.50 BMG</option>
+            <option>12 Gauge</option><option>.357 Magnum</option><option>.44 Magnum</option>
           </select>
         </div>
         <div class="builder-field">
           <label class="builder-label">Barrel Length</label>
           <select class="builder-select" id="b-barrel">
-            <option>3" (Compact)</option>
-            <option>4" (Standard)</option>
-            <option>6" (Extended)</option>
-            <option>16" (Carbine)</option>
-            <option>18" (Rifle)</option>
-            <option>20" (Full Length)</option>
-            <option>24" (Long Range)</option>
-            <option>29" (Heavy Sniper)</option>
+            <option>3" (Compact)</option><option>4" (Standard)</option><option>6" (Extended)</option>
+            <option>16" (Carbine)</option><option>18" (Rifle)</option><option>20" (Full)</option>
+            <option>24" (Long Range)</option><option>29" (Heavy)</option>
           </select>
         </div>
         <div class="builder-field">
           <label class="builder-label">Frame Material</label>
           <select class="builder-select" id="b-material">
-            <option>Polymer Frame</option>
-            <option>Steel Frame</option>
-            <option>Aluminum Alloy</option>
-            <option>Titanium Alloy</option>
-            <option>Carbon Fiber</option>
-            <option>Walnut Wood</option>
+            <option>Polymer</option><option>Steel</option><option>Aluminum Alloy</option>
+            <option>Titanium</option><option>Carbon Fiber</option><option>Walnut Wood</option>
           </select>
         </div>
         <div class="builder-field">
-          <label class="builder-label">Finish / Color</label>
+          <label class="builder-label">Finish</label>
           <select class="builder-select" id="b-finish">
-            <option>Matte Black</option>
-            <option>FDE (Flat Dark Earth)</option>
-            <option>OD Green</option>
-            <option>Stainless Steel</option>
-            <option>Chrome Mirror</option>
-            <option>Cerakote Multicam</option>
-            <option>Urban Grey</option>
-            <option>Custom Camo</option>
+            <option>Matte Black</option><option>FDE</option><option>OD Green</option>
+            <option>Stainless</option><option>Chrome</option><option>Cerakote Multicam</option>
           </select>
         </div>
         <div class="builder-field">
-          <label class="builder-label">Special Features</label>
+          <label class="builder-label">Special Feature</label>
           <select class="builder-select" id="b-features">
-            <option>Suppressor Ready</option>
-            <option>Red Dot Optic</option>
-            <option>Laser Sight</option>
-            <option>Extended Magazine</option>
-            <option>Match Grade Trigger</option>
-            <option>Threaded Barrel</option>
-            <option>Folding Stock</option>
-            <option>Bipod + Scope</option>
+            <option>Suppressor Ready</option><option>Red Dot Optic</option><option>Laser Sight</option>
+            <option>Extended Magazine</option><option>Match Trigger</option><option>Threaded Barrel</option>
+            <option>Folding Stock</option><option>Bipod + Scope</option>
           </select>
         </div>
         <button class="btn-generate" onclick="generateCustomGun()">⚒ FORGE MY FIREARM</button>
       </div>
     </div>
-    <div id="custom-result">
-      <div id="custom-result-content"></div>
-    </div>
+    <div id="custom-result"><div id="custom-result-content"></div></div>
   </div>
 
-  <!-- ─── LIBRARY SECTION ───────────────────────────────────────── -->
-  <div id="library-section">
-    <div class="builder-section-title">📚 FIREARMS LIBRARY</div>
-    <p style="color:var(--text-muted);font-size:15px;margin-bottom:28px;">Ask the AI encyclopedia any question about firearms history, mechanics, and technology.</p>
-    <div style="display:grid;grid-template-columns:1fr 340px;gap:32px">
+  <!-- LIBRARY SECTION -->
+  <div id="library-section" class="section-page">
+    <div class="section-page-title">📚 FIREARMS LIBRARY</div>
+    <div class="section-page-desc">Ask the AI encyclopedia any question about firearms history, mechanics, and technology.</div>
+    <div class="library-grid">
       <div>
-        <div style="background:var(--bg-card);border:1px solid var(--border);padding:24px">
-          <label class="builder-label" style="display:block;margin-bottom:10px">Ask a Firearms Question</label>
-          <textarea id="library-question" style="width:100%;background:var(--bg-dark);border:1px solid var(--border);color:var(--text);font-family:var(--font-body);font-size:15px;padding:14px;resize:vertical;min-height:100px;outline:none" placeholder="e.g. What is the difference between semi-auto and fully automatic? How does a revolver cylinder work? What made the AK-47 so reliable?"></textarea>
-          <button class="btn-generate" style="margin-top:12px;clip-path:none;width:auto;padding:14px 32px;font-size:18px" onclick="askLibrary()">🔍 ASK THE ARMORY</button>
+        <div class="library-qa-box">
+          <label class="builder-label" style="display:block;margin-bottom:8px">Ask a Question</label>
+          <textarea id="library-question" class="library-textarea" placeholder="e.g. What made the AK-47 so reliable? How does a revolver cylinder work?"></textarea>
+          <button class="btn-generate" style="margin-top:10px;font-size:16px" onclick="askLibrary()">🔍 ASK THE ARMORY</button>
         </div>
-        <div id="library-answer" style="margin-top:20px;background:var(--bg-card);border:1px solid var(--border);padding:24px;display:none"></div>
+        <div id="library-answer"></div>
       </div>
       <div>
-        <div style="background:var(--bg-card);border:1px solid var(--border);padding:20px">
+        <div class="library-qa-box">
           <div class="spec-block-title">QUICK QUESTIONS</div>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <button onclick="quickQ(this.textContent)" style="background:rgba(255,255,255,0.03);border:1px solid var(--border);color:var(--text-dim);font-family:var(--font-body);font-size:13px;padding:10px;text-align:left;cursor:pointer;transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-dim)'">How does a semi-automatic pistol work?</button>
-            <button onclick="quickQ(this.textContent)" style="background:rgba(255,255,255,0.03);border:1px solid var(--border);color:var(--text-dim);font-family:var(--font-body);font-size:13px;padding:10px;text-align:left;cursor:pointer;transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-dim)'">What is the history of the AK-47?</button>
-            <button onclick="quickQ(this.textContent)" style="background:rgba(255,255,255,0.03);border:1px solid var(--border);color:var(--text-dim);font-family:var(--font-body);font-size:13px;padding:10px;text-align:left;cursor:pointer;transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-dim)'">Explain the parts of a revolver</button>
-            <button onclick="quickQ(this.textContent)" style="background:rgba(255,255,255,0.03);border:1px solid var(--border);color:var(--text-dim);font-family:var(--font-body);font-size:13px;padding:10px;text-align:left;cursor:pointer;transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-dim)'">What made the M16 famous?</button>
-            <button onclick="quickQ(this.textContent)" style="background:rgba(255,255,255,0.03);border:1px solid var(--border);color:var(--text-dim);font-family:var(--font-body);font-size:13px;padding:10px;text-align:left;cursor:pointer;transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-dim)'">Difference between bolt-action and semi-auto</button>
-            <button onclick="quickQ(this.textContent)" style="background:rgba(255,255,255,0.03);border:1px solid var(--border);color:var(--text-dim);font-family:var(--font-body);font-size:13px;padding:10px;text-align:left;cursor:pointer;transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-dim)'">History of the Colt 1911 pistol</button>
-            <button onclick="quickQ(this.textContent)" style="background:rgba(255,255,255,0.03);border:1px solid var(--border);color:var(--text-dim);font-family:var(--font-body);font-size:13px;padding:10px;text-align:left;cursor:pointer;transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-dim)'">What are the most famous WWI rifles?</button>
-            <button onclick="quickQ(this.textContent)" style="background:rgba(255,255,255,0.03);border:1px solid var(--border);color:var(--text-dim);font-family:var(--font-body);font-size:13px;padding:10px;text-align:left;cursor:pointer;transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-dim)'">How does a shotgun shell work?</button>
-          </div>
+          <div style="display:flex;flex-direction:column;gap:6px" id="quick-questions"></div>
         </div>
       </div>
     </div>
@@ -1385,235 +1737,398 @@ body::before {
 
 </div>
 
-<!-- ─── GUN DETAIL OVERLAY ──────────────────────────────────────── -->
+<!-- DETAIL OVERLAY -->
 <div id="detail-overlay">
   <div id="detail-panel">
     <div class="detail-header">
-      <button class="detail-back" onclick="closeDetail()">← BACK TO ARMORY</button>
+      <button class="detail-back" onclick="closeDetail()">← BACK</button>
       <div class="detail-title-area">
         <div class="detail-gun-name" id="detail-gun-name">GUN NAME</div>
         <div class="detail-gun-type" id="detail-gun-type">TYPE</div>
       </div>
-      <button class="detail-fire-btn" id="detail-fire-btn" onclick="fireGunDetail()">
-        🔥 FIRE WEAPON
-      </button>
+      <button class="detail-fire-btn" id="detail-fire-btn" onclick="fireGunDetail()">🔥 FIRE</button>
     </div>
-    <div class="detail-body" id="detail-body">
-      <!-- Filled by JS -->
-    </div>
+    <div class="detail-body" id="detail-body"></div>
   </div>
 </div>
 
 <script>
 // ═══════════════════════════════════════════════════════════════
+// IMAGE DATABASE — Real gun images from Wikipedia/Wikimedia
+// ═══════════════════════════════════════════════════════════════
+
+// All visuals are SVG — no external images (blocked by CSP in sandbox environments)
+// When deployed to GitHub Pages, you can add real image URLs to GUN_IMAGES
+const GUN_IMAGES = {};
+
+// Part SVG illustrations — detailed technical drawings for each component
+function getPartSVG(partType) {
+  const svgs = {
+    slide: `<svg viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="gs" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#9aa"/><stop offset="100%" stop-color="#556"/></linearGradient></defs><rect x="5" y="12" width="190" height="28" rx="2" fill="url(#gs)" stroke="#445" stroke-width="1"/><rect x="160" y="16" width="30" height="20" rx="1" fill="#334" stroke="#556" stroke-width="0.5"/><rect x="20" y="14" width="80" height="5" rx="1" fill="#445" opacity="0.5"/><line x1="30" y1="14" x2="30" y2="19" stroke="#667" stroke-width="0.5"/><line x1="50" y1="14" x2="50" y2="19" stroke="#667" stroke-width="0.5"/><line x1="70" y1="14" x2="70" y2="19" stroke="#667" stroke-width="0.5"/><line x1="90" y1="14" x2="90" y2="19" stroke="#667" stroke-width="0.5"/><rect x="140" y="18" width="16" height="12" rx="1" fill="none" stroke="#c8922a" stroke-width="1"/><circle cx="148" cy="24" r="3" fill="none" stroke="#c8922a" stroke-width="0.8"/><text x="100" y="50" font-size="7" fill="#8899aa" font-family="monospace">SLIDE ASSEMBLY</text></svg>`,
+    barrel: `<svg viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="gb" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#778"/><stop offset="100%" stop-color="#99a"/></linearGradient></defs><rect x="5" y="22" width="175" height="14" rx="7" fill="url(#gb)" stroke="#556" stroke-width="1"/><ellipse cx="180" cy="29" rx="3" ry="7" fill="#556" stroke="#445" stroke-width="0.5"/><ellipse cx="8" cy="29" rx="4" ry="7" fill="#667" stroke="#556" stroke-width="0.5"/><rect x="8" y="26" width="170" height="6" rx="3" fill="#445" opacity="0.4"/><path d="M20,27 L25,31 M25,27 L30,31 M30,27 L35,31 M35,27 L40,31 M40,27 L45,31 M45,27 L50,31 M50,27 L55,31 M55,27 L60,31" stroke="#c8922a" stroke-width="0.4" opacity="0.6"/><text x="70" y="50" font-size="7" fill="#8899aa" font-family="monospace">BARREL W/ RIFLING</text></svg>`,
+    frame: `<svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="gf" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#556"/><stop offset="100%" stop-color="#334"/></linearGradient></defs><path d="M10,15 L180,15 L180,35 L140,35 L140,38 L110,38 L100,70 L70,70 L65,38 L10,38 Z" fill="url(#gf)" stroke="#445" stroke-width="1"/><rect x="15" y="20" width="50" height="3" rx="1" fill="#667"/><rect x="15" y="26" width="50" height="3" rx="1" fill="#667"/><rect x="130" y="18" width="45" height="14" rx="1" fill="#445" stroke="#556" stroke-width="0.5"/><rect x="72" y="40" width="26" height="28" rx="2" fill="#334" stroke="#556" stroke-width="0.5"/><text x="40" y="76" font-size="7" fill="#8899aa" font-family="monospace">FRAME / RECEIVER (LOWER)</text></svg>`,
+    trigger: `<svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg"><rect x="50" y="10" width="100" height="20" rx="2" fill="#556" stroke="#445" stroke-width="1"/><path d="M90,30 L95,30 L97,55 L93,60 L87,60 L85,55 Z" fill="#778" stroke="#556" stroke-width="1"/><circle cx="92" cy="25" r="3" fill="none" stroke="#c8922a" stroke-width="1"/><rect x="105" y="15" width="35" height="8" rx="1" fill="#445"/><path d="M60,15 Q55,15 55,20 L55,28 Q55,32 60,32" fill="none" stroke="#c8922a" stroke-width="1.5"/><line x1="92" y1="30" x2="92" y2="40" stroke="#99a" stroke-width="1" stroke-dasharray="2,1"/><text x="50" y="75" font-size="7" fill="#8899aa" font-family="monospace">TRIGGER ASSEMBLY</text></svg>`,
+    magazine: `<svg viewBox="0 0 200 90" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="gm" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#667"/><stop offset="100%" stop-color="#334"/></linearGradient></defs><rect x="70" y="5" width="60" height="75" rx="3" fill="url(#gm)" stroke="#445" stroke-width="1"/><rect x="74" y="9" width="52" height="6" rx="1" fill="#c8922a" opacity="0.3"/><rect x="74" y="18" width="52" height="6" rx="1" fill="#778"/><rect x="74" y="27" width="52" height="6" rx="1" fill="#778"/><rect x="74" y="36" width="52" height="6" rx="1" fill="#778"/><rect x="74" y="45" width="52" height="6" rx="1" fill="#778"/><rect x="74" y="54" width="52" height="6" rx="1" fill="#778"/><rect x="74" y="63" width="52" height="6" rx="1" fill="#778"/><path d="M82,85 L118,85 L118,80 L82,80 Z" fill="#556" stroke="#445" stroke-width="0.5"/><text x="65" y="89" font-size="7" fill="#8899aa" font-family="monospace">MAGAZINE</text></svg>`,
+    recoilspring: `<svg viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg"><rect x="30" y="24" width="140" height="12" rx="6" fill="#334" stroke="#445" stroke-width="0.5"/><path d="M40,24 C45,18 50,36 55,24 C60,12 65,36 70,24 C75,12 80,36 85,24 C90,12 95,36 100,24 C105,12 110,36 115,24 C120,12 125,36 130,24 C135,12 140,36 145,24 C150,12 155,36 160,24" fill="none" stroke="#c8922a" stroke-width="2"/><circle cx="35" cy="30" r="5" fill="#556" stroke="#667" stroke-width="1"/><circle cx="165" cy="30" r="5" fill="#556" stroke="#667" stroke-width="1"/><text x="50" y="50" font-size="7" fill="#8899aa" font-family="monospace">RECOIL SPRING & GUIDE ROD</text></svg>`,
+    firingpin: `<svg viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="18" width="120" height="8" rx="4" fill="#778" stroke="#556" stroke-width="0.5"/><polygon points="140,15 160,22 140,29" fill="#99a" stroke="#556" stroke-width="0.5"/><circle cx="15" cy="22" r="6" fill="#556" stroke="#445" stroke-width="1"/><path d="M30,20 C33,16 37,28 40,20 C43,12 47,28 50,20" fill="none" stroke="#c8922a" stroke-width="1" opacity="0.6"/><text x="50" y="42" font-size="7" fill="#8899aa" font-family="monospace">FIRING PIN / STRIKER</text></svg>`,
+    extractor: `<svg viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg"><path d="M30,15 L120,15 L130,20 L130,30 L120,35 L30,35 Z" fill="#667" stroke="#445" stroke-width="1"/><path d="M125,18 L140,22 L140,28 L125,32" fill="#c8922a" stroke="#aa7722" stroke-width="0.8"/><rect x="35" y="20" width="15" height="10" rx="1" fill="#445"/><circle cx="65" cy="25" r="3" fill="none" stroke="#c8922a" stroke-width="0.8"/><text x="45" y="45" font-size="7" fill="#8899aa" font-family="monospace">EXTRACTOR & EJECTOR</text></svg>`,
+    safety: `<svg viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg"><rect x="60" y="10" width="80" height="30" rx="3" fill="#556" stroke="#445" stroke-width="1"/><circle cx="85" cy="25" r="8" fill="#334" stroke="#c8922a" stroke-width="1.5"/><rect x="82" y="17" width="6" height="16" rx="3" fill="#c8922a"/><rect x="120" y="18" width="15" height="14" rx="2" fill="#778"/><text x="55" y="55" font-size="7" fill="#8899aa" font-family="monospace">SAFETY MECHANISMS</text></svg>`,
+    grip: `<svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg"><path d="M70,5 L130,5 L135,10 L135,65 Q135,75 125,75 L75,75 Q65,75 65,65 L65,10 Z" fill="#443" stroke="#332" stroke-width="1"/><line x1="75" y1="20" x2="125" y2="20" stroke="#554" stroke-width="0.5"/><line x1="75" y1="30" x2="125" y2="30" stroke="#554" stroke-width="0.5"/><line x1="75" y1="40" x2="125" y2="40" stroke="#554" stroke-width="0.5"/><line x1="75" y1="50" x2="125" y2="50" stroke="#554" stroke-width="0.5"/><line x1="75" y1="60" x2="125" y2="60" stroke="#554" stroke-width="0.5"/><rect x="85" y="25" width="30" height="30" rx="2" fill="none" stroke="#c8922a" stroke-width="0.8" stroke-dasharray="3,2"/><text x="65" y="80" font-size="7" fill="#8899aa" font-family="monospace">GRIP / BACKSTRAP</text></svg>`,
+    cylinder: `<svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="40" r="30" fill="#556" stroke="#445" stroke-width="1.5"/><circle cx="100" cy="40" r="8" fill="#334" stroke="#667" stroke-width="0.5"/><circle cx="100" cy="16" r="5" fill="#334" stroke="#c8922a" stroke-width="0.8"/><circle cx="100" cy="64" r="5" fill="#334" stroke="#c8922a" stroke-width="0.8"/><circle cx="76" cy="40" r="5" fill="#334" stroke="#c8922a" stroke-width="0.8"/><circle cx="124" cy="40" r="5" fill="#334" stroke="#c8922a" stroke-width="0.8"/><circle cx="83" cy="23" r="5" fill="#334" stroke="#c8922a" stroke-width="0.8"/><circle cx="117" cy="57" r="5" fill="#334" stroke="#c8922a" stroke-width="0.8"/><text x="62" y="78" font-size="7" fill="#8899aa" font-family="monospace">CYLINDER (6 CHAMBERS)</text></svg>`,
+    hammer: `<svg viewBox="0 0 200 70" xmlns="http://www.w3.org/2000/svg"><path d="M80,60 L85,20 Q87,10 95,10 L105,10 Q113,10 115,20 L120,60" fill="#667" stroke="#445" stroke-width="1"/><rect x="88" y="12" width="24" height="8" rx="2" fill="#c8922a"/><path d="M80,60 L120,60 L125,65 L75,65 Z" fill="#556" stroke="#445" stroke-width="0.5"/><circle cx="100" cy="45" r="4" fill="#445" stroke="#556" stroke-width="0.8"/><text x="65" y="70" font-size="7" fill="#8899aa" font-family="monospace">HAMMER / SPUR</text></svg>`,
+    bolt: `<svg viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="gbo" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#889"/><stop offset="100%" stop-color="#667"/></linearGradient></defs><rect x="10" y="14" width="150" height="16" rx="2" fill="url(#gbo)" stroke="#445" stroke-width="1"/><polygon points="160,10 180,22 160,34" fill="#778" stroke="#445" stroke-width="0.5"/><rect x="165" y="14" width="25" height="16" rx="1" fill="#556"/><path d="M15,14 L15,10 L40,10 L40,14" fill="#99a" stroke="#667" stroke-width="0.5"/><circle cx="175" cy="22" r="3" fill="#c8922a"/><text x="45" y="44" font-size="7" fill="#8899aa" font-family="monospace">BOLT / BOLT CARRIER GROUP</text></svg>`,
+    gassystem: `<svg viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="25" width="180" height="8" rx="4" fill="#667" stroke="#445" stroke-width="0.5"/><rect x="60" y="15" width="12" height="18" rx="2" fill="#556" stroke="#c8922a" stroke-width="1"/><rect x="65" y="8" width="2" height="10" fill="#c8922a"/><path d="M66,8 Q66,2 80,2 L160,2 Q170,2 170,8 L170,20" fill="none" stroke="#c8922a" stroke-width="1.5"/><circle cx="170" cy="22" r="3" fill="#c8922a"/><text x="40" y="50" font-size="7" fill="#8899aa" font-family="monospace">GAS SYSTEM (DI / PISTON)</text></svg>`,
+    stock: `<svg viewBox="0 0 200 70" xmlns="http://www.w3.org/2000/svg"><path d="M10,20 L60,20 L65,25 L65,45 L60,50 L10,65 Q5,67 5,60 L5,25 Q5,18 10,20 Z" fill="#654" stroke="#543" stroke-width="1"/><rect x="60" y="22" width="30" height="26" rx="2" fill="#556" stroke="#445" stroke-width="0.5"/><rect x="85" y="28" width="40" height="14" rx="1" fill="#667" stroke="#556" stroke-width="0.5"/><circle cx="130" cy="35" r="4" fill="#445" stroke="#c8922a" stroke-width="0.8"/><text x="40" y="66" font-size="7" fill="#8899aa" font-family="monospace">STOCK / BUTTSTOCK</text></svg>`,
+    handguard: `<svg viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="12" width="180" height="22" rx="3" fill="#556" stroke="#445" stroke-width="1"/><rect x="15" y="14" width="10" height="18" rx="1" fill="#445"/><rect x="30" y="14" width="10" height="18" rx="1" fill="#445"/><rect x="45" y="14" width="10" height="18" rx="1" fill="#445"/><rect x="60" y="14" width="10" height="18" rx="1" fill="#445"/><rect x="75" y="14" width="10" height="18" rx="1" fill="#445"/><rect x="90" y="14" width="10" height="18" rx="1" fill="#445"/><rect x="10" y="34" width="180" height="3" fill="#c8922a" opacity="0.3"/><text x="35" y="45" font-size="7" fill="#8899aa" font-family="monospace">HANDGUARD / M-LOK RAIL</text></svg>`,
+    scope: `<svg viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="15" width="160" height="16" rx="8" fill="#445" stroke="#556" stroke-width="1"/><circle cx="25" cy="23" r="10" fill="#334" stroke="#556" stroke-width="1"/><circle cx="25" cy="23" r="6" fill="none" stroke="#c8922a" stroke-width="0.5"/><circle cx="175" cy="23" r="8" fill="#334" stroke="#556" stroke-width="1"/><circle cx="175" cy="23" r="4" fill="none" stroke="#c8922a" stroke-width="0.5"/><line cx1="21" y1="23" x2="29" y2="23" stroke="#c8922a" stroke-width="0.5"/><line x1="25" y1="19" x2="25" y2="27" stroke="#c8922a" stroke-width="0.5"/><rect x="80" y="10" width="20" height="8" rx="2" fill="#556"/><rect x="120" y="10" width="15" height="8" rx="2" fill="#556"/><text x="55" y="45" font-size="7" fill="#8899aa" font-family="monospace">SCOPE / OPTICS</text></svg>`,
+    choke: `<svg viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="15" width="100" height="16" rx="8" fill="#667" stroke="#445" stroke-width="1"/><path d="M120,15 L140,18 L140,28 L120,31" fill="#778" stroke="#445" stroke-width="0.5"/><circle cx="145" cy="23" r="6" fill="#556" stroke="#c8922a" stroke-width="1"/><path d="M155,17 L170,20 M155,29 L170,26 M155,23 L175,23" stroke="#c8922a" stroke-width="0.5" opacity="0.6"/><text x="40" y="42" font-size="7" fill="#8899aa" font-family="monospace">CHOKE TUBE SYSTEM</text></svg>`,
+    feedsystem: `<svg viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="20" width="160" height="20" rx="2" fill="#556" stroke="#445" stroke-width="1"/><circle cx="40" cy="30" r="5" fill="#c8922a" opacity="0.4"/><circle cx="60" cy="30" r="5" fill="#c8922a" opacity="0.4"/><circle cx="80" cy="30" r="5" fill="#c8922a" opacity="0.4"/><circle cx="100" cy="30" r="5" fill="#c8922a" opacity="0.4"/><circle cx="120" cy="30" r="5" fill="#c8922a" opacity="0.4"/><circle cx="140" cy="30" r="5" fill="#c8922a" opacity="0.4"/><circle cx="160" cy="30" r="5" fill="#c8922a" opacity="0.4"/><path d="M32,22 L42,22 L46,30 L42,38 L32,38" fill="none" stroke="#c8922a" stroke-width="0.8"/><text x="40" y="52" font-size="7" fill="#8899aa" font-family="monospace">BELT FEED SYSTEM</text></svg>`,
+    bipod: `<svg viewBox="0 0 200 70" xmlns="http://www.w3.org/2000/svg"><rect x="80" y="5" width="40" height="12" rx="2" fill="#556" stroke="#445" stroke-width="1"/><line x1="85" y1="17" x2="50" y2="60" stroke="#778" stroke-width="3" stroke-linecap="round"/><line x1="115" y1="17" x2="150" y2="60" stroke="#778" stroke-width="3" stroke-linecap="round"/><circle cx="50" cy="62" r="4" fill="#556" stroke="#445" stroke-width="0.5"/><circle cx="150" cy="62" r="4" fill="#556" stroke="#445" stroke-width="0.5"/><circle cx="100" cy="11" r="3" fill="#c8922a"/><text x="60" y="70" font-size="7" fill="#8899aa" font-family="monospace">BIPOD MOUNT</text></svg>`,
+    muzzlebrake: `<svg viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="16" width="80" height="14" rx="7" fill="#667" stroke="#445" stroke-width="0.5"/><rect x="90" y="12" width="60" height="22" rx="3" fill="#778" stroke="#445" stroke-width="1"/><rect x="95" y="8" width="8" height="8" rx="1" fill="#556"/><rect x="110" y="8" width="8" height="8" rx="1" fill="#556"/><rect x="125" y="8" width="8" height="8" rx="1" fill="#556"/><rect x="95" y="30" width="8" height="8" rx="1" fill="#556"/><rect x="110" y="30" width="8" height="8" rx="1" fill="#556"/><rect x="125" y="30" width="8" height="8" rx="1" fill="#556"/><circle cx="155" cy="23" r="4" fill="#445" stroke="#c8922a" stroke-width="0.8"/><text x="25" y="46" font-size="7" fill="#8899aa" font-family="monospace">MUZZLE BRAKE / SUPPRESSOR</text></svg>`,
+    flintlock: `<svg viewBox="0 0 200 70" xmlns="http://www.w3.org/2000/svg"><path d="M50,20 L70,20 L75,15 L85,15 L80,25 L75,30 L50,30 Z" fill="#887" stroke="#665" stroke-width="1"/><polygon points="82,12 90,8 88,18" fill="#aab" stroke="#889" stroke-width="0.5"/><rect x="75" y="28" width="25" height="8" rx="1" fill="#c8922a" opacity="0.6"/><circle cx="88" cy="32" r="6" fill="#445" stroke="#c8922a" stroke-width="1"/><path d="M94,32 L110,32 L112,35 L94,35 Z" fill="#667"/><text x="30" y="60" font-size="7" fill="#8899aa" font-family="monospace">FLINTLOCK MECHANISM</text></svg>`,
+    ramrod: `<svg viewBox="0 0 200 40" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="15" width="180" height="6" rx="3" fill="#876" stroke="#654" stroke-width="0.5"/><circle cx="10" cy="18" r="5" fill="#765" stroke="#654" stroke-width="0.5"/><rect x="185" y="13" width="10" height="10" rx="2" fill="#654"/><text x="60" y="35" font-size="7" fill="#8899aa" font-family="monospace">RAMROD (LOADING TOOL)</text></svg>`,
+    bayonet: `<svg viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="20" width="30" height="8" rx="2" fill="#556" stroke="#445" stroke-width="0.5"/><polygon points="40,17 180,22 180,26 40,31" fill="#99a" stroke="#778" stroke-width="0.5"/><polygon points="180,22 195,24 180,26" fill="#bbc"/><rect x="38" y="15" width="6" height="18" rx="1" fill="#667" stroke="#556" stroke-width="0.5"/><text x="55" y="44" font-size="7" fill="#8899aa" font-family="monospace">BAYONET & LUG</text></svg>`,
+  };
+  return svgs[partType] || svgs.barrel;
+}
+
+
+// ═══════════════════════════════════════════════════════════════
 // GUNS DATABASE
 // ═══════════════════════════════════════════════════════════════
 
 const GUNS = [
-  // ── PISTOLS ──────────────────────────────────────────────────
+  // PISTOLS
   {id:'glock17',name:'Glock 17',type:'pistol',era:'1982',country:'🇦🇹',origin:'Austria',caliber:'9mm',capacity:'17+1',weight:'625g',desc:'The world\'s most popular service pistol, renowned for reliability and simplicity.',stats:{damage:62,accuracy:75,range:55,reload:90,rate:80}},
   {id:'colt1911',name:'Colt M1911',type:'pistol',era:'1911',country:'🇺🇸',origin:'USA',caliber:'.45 ACP',capacity:'7+1',weight:'1.1kg',desc:'America\'s legendary sidearm, carried by US military for over 70 years.',stats:{damage:82,accuracy:80,range:50,reload:70,rate:65}},
-  {id:'beretta92',name:'Beretta M9/92FS',type:'pistol',era:'1976',country:'🇮🇹',origin:'Italy',caliber:'9mm',capacity:'15+1',weight:'952g',desc:'The US Military\'s official sidearm from 1985 to 2017. Beloved for its accuracy.',stats:{damage:65,accuracy:82,range:55,reload:78,rate:78}},
-  {id:'deagle',name:'Desert Eagle',type:'pistol',era:'1983',country:'🇮🇱',origin:'Israel/USA',caliber:'.50 AE',capacity:'7',weight:'2kg',desc:'The iconic large-frame semi-auto pistol famous for its massive .50 caliber round.',stats:{damage:98,accuracy:68,range:60,reload:55,rate:50}},
-  {id:'sig226',name:'SIG Sauer P226',type:'pistol',era:'1980',country:'🇩🇪',origin:'Germany/Switzerland',caliber:'9mm',capacity:'15+1',weight:'964g',desc:'The choice of Navy SEALs and countless elite units worldwide. Exceptional accuracy.',stats:{damage:66,accuracy:90,range:60,reload:80,rate:78}},
-  {id:'walther',name:'Walther PPK',type:'pistol',era:'1931',country:'🇩🇪',origin:'Germany',caliber:'.380 ACP',capacity:'7',weight:'590g',desc:'James Bond\'s iconic sidearm. Compact, elegant, and extremely well-made.',stats:{damage:52,accuracy:72,range:40,reload:75,rate:72}},
-  {id:'hkusp',name:'H&K USP',type:'pistol',era:'1993',country:'🇩🇪',origin:'Germany',caliber:'9mm',capacity:'15+1',weight:'748g',desc:'Heckler & Koch\'s Universal Self-loading Pistol, built for military and police use.',stats:{damage:65,accuracy:85,range:55,reload:80,rate:80}},
-  {id:'fn57',name:'FN Five-seveN',type:'pistol',era:'1998',country:'🇧🇪',origin:'Belgium',caliber:'5.7x28mm',capacity:'20+1',weight:'618g',desc:'High-capacity pistol firing a unique bottleneck cartridge with armor-piercing capability.',stats:{damage:60,accuracy:80,range:65,reload:82,rate:82}},
-  {id:'cz75',name:'CZ 75',type:'pistol',era:'1975',country:'🇨🇿',origin:'Czechoslovakia',caliber:'9mm',capacity:'15+1',weight:'1kg',desc:'One of the finest production pistols ever made. Legendary accuracy and feel.',stats:{damage:65,accuracy:92,range:58,reload:78,rate:77}},
-  {id:'springxd',name:'Springfield XD',type:'pistol',era:'2002',country:'🇺🇸',origin:'USA/Croatia',caliber:'9mm',capacity:'16+1',weight:'737g',desc:'Modern polymer pistol with a grip safety and outstanding ergonomics.',stats:{damage:63,accuracy:78,range:55,reload:85,rate:80}},
-  {id:'kimber',name:'Kimber Custom 1911',type:'pistol',era:'1979',country:'🇺🇸',origin:'USA',caliber:'.45 ACP',capacity:'8+1',weight:'1.1kg',desc:'Premium 1911-style pistol known for exceptional craftsmanship and match-grade accuracy.',stats:{damage:84,accuracy:92,range:52,reload:70,rate:65}},
-  {id:'fnx45',name:'FN FNX-45 Tactical',type:'pistol',era:'2010',country:'🇧🇪',origin:'Belgium',caliber:'.45 ACP',capacity:'15+1',weight:'930g',desc:'Modern tactical pistol with suppressor-ready barrel and optic cut slide.',stats:{damage:80,accuracy:84,range:55,reload:80,rate:74}},
-
-  // ── REVOLVERS ─────────────────────────────────────────────────
-  {id:'colt45',name:'Colt Single Action Army',type:'revolver',era:'1873',country:'🇺🇸',origin:'USA',caliber:'.45 Colt',capacity:'6',weight:'1.05kg',desc:'The "Peacemaker" — the iconic revolver of the American West. A timeless classic.',stats:{damage:85,accuracy:72,range:50,reload:35,rate:45}},
-  {id:'sw686',name:'S&W Model 686',type:'revolver',era:'1980',country:'🇺🇸',origin:'USA',caliber:'.357 Magnum',capacity:'6',weight:'1.2kg',desc:'Smith & Wesson\'s stainless steel revolver, a favorite of competitive shooters.',stats:{damage:86,accuracy:88,range:65,reload:50,rate:50}},
-  {id:'ruger',name:'Ruger Super Redhawk',type:'revolver',era:'1987',country:'🇺🇸',origin:'USA',caliber:'.44 Magnum',capacity:'6',weight:'1.56kg',desc:'Built for hunting and the most powerful handgun rounds. Practically indestructible.',stats:{damage:92,accuracy:78,range:70,reload:45,rate:45}},
-  {id:'nagant',name:'Nagant M1895',type:'revolver',era:'1895',country:'🇷🇺',origin:'Russia',caliber:'7.62x38R',capacity:'7',weight:'795g',desc:'Russian military revolver used from 1895 through WWII. Unique gas-seal design.',stats:{damage:60,accuracy:65,range:45,reload:30,rate:42}},
-  {id:'swmod29',name:'S&W Model 29',type:'revolver',era:'1955',country:'🇺🇸',origin:'USA',caliber:'.44 Magnum',capacity:'6',weight:'1.3kg',desc:'Made famous by Dirty Harry. "The most powerful handgun in the world."',stats:{damage:92,accuracy:80,range:68,reload:48,rate:48}},
-  {id:'enfield',name:'Webley Mk VI',type:'revolver',era:'1915',country:'🇬🇧',origin:'UK',caliber:'.455 Webley',capacity:'6',weight:'1.1kg',desc:'The British Empire\'s standard revolver through both World Wars. Powerful and rugged.',stats:{damage:84,accuracy:70,range:48,reload:42,rate:44}},
-
-  // ── RIFLES ────────────────────────────────────────────────────
-  {id:'mauser98',name:'Mauser Kar98k',type:'rifle',era:'1935',country:'🇩🇪',origin:'Germany',caliber:'7.92x57mm',capacity:'5',weight:'3.9kg',desc:'The bolt-action rifle of the Wehrmacht in WWII. Accurate and deadly at long range.',stats:{damage:90,accuracy:88,range:95,reload:48,rate:30}},
-  {id:'springfield03',name:'Springfield M1903',type:'rifle',era:'1903',country:'🇺🇸',origin:'USA',caliber:'.30-06',capacity:'5',weight:'3.9kg',desc:'American bolt-action rifle carried in WWI and WWII. Excellent accuracy and reliability.',stats:{damage:88,accuracy:86,range:92,reload:50,rate:32}},
-  {id:'mosinnagant',name:'Mosin-Nagant M91/30',type:'rifle',era:'1891',country:'🇷🇺',origin:'Russia',caliber:'7.62x54R',capacity:'5',weight:'4kg',desc:'Russia\'s iconic bolt-action rifle. Over 37 million made. Used from 1891 to present.',stats:{damage:89,accuracy:75,range:90,reload:50,rate:30}},
-  {id:'lee',name:'Lee-Enfield No.4',type:'rifle',era:'1895',country:'🇬🇧',origin:'UK',caliber:'.303 British',capacity:'10',weight:'4.1kg',desc:'Britain\'s standard WWII rifle. The fastest bolt-action in history — 15 aimed rounds/min.',stats:{damage:86,accuracy:84,range:90,reload:52,rate:55}},
-  {id:'winchester73',name:'Winchester Model 1873',type:'rifle',era:'1873',country:'🇺🇸',origin:'USA',caliber:'.44-40',capacity:'15',weight:'2.6kg',desc:'"The Gun that Won the West" — lever-action rifle beloved on the American frontier.',stats:{damage:78,accuracy:70,range:75,reload:60,rate:65}},
-  {id:'ar15',name:'AR-15',type:'rifle',era:'1963',country:'🇺🇸',origin:'USA',caliber:'5.56mm NATO',capacity:'30',weight:'3.1kg',desc:'America\'s most popular modern sporting rifle, known for modularity and accuracy.',stats:{damage:72,accuracy:88,range:85,reload:80,rate:75}},
-  {id:'sks',name:'SKS Carbine',type:'rifle',era:'1945',country:'🇷🇺',origin:'Soviet Union',caliber:'7.62x39mm',capacity:'10',weight:'3.86kg',desc:'Soviet semi-auto carbine developed at the end of WWII. Reliable and hard-hitting.',stats:{damage:80,accuracy:72,range:82,reload:60,rate:70}},
-  {id:'m1garand',name:'M1 Garand',type:'rifle',era:'1936',country:'🇺🇸',origin:'USA',caliber:'.30-06',capacity:'8',weight:'4.3kg',desc:'"The greatest battle implement ever devised" — General Patton. WWII American standard.',stats:{damage:88,accuracy:84,range:90,reload:62,rate:68}},
-
-  // ── ASSAULT RIFLES ────────────────────────────────────────────
-  {id:'ak47',name:'AK-47',type:'assault',era:'1947',country:'🇷🇺',origin:'Soviet Union',caliber:'7.62x39mm',capacity:'30',weight:'4.3kg',desc:'The world\'s most produced firearm. Iconic for its brutal reliability in any condition.',stats:{damage:84,accuracy:70,range:78,reload:75,rate:88}},
-  {id:'ak74',name:'AK-74M',type:'assault',era:'1974',country:'🇷🇺',origin:'Soviet Union',caliber:'5.45x39mm',capacity:'30',weight:'3.6kg',desc:'Modernized AK with muzzle brake and updated caliber. Standard Russian military rifle.',stats:{damage:75,accuracy:75,range:80,reload:76,rate:88}},
-  {id:'m16',name:'M16A4',type:'assault',era:'1964',country:'🇺🇸',origin:'USA',caliber:'5.56mm NATO',capacity:'30',weight:'3.99kg',desc:'US Military standard rifle. Accurate and lightweight. Vietnam to modern conflicts.',stats:{damage:72,accuracy:88,range:86,reload:78,rate:82}},
-  {id:'m4',name:'M4A1 Carbine',type:'assault',era:'1994',country:'🇺🇸',origin:'USA',caliber:'5.56mm NATO',capacity:'30',weight:'3kg',desc:'Shortened M16 variant, the current US Army standard carbine. Used by SOF worldwide.',stats:{damage:70,accuracy:86,range:80,reload:82,rate:86}},
-  {id:'scar',name:'FN SCAR-H',type:'assault',era:'2004',country:'🇧🇪',origin:'Belgium',caliber:'7.62mm NATO',capacity:'20',weight:'3.5kg',desc:'Special Forces Combat Assault Rifle. Used by SOCOM. Available in 5.56 and 7.62.',stats:{damage:82,accuracy:88,range:88,reload:80,rate:82}},
-  {id:'g36',name:'H&K G36',type:'assault',era:'1995',country:'🇩🇪',origin:'Germany',caliber:'5.56mm NATO',capacity:'30',weight:'3.63kg',desc:'German service rifle known for its distinctive carry handle with built-in optics.',stats:{damage:72,accuracy:86,range:82,reload:80,rate:84}},
-  {id:'tavormx',name:'IWI Tavor X95',type:'assault',era:'2009',country:'🇮🇱',origin:'Israel',caliber:'5.56mm NATO',capacity:'30',weight:'2.95kg',desc:'Israeli bullpup assault rifle. Compact with full rifle accuracy. Standard IDF issue.',stats:{damage:72,accuracy:84,range:80,reload:75,rate:88}},
-  {id:'aug',name:'Steyr AUG A3',type:'assault',era:'1977',country:'🇦🇹',origin:'Austria',caliber:'5.56mm NATO',capacity:'30',weight:'3.6kg',desc:'Iconic bullpup with integrated optics. Used by numerous military forces worldwide.',stats:{damage:72,accuracy:85,range:82,reload:74,rate:85}},
-  {id:'hk416',name:'H&K HK416',type:'assault',era:'2004',country:'🇩🇪',origin:'Germany',caliber:'5.56mm NATO',capacity:'30',weight:'3.7kg',desc:'The rifle that ended Bin Laden. Used by Delta Force and Norwegian/French military.',stats:{damage:72,accuracy:90,range:85,reload:82,rate:85}},
-  {id:'galil',name:'IWI Galil ACE',type:'assault',era:'1972',country:'🇮🇱',origin:'Israel',caliber:'5.56mm NATO',capacity:'30',weight:'3.26kg',desc:'Israeli AK-derivative designed for harsh environments. Used by IDF and many allies.',stats:{damage:74,accuracy:80,range:82,reload:78,rate:85}},
-
-  // ── SMGs ──────────────────────────────────────────────────────
-  {id:'mp5',name:'H&K MP5',type:'smg',era:'1966',country:'🇩🇪',origin:'Germany',caliber:'9mm',capacity:'30',weight:'2.54kg',desc:'The most famous SMG in history. Standard for police and CT units worldwide.',stats:{damage:55,accuracy:82,range:60,reload:85,rate:92}},
-  {id:'thompsons',name:'Thompson M1928',type:'smg',era:'1919',country:'🇺🇸',origin:'USA',caliber:'.45 ACP',capacity:'50',weight:'4.9kg',desc:'The "Tommy Gun" — favored by gangsters and Allied troops in WWII.',stats:{damage:78,accuracy:60,range:50,reload:55,rate:90}},
-  {id:'sten',name:'STEN Mk II',type:'smg',era:'1941',country:'🇬🇧',origin:'UK',caliber:'9mm',capacity:'32',weight:'2.95kg',desc:'Cheaply produced WWII British SMG. Over 4 million made. Crude but effective.',stats:{damage:55,accuracy:55,range:48,reload:65,rate:88}},
-  {id:'uzi',name:'IMI Uzi',type:'smg',era:'1954',country:'🇮🇱',origin:'Israel',caliber:'9mm',capacity:'32',weight:'3.5kg',desc:'Iconic Israeli SMG used by secret services and military worldwide since the 1950s.',stats:{damage:56,accuracy:65,range:52,reload:78,rate:92}},
-  {id:'p90',name:'FN P90',type:'smg',era:'1990',country:'🇧🇪',origin:'Belgium',caliber:'5.7x28mm',capacity:'50',weight:'2.54kg',desc:'Futuristic personal defense weapon with top-mounted 50-round magazine.',stats:{damage:58,accuracy:74,range:60,reload:75,rate:96}},
-  {id:'mp40',name:'MP 40',type:'smg',era:'1940',country:'🇩🇪',origin:'Germany',caliber:'9mm',capacity:'32',weight:'4kg',desc:'German WWII SMG issued to paratroopers and NCOs. One of WWII\'s most iconic guns.',stats:{damage:55,accuracy:62,range:50,reload:65,rate:88}},
-  {id:'ppsh41',name:'PPSh-41',type:'smg',era:'1941',country:'🇷🇺',origin:'Soviet Union',caliber:'7.62x25mm',capacity:'71',weight:'3.6kg',desc:'Soviet WWII SMG with distinctive drum magazine. Rate of fire up to 1000 rpm.',stats:{damage:55,accuracy:58,range:48,reload:55,rate:98}},
-
-  // ── SHOTGUNS ──────────────────────────────────────────────────
-  {id:'rem870',name:'Remington 870',type:'shotgun',era:'1950',country:'🇺🇸',origin:'USA',caliber:'12 Gauge',capacity:'4+1',weight:'3.1kg',desc:'America\'s best-selling pump-action shotgun. Over 11 million sold. Legendary reliable.',stats:{damage:95,accuracy:60,range:40,reload:58,rate:52}},
-  {id:'mossberg',name:'Mossberg 500',type:'shotgun',era:'1961',country:'🇺🇸',origin:'USA',caliber:'12 Gauge',capacity:'5+1',weight:'2.95kg',desc:'The only shotgun to pass all US Mil-Spec tests. Rugged and versatile pump-action.',stats:{damage:94,accuracy:62,range:40,reload:60,rate:52}},
-  {id:'saiga',name:'Saiga-12',type:'shotgun',era:'1990',country:'🇷🇺',origin:'Russia',caliber:'12 Gauge',capacity:'10',weight:'3.6kg',desc:'AK-based semi-auto shotgun capable of accepting drum magazines. Tactical beast.',stats:{damage:95,accuracy:58,range:40,reload:68,rate:75}},
-  {id:'benelli',name:'Benelli M4',type:'shotgun',era:'1998',country:'🇮🇹',origin:'Italy',caliber:'12 Gauge',capacity:'7+1',weight:'3.8kg',desc:'US Marines use this as M1014. Gas-operated semi-auto shotgun. Outstanding quality.',stats:{damage:95,accuracy:65,range:42,reload:70,rate:78}},
-  {id:'spas',name:'Franchi SPAS-12',type:'shotgun',era:'1979',country:'🇮🇹',origin:'Italy',caliber:'12 Gauge',capacity:'8',weight:'4.2kg',desc:'The most iconic movie shotgun. Special Purpose Automatic Shotgun — pump or semi-auto.',stats:{damage:95,accuracy:60,range:42,reload:62,rate:72}},
-  {id:'trenchgun',name:'Winchester Model 1897 Trench',type:'shotgun',era:'1897',country:'🇺🇸',origin:'USA',caliber:'12 Gauge',capacity:'5',weight:'3.6kg',desc:'WWI trench gun feared so much Germany protested its use. Still deadly today.',stats:{damage:94,accuracy:58,range:38,reload:52,rate:48}},
-
-  // ── MACHINE GUNS ──────────────────────────────────────────────
-  {id:'m249',name:'M249 SAW',type:'machinegun',era:'1984',country:'🇺🇸',origin:'Belgium/USA',caliber:'5.56mm NATO',capacity:'200',weight:'7.5kg',desc:'Squad Automatic Weapon. Provides fire superiority at the fireteam level.',stats:{damage:78,accuracy:72,range:82,reload:55,rate:98}},
-  {id:'pkm',name:'PKM',type:'machinegun',era:'1969',country:'🇷🇺',origin:'Soviet Union',caliber:'7.62x54R',capacity:'100-250',weight:'7.5kg',desc:'Soviet general-purpose machine gun. Outstanding reliability, used in dozens of conflicts.',stats:{damage:86,accuracy:70,range:88,reload:52,rate:96}},
-  {id:'mg42',name:'MG 42',type:'machinegun',era:'1942',country:'🇩🇪',origin:'Germany',caliber:'7.92x57mm',capacity:'50-250',weight:'11.6kg',desc:'"Hitler\'s Buzzsaw" — WWII German MG with terrifying 1200 rpm rate of fire.',stats:{damage:88,accuracy:68,range:88,reload:48,rate:100}},
-  {id:'m2browning',name:'M2 Browning .50 Cal',type:'machinegun',era:'1933',country:'🇺🇸',origin:'USA',caliber:'.50 BMG',capacity:'100',weight:'38kg',desc:'The legendary heavy machine gun still in service since the 1930s. Incredibly powerful.',stats:{damage:99,accuracy:75,range:98,reload:35,rate:90}},
-  {id:'minigun',name:'M134 Minigun',type:'machinegun',era:'1963',country:'🇺🇸',origin:'USA',caliber:'7.62mm NATO',capacity:'4000',weight:'16.8kg',desc:'Six-barreled electric rotary machine gun. Up to 6000 rounds per minute. Pure destruction.',stats:{damage:88,accuracy:65,range:88,reload:20,rate:100}},
-
-  // ── SNIPERS ───────────────────────────────────────────────────
-  {id:'awm',name:'Accuracy International AXMC',type:'sniper',era:'1988',country:'🇬🇧',origin:'UK',caliber:'.338 Lapua',capacity:'10',weight:'6.8kg',desc:'The world\'s premier long-range precision rifle. Used by elite forces globally.',stats:{damage:97,accuracy:98,range:100,reload:55,rate:28}},
-  {id:'m24',name:'Remington M24 SWS',type:'sniper',era:'1988',country:'🇺🇸',origin:'USA',caliber:'.300 Win Mag',capacity:'5',weight:'5.4kg',desc:'US Army standard sniper system based on the legendary Remington 700 action.',stats:{damage:94,accuracy:96,range:98,reload:58,rate:28}},
-  {id:'sv98',name:'SVDK/SV-98',type:'sniper',era:'1998',country:'🇷🇺',origin:'Russia',caliber:'7.62x54R',capacity:'10',weight:'6.2kg',desc:'Russian bolt-action sniper rifle designed for competition-grade accuracy.',stats:{damage:90,accuracy:95,range:96,reload:58,rate:30}},
-  {id:'dragunov',name:'SVD Dragunov',type:'sniper',era:'1963',country:'🇷🇺',origin:'Soviet Union',caliber:'7.62x54R',capacity:'10',weight:'4.3kg',desc:'Soviet semi-auto designated marksman rifle. Distinctive look and used for 60+ years.',stats:{damage:88,accuracy:88,range:92,reload:72,rate:68}},
-  {id:'barrett',name:'Barrett M82A1',type:'sniper',era:'1982',country:'🇺🇸',origin:'USA',caliber:'.50 BMG',capacity:'10',weight:'14kg',desc:'The ultimate anti-material rifle. Effective range of 1800m. Used by military worldwide.',stats:{damage:99,accuracy:90,range:100,reload:52,rate:38}},
-  {id:'cheytac',name:'CheyTac M200 Intervention',type:'sniper',era:'2001',country:'🇺🇸',origin:'USA',caliber:'.408 CheyTac',capacity:'7',weight:'12.3kg',desc:'One of the most accurate long-range rifles ever made. Effective past 2000 meters.',stats:{damage:98,accuracy:99,range:100,reload:48,rate:22}},
-
-  // ── HISTORICAL ────────────────────────────────────────────────
-  {id:'flintlock',name:'Brown Bess Musket',type:'historical',era:'1722',country:'🇬🇧',origin:'Britain',caliber:'.75 cal',capacity:'1',weight:'5kg',desc:'British Empire\'s musket from 1722 to 1838. Used in American Revolution and Napoleonic Wars.',stats:{damage:78,accuracy:28,range:55,reload:10,rate:5}},
-  {id:'kentucky',name:'Kentucky Long Rifle',type:'historical',era:'1750',country:'🇺🇸',origin:'Colonial America',caliber:'.50 cal',capacity:'1',weight:'4kg',desc:'Accurate frontier rifle used by American Revolutionaries and frontiersmen.',stats:{damage:80,accuracy:70,range:80,reload:8,rate:5}},
-  {id:'coltnavyperc',name:'Colt Navy 1851',type:'historical',era:'1851',country:'🇺🇸',origin:'USA',caliber:'.36 cal',capacity:'6',weight:'1.2kg',desc:'Percussion revolver used in the Civil War era. Elegant design and reliable.',stats:{damage:65,accuracy:62,range:40,reload:20,rate:22}},
-  {id:'spencerrepeating',name:'Spencer Repeating Rifle',type:'historical',era:'1860',country:'🇺🇸',origin:'USA',caliber:'.56-56',capacity:'7',weight:'4.5kg',desc:'First repeating rifle adopted by US military. Changed warfare in the Civil War.',stats:{damage:76,accuracy:65,range:72,reload:35,rate:40}},
-  {id:'pepperbox',name:'Allen & Thurber Pepperbox',type:'historical',era:'1837',country:'🇺🇸',origin:'USA',caliber:'.31 cal',capacity:'6',weight:'0.8kg',desc:'Early multi-shot percussion revolver with rotating barrel cluster. Pioneer design.',stats:{damage:55,accuracy:38,range:25,reload:15,rate:35}},
-  {id:'gatling',name:'Gatling Gun Model 1874',type:'historical',era:'1861',country:'🇺🇸',origin:'USA',caliber:'.45-70',capacity:'400',weight:'180kg',desc:'The original multi-barrel rapid-fire weapon. Precursor to the modern machine gun.',stats:{damage:80,accuracy:55,range:80,reload:20,rate:90}},
+  {id:'beretta92',name:'Beretta M9/92FS',type:'pistol',era:'1976',country:'🇮🇹',origin:'Italy',caliber:'9mm',capacity:'15+1',weight:'952g',desc:'The US Military\'s official sidearm from 1985 to 2017.',stats:{damage:65,accuracy:82,range:55,reload:78,rate:78}},
+  {id:'deagle',name:'Desert Eagle',type:'pistol',era:'1983',country:'🇮🇱',origin:'Israel/USA',caliber:'.50 AE',capacity:'7',weight:'2kg',desc:'The iconic large-frame semi-auto famous for its massive .50 caliber round.',stats:{damage:98,accuracy:68,range:60,reload:55,rate:50}},
+  {id:'sig226',name:'SIG Sauer P226',type:'pistol',era:'1980',country:'🇩🇪',origin:'Germany/Switzerland',caliber:'9mm',capacity:'15+1',weight:'964g',desc:'The choice of Navy SEALs and elite units worldwide.',stats:{damage:66,accuracy:90,range:60,reload:80,rate:78}},
+  {id:'walther',name:'Walther PPK',type:'pistol',era:'1931',country:'🇩🇪',origin:'Germany',caliber:'.380 ACP',capacity:'7',weight:'590g',desc:'James Bond\'s iconic sidearm. Compact, elegant, and well-made.',stats:{damage:52,accuracy:72,range:40,reload:75,rate:72}},
+  {id:'hkusp',name:'H&K USP',type:'pistol',era:'1993',country:'🇩🇪',origin:'Germany',caliber:'9mm',capacity:'15+1',weight:'748g',desc:'Universal Self-loading Pistol built for military and police.',stats:{damage:65,accuracy:85,range:55,reload:80,rate:80}},
+  {id:'fn57',name:'FN Five-seveN',type:'pistol',era:'1998',country:'🇧🇪',origin:'Belgium',caliber:'5.7x28mm',capacity:'20+1',weight:'618g',desc:'High-capacity pistol with unique bottleneck cartridge.',stats:{damage:60,accuracy:80,range:65,reload:82,rate:82}},
+  {id:'cz75',name:'CZ 75',type:'pistol',era:'1975',country:'🇨🇿',origin:'Czechoslovakia',caliber:'9mm',capacity:'15+1',weight:'1kg',desc:'One of the finest production pistols ever made.',stats:{damage:65,accuracy:92,range:58,reload:78,rate:77}},
+  {id:'kimber',name:'Kimber Custom 1911',type:'pistol',era:'1979',country:'🇺🇸',origin:'USA',caliber:'.45 ACP',capacity:'8+1',weight:'1.1kg',desc:'Premium 1911 with exceptional craftsmanship and match-grade accuracy.',stats:{damage:84,accuracy:92,range:52,reload:70,rate:65}},
+  // REVOLVERS
+  {id:'colt45',name:'Colt Single Action Army',type:'revolver',era:'1873',country:'🇺🇸',origin:'USA',caliber:'.45 Colt',capacity:'6',weight:'1.05kg',desc:'The "Peacemaker" — the iconic revolver of the American West.',stats:{damage:85,accuracy:72,range:50,reload:35,rate:45}},
+  {id:'sw686',name:'S&W Model 686',type:'revolver',era:'1980',country:'🇺🇸',origin:'USA',caliber:'.357 Magnum',capacity:'6',weight:'1.2kg',desc:'Stainless steel revolver, a favorite of competitive shooters.',stats:{damage:86,accuracy:88,range:65,reload:50,rate:50}},
+  {id:'ruger',name:'Ruger Super Redhawk',type:'revolver',era:'1987',country:'🇺🇸',origin:'USA',caliber:'.44 Magnum',capacity:'6',weight:'1.56kg',desc:'Built for hunting and the most powerful handgun rounds.',stats:{damage:92,accuracy:78,range:70,reload:45,rate:45}},
+  {id:'swmod29',name:'S&W Model 29',type:'revolver',era:'1955',country:'🇺🇸',origin:'USA',caliber:'.44 Magnum',capacity:'6',weight:'1.3kg',desc:'Made famous by Dirty Harry. The most powerful handgun of its era.',stats:{damage:92,accuracy:80,range:68,reload:48,rate:48}},
+  // RIFLES
+  {id:'mauser98',name:'Mauser Kar98k',type:'rifle',era:'1935',country:'🇩🇪',origin:'Germany',caliber:'7.92x57mm',capacity:'5',weight:'3.9kg',desc:'The bolt-action rifle of the Wehrmacht in WWII.',stats:{damage:90,accuracy:88,range:95,reload:48,rate:30}},
+  {id:'mosinnagant',name:'Mosin-Nagant',type:'rifle',era:'1891',country:'🇷🇺',origin:'Russia',caliber:'7.62x54R',capacity:'5',weight:'4kg',desc:'Russia\'s iconic bolt-action. Over 37 million made.',stats:{damage:89,accuracy:75,range:90,reload:50,rate:30}},
+  {id:'lee',name:'Lee-Enfield No.4',type:'rifle',era:'1895',country:'🇬🇧',origin:'UK',caliber:'.303 British',capacity:'10',weight:'4.1kg',desc:'The fastest bolt-action in history — 15 aimed rounds/min.',stats:{damage:86,accuracy:84,range:90,reload:52,rate:55}},
+  {id:'m1garand',name:'M1 Garand',type:'rifle',era:'1936',country:'🇺🇸',origin:'USA',caliber:'.30-06',capacity:'8',weight:'4.3kg',desc:'"The greatest battle implement ever devised" — Patton.',stats:{damage:88,accuracy:84,range:90,reload:62,rate:68}},
+  {id:'ar15',name:'AR-15',type:'rifle',era:'1963',country:'🇺🇸',origin:'USA',caliber:'5.56mm NATO',capacity:'30',weight:'3.1kg',desc:'America\'s most popular modern sporting rifle.',stats:{damage:72,accuracy:88,range:85,reload:80,rate:75}},
+  {id:'sks',name:'SKS Carbine',type:'rifle',era:'1945',country:'🇷🇺',origin:'Soviet Union',caliber:'7.62x39mm',capacity:'10',weight:'3.86kg',desc:'Soviet semi-auto carbine. Reliable and hard-hitting.',stats:{damage:80,accuracy:72,range:82,reload:60,rate:70}},
+  // ASSAULT RIFLES
+  {id:'ak47',name:'AK-47',type:'assault',era:'1947',country:'🇷🇺',origin:'Soviet Union',caliber:'7.62x39mm',capacity:'30',weight:'4.3kg',desc:'The world\'s most produced firearm. Brutal reliability.',stats:{damage:84,accuracy:70,range:78,reload:75,rate:88}},
+  {id:'ak74',name:'AK-74M',type:'assault',era:'1974',country:'🇷🇺',origin:'Soviet Union',caliber:'5.45x39mm',capacity:'30',weight:'3.6kg',desc:'Modernized AK. Standard Russian military rifle.',stats:{damage:75,accuracy:75,range:80,reload:76,rate:88}},
+  {id:'m16',name:'M16A4',type:'assault',era:'1964',country:'🇺🇸',origin:'USA',caliber:'5.56mm NATO',capacity:'30',weight:'3.99kg',desc:'US Military standard rifle. Vietnam to modern conflicts.',stats:{damage:72,accuracy:88,range:86,reload:78,rate:82}},
+  {id:'m4',name:'M4A1 Carbine',type:'assault',era:'1994',country:'🇺🇸',origin:'USA',caliber:'5.56mm NATO',capacity:'30',weight:'3kg',desc:'Current US Army standard carbine. Used by SOF worldwide.',stats:{damage:70,accuracy:86,range:80,reload:82,rate:86}},
+  {id:'scar',name:'FN SCAR-H',type:'assault',era:'2004',country:'🇧🇪',origin:'Belgium',caliber:'7.62mm NATO',capacity:'20',weight:'3.5kg',desc:'Special Forces Combat Assault Rifle. Used by SOCOM.',stats:{damage:82,accuracy:88,range:88,reload:80,rate:82}},
+  {id:'hk416',name:'H&K HK416',type:'assault',era:'2004',country:'🇩🇪',origin:'Germany',caliber:'5.56mm NATO',capacity:'30',weight:'3.7kg',desc:'The rifle used in the Bin Laden raid. Delta Force favorite.',stats:{damage:72,accuracy:90,range:85,reload:82,rate:85}},
+  {id:'aug',name:'Steyr AUG A3',type:'assault',era:'1977',country:'🇦🇹',origin:'Austria',caliber:'5.56mm NATO',capacity:'30',weight:'3.6kg',desc:'Iconic bullpup with integrated optics. Used worldwide.',stats:{damage:72,accuracy:85,range:82,reload:74,rate:85}},
+  {id:'tavormx',name:'IWI Tavor X95',type:'assault',era:'2009',country:'🇮🇱',origin:'Israel',caliber:'5.56mm NATO',capacity:'30',weight:'2.95kg',desc:'Israeli bullpup. Compact with full rifle accuracy.',stats:{damage:72,accuracy:84,range:80,reload:75,rate:88}},
+  {id:'g36',name:'H&K G36',type:'assault',era:'1995',country:'🇩🇪',origin:'Germany',caliber:'5.56mm NATO',capacity:'30',weight:'3.63kg',desc:'German service rifle with distinctive carry handle optics.',stats:{damage:72,accuracy:86,range:82,reload:80,rate:84}},
+  // SMGs
+  {id:'mp5',name:'H&K MP5',type:'smg',era:'1966',country:'🇩🇪',origin:'Germany',caliber:'9mm',capacity:'30',weight:'2.54kg',desc:'The most famous SMG in history. Standard for CT units.',stats:{damage:55,accuracy:82,range:60,reload:85,rate:92}},
+  {id:'thompsons',name:'Thompson M1928',type:'smg',era:'1919',country:'🇺🇸',origin:'USA',caliber:'.45 ACP',capacity:'50',weight:'4.9kg',desc:'The "Tommy Gun" — gangsters and Allied troops in WWII.',stats:{damage:78,accuracy:60,range:50,reload:55,rate:90}},
+  {id:'uzi',name:'IMI Uzi',type:'smg',era:'1954',country:'🇮🇱',origin:'Israel',caliber:'9mm',capacity:'32',weight:'3.5kg',desc:'Iconic Israeli SMG used by militaries worldwide.',stats:{damage:56,accuracy:65,range:52,reload:78,rate:92}},
+  {id:'p90',name:'FN P90',type:'smg',era:'1990',country:'🇧🇪',origin:'Belgium',caliber:'5.7x28mm',capacity:'50',weight:'2.54kg',desc:'Futuristic PDW with top-mounted 50-round magazine.',stats:{damage:58,accuracy:74,range:60,reload:75,rate:96}},
+  {id:'ppsh41',name:'PPSh-41',type:'smg',era:'1941',country:'🇷🇺',origin:'Soviet Union',caliber:'7.62x25mm',capacity:'71',weight:'3.6kg',desc:'Soviet WWII SMG with drum magazine. Up to 1000 rpm.',stats:{damage:55,accuracy:58,range:48,reload:55,rate:98}},
+  {id:'mp40',name:'MP 40',type:'smg',era:'1940',country:'🇩🇪',origin:'Germany',caliber:'9mm',capacity:'32',weight:'4kg',desc:'German WWII SMG issued to paratroopers and NCOs.',stats:{damage:55,accuracy:62,range:50,reload:65,rate:88}},
+  // SHOTGUNS
+  {id:'rem870',name:'Remington 870',type:'shotgun',era:'1950',country:'🇺🇸',origin:'USA',caliber:'12 Gauge',capacity:'4+1',weight:'3.1kg',desc:'America\'s best-selling pump-action. Over 11 million sold.',stats:{damage:95,accuracy:60,range:40,reload:58,rate:52}},
+  {id:'mossberg',name:'Mossberg 500',type:'shotgun',era:'1961',country:'🇺🇸',origin:'USA',caliber:'12 Gauge',capacity:'5+1',weight:'2.95kg',desc:'The only shotgun to pass all US Mil-Spec tests.',stats:{damage:94,accuracy:62,range:40,reload:60,rate:52}},
+  {id:'benelli',name:'Benelli M4',type:'shotgun',era:'1998',country:'🇮🇹',origin:'Italy',caliber:'12 Gauge',capacity:'7+1',weight:'3.8kg',desc:'US Marines M1014. Gas-operated semi-auto shotgun.',stats:{damage:95,accuracy:65,range:42,reload:70,rate:78}},
+  {id:'spas',name:'Franchi SPAS-12',type:'shotgun',era:'1979',country:'🇮🇹',origin:'Italy',caliber:'12 Gauge',capacity:'8',weight:'4.2kg',desc:'Most iconic movie shotgun. Pump or semi-auto.',stats:{damage:95,accuracy:60,range:42,reload:62,rate:72}},
+  // MACHINE GUNS
+  {id:'m249',name:'M249 SAW',type:'machinegun',era:'1984',country:'🇺🇸',origin:'Belgium/USA',caliber:'5.56mm NATO',capacity:'200',weight:'7.5kg',desc:'Squad Automatic Weapon. Fire superiority.',stats:{damage:78,accuracy:72,range:82,reload:55,rate:98}},
+  {id:'mg42',name:'MG 42',type:'machinegun',era:'1942',country:'🇩🇪',origin:'Germany',caliber:'7.92x57mm',capacity:'50-250',weight:'11.6kg',desc:'"Hitler\'s Buzzsaw" — terrifying 1200 rpm fire rate.',stats:{damage:88,accuracy:68,range:88,reload:48,rate:100}},
+  {id:'m2browning',name:'M2 Browning .50 Cal',type:'machinegun',era:'1933',country:'🇺🇸',origin:'USA',caliber:'.50 BMG',capacity:'100',weight:'38kg',desc:'The legendary heavy MG still in service since the 1930s.',stats:{damage:99,accuracy:75,range:98,reload:35,rate:90}},
+  {id:'minigun',name:'M134 Minigun',type:'machinegun',era:'1963',country:'🇺🇸',origin:'USA',caliber:'7.62mm NATO',capacity:'4000',weight:'16.8kg',desc:'Six-barreled rotary gun. Up to 6000 rounds per minute.',stats:{damage:88,accuracy:65,range:88,reload:20,rate:100}},
+  // SNIPERS
+  {id:'barrett',name:'Barrett M82A1',type:'sniper',era:'1982',country:'🇺🇸',origin:'USA',caliber:'.50 BMG',capacity:'10',weight:'14kg',desc:'Ultimate anti-material rifle. Effective range 1800m.',stats:{damage:99,accuracy:90,range:100,reload:52,rate:38}},
+  {id:'awm',name:'AI AXMC',type:'sniper',era:'1988',country:'🇬🇧',origin:'UK',caliber:'.338 Lapua',capacity:'10',weight:'6.8kg',desc:'World\'s premier long-range precision rifle.',stats:{damage:97,accuracy:98,range:100,reload:55,rate:28}},
+  {id:'dragunov',name:'SVD Dragunov',type:'sniper',era:'1963',country:'🇷🇺',origin:'Soviet Union',caliber:'7.62x54R',capacity:'10',weight:'4.3kg',desc:'Soviet semi-auto designated marksman rifle.',stats:{damage:88,accuracy:88,range:92,reload:72,rate:68}},
+  {id:'cheytac',name:'CheyTac M200',type:'sniper',era:'2001',country:'🇺🇸',origin:'USA',caliber:'.408 CheyTac',capacity:'7',weight:'12.3kg',desc:'Most accurate long-range rifle. Effective past 2000m.',stats:{damage:98,accuracy:99,range:100,reload:48,rate:22}},
+  // HISTORICAL
+  {id:'flintlock',name:'Brown Bess Musket',type:'historical',era:'1722',country:'🇬🇧',origin:'Britain',caliber:'.75 cal',capacity:'1',weight:'5kg',desc:'British Empire musket from 1722 to 1838.',stats:{damage:78,accuracy:28,range:55,reload:10,rate:5}},
+  {id:'kentucky',name:'Kentucky Long Rifle',type:'historical',era:'1750',country:'🇺🇸',origin:'Colonial America',caliber:'.50 cal',capacity:'1',weight:'4kg',desc:'Accurate frontier rifle of American Revolutionaries.',stats:{damage:80,accuracy:70,range:80,reload:8,rate:5}},
+  {id:'spencerrepeating',name:'Spencer Repeating Rifle',type:'historical',era:'1860',country:'🇺🇸',origin:'USA',caliber:'.56-56',capacity:'7',weight:'4.5kg',desc:'First repeating rifle adopted by US military.',stats:{damage:76,accuracy:65,range:72,reload:35,rate:40}},
+  {id:'gatling',name:'Gatling Gun 1874',type:'historical',era:'1861',country:'🇺🇸',origin:'USA',caliber:'.45-70',capacity:'400',weight:'180kg',desc:'The original rapid-fire weapon. Precursor to the MG.',stats:{damage:80,accuracy:55,range:80,reload:20,rate:90}},
 ];
 
 // ═══════════════════════════════════════════════════════════════
-// GUN SVG ILLUSTRATIONS
+// AMMUNITION DATABASE
 // ═══════════════════════════════════════════════════════════════
 
-function getGunSVG(type, size='small') {
-  const w = size === 'small' ? 200 : 400;
-  const h = size === 'small' ? 80 : 140;
-  const color = '#8899aa';
-  const highlight = '#c8922a';
-  const dark = '#334455';
+const AMMO = [
+  {id:'22lr',name:'.22 Long Rifle',type:'Rimfire',diameter:'5.7mm',velocity:'1260 fps',energy:'140 ft·lbs',use:'Plinking, small game, training',guns:'Ruger 10/22, S&W M&P 22'},
+  {id:'9mm',name:'9mm Parabellum',type:'Pistol',diameter:'9.01mm',velocity:'1180 fps',energy:'355 ft·lbs',use:'Military, law enforcement, self-defense',guns:'Glock 17, Beretta M9, SIG P226'},
+  {id:'45acp',name:'.45 ACP',type:'Pistol',diameter:'11.5mm',velocity:'830 fps',energy:'356 ft·lbs',use:'Military, self-defense, competition',guns:'Colt M1911, H&K USP 45, FNX-45'},
+  {id:'556',name:'5.56x45mm NATO',type:'Rifle',diameter:'5.7mm',velocity:'3100 fps',energy:'1300 ft·lbs',use:'Military, sport shooting, varmint hunting',guns:'M4A1, M16, HK416, Steyr AUG'},
+  {id:'762x39',name:'7.62x39mm',type:'Rifle',diameter:'7.92mm',velocity:'2350 fps',energy:'1527 ft·lbs',use:'Military, hunting, sport shooting',guns:'AK-47, SKS, Ruger Mini-30'},
+  {id:'762nato',name:'7.62x51mm NATO',type:'Rifle',diameter:'7.82mm',velocity:'2800 fps',energy:'2600 ft·lbs',use:'Military, designated marksman, hunting',guns:'FN SCAR-H, M60, HK G3'},
+  {id:'338',name:'.338 Lapua Magnum',type:'Sniper',diameter:'8.6mm',velocity:'2960 fps',energy:'4768 ft·lbs',use:'Long-range precision, anti-personnel',guns:'AI AXMC, Sako TRG-42, Barrett MRAD'},
+  {id:'50bmg',name:'.50 BMG',type:'Heavy',diameter:'12.7mm',velocity:'2910 fps',energy:'13310 ft·lbs',use:'Anti-material, heavy MG, long-range',guns:'Barrett M82, M2 Browning, M107'},
+  {id:'12ga',name:'12 Gauge',type:'Shotshell',diameter:'18.5mm',velocity:'1300 fps',energy:'2500+ ft·lbs',use:'Hunting, home defense, military breaching',guns:'Remington 870, Mossberg 500, Benelli M4'},
+  {id:'357mag',name:'.357 Magnum',type:'Revolver',diameter:'9.07mm',velocity:'1450 fps',energy:'583 ft·lbs',use:'Self-defense, hunting, law enforcement',guns:'S&W 686, Ruger GP100, Colt Python'},
+  {id:'44mag',name:'.44 Magnum',type:'Revolver',diameter:'10.9mm',velocity:'1270 fps',energy:'741 ft·lbs',use:'Hunting, self-defense against bears',guns:'S&W Model 29, Ruger Redhawk, Desert Eagle'},
+  {id:'57x28',name:'5.7x28mm',type:'PDW',diameter:'5.7mm',velocity:'2350 fps',energy:'340 ft·lbs',use:'Personal defense, armor penetration',guns:'FN P90, FN Five-seveN'},
+  {id:'545',name:'5.45x39mm',type:'Rifle',diameter:'5.62mm',velocity:'2953 fps',energy:'1064 ft·lbs',use:'Military standard (Russia/former USSR)',guns:'AK-74M, RPK-74, AKS-74U'},
+  {id:'762x54r',name:'7.62x54R',type:'Rifle',diameter:'7.92mm',velocity:'2838 fps',energy:'2677 ft·lbs',use:'Military, designated marksman, MGs',guns:'Mosin-Nagant, SVD Dragunov, PKM'},
+  {id:'380acp',name:'.380 ACP',type:'Pistol',diameter:'9.0mm',velocity:'960 fps',energy:'200 ft·lbs',use:'Concealed carry, compact self-defense',guns:'Walther PPK, Ruger LCP, Glock 42'},
+  {id:'50ae',name:'.50 AE',type:'Pistol',diameter:'12.7mm',velocity:'1475 fps',energy:'1414 ft·lbs',use:'Sport shooting, handgun hunting',guns:'Desert Eagle'},
+];
 
+// ═══════════════════════════════════════════════════════════════
+// PARTS DATABASE
+// ═══════════════════════════════════════════════════════════════
+
+const PARTS_BY_TYPE = {
+  pistol: [
+    {svg:'slide',name:'Slide',short:'Houses firing pin & extractor',full:'The slide is the upper part that reciprocates during firing. It contains the firing pin, extractor, and ejector. When fired, gas pressure pushes the slide rearward to eject the spent casing and strip a new round from the magazine.',materials:['Steel','Stainless Steel','Aluminum']},
+    {svg:'barrel',name:'Barrel',short:'Directs and stabilizes the bullet',full:'The barrel is the metal tube that the bullet travels through. Rifling grooves inside spin the bullet for accuracy. The chamber at the rear holds the cartridge during firing. Barrel length affects velocity and accuracy.',materials:['Chrome-lined Steel','Cold Hammer Forged','Stainless']},
+    {svg:'frame',name:'Frame/Receiver',short:'The chassis that holds everything',full:'The frame (or receiver) is the serialized part — legally, it IS the firearm. All other components attach to it. Modern frames are often polymer with steel rails, reducing weight while maintaining durability.',materials:['Polymer','Steel','Aluminum Alloy']},
+    {svg:'trigger',name:'Trigger Assembly',short:'Initiates the firing sequence',full:'The trigger mechanism includes the trigger, trigger bar, sear, and springs. Pulling the trigger releases the striker or hammer to hit the firing pin. Trigger pull weight and travel affect accuracy.',materials:['Steel','MIM Steel']},
+    {svg:'magazine',name:'Magazine',short:'Stores and feeds ammunition',full:'The detachable magazine holds cartridges under spring tension. A follower pushes rounds up to be stripped by the slide. Magazine capacity varies by design and caliber. Double-stack designs hold more rounds.',materials:['Steel','Polymer','Aluminum']},
+    {svg:'recoilspring',name:'Recoil Spring',short:'Returns the slide forward',full:'The recoil spring (and guide rod) absorb the slide\'s rearward energy and push it forward to chamber the next round. Spring weight affects cycling reliability and felt recoil.',materials:['Music Wire Steel','Stainless Steel']},
+    {svg:'firingpin',name:'Firing Pin/Striker',short:'Strikes the primer to ignite',full:'The firing pin (or striker in striker-fired designs) hits the cartridge primer, creating a spark that ignites the powder charge. Striker-fired pistols use a spring-loaded striker instead of a hammer.',materials:['Hardened Steel','Titanium']},
+    {svg:'extractor',name:'Extractor & Ejector',short:'Removes spent casings',full:'The extractor is a claw that grips the cartridge rim. After firing, the slide pulls the casing out. The ejector then kicks it clear of the firearm through the ejection port.',materials:['Spring Steel','MIM Steel']},
+    {svg:'safety',name:'Safety Mechanisms',short:'Prevents accidental discharge',full:'Safety systems vary: manual safeties, grip safeties, trigger safeties, firing pin blocks, and loaded chamber indicators. Modern pistols often have multiple passive safeties working together.',materials:['Steel','Polymer']},
+    {svg:'grip',name:'Grip & Backstrap',short:'Ergonomic hand interface',full:'The grip is where the shooter holds the pistol. Many modern designs offer interchangeable backstraps for different hand sizes. Texture and angle affect control during rapid fire.',materials:['Polymer','Rubber','Wood','G10']},
+  ],
+  revolver: [
+    {svg:'cylinder',name:'Cylinder',short:'Rotating chamber array',full:'The cylinder contains multiple chambers (typically 5-8) that rotate to align with the barrel and firing pin. Each chamber holds one cartridge. The cylinder rotates when the trigger is pulled or hammer cocked.',materials:['Steel','Stainless Steel','Titanium']},
+    {svg:'barrel',name:'Barrel',short:'Directs the bullet',full:'Revolver barrels are permanently attached to the frame. The barrel/cylinder gap (typically 0.006") allows some gas to escape. Longer barrels increase velocity and accuracy.',materials:['Carbon Steel','Stainless Steel']},
+    {svg:'hammer',name:'Hammer',short:'Strikes the firing pin',full:'The external or internal hammer is cocked by thumb or trigger pull. When released, it strikes the firing pin or transfer bar to ignite the primer. Single-action requires manual cocking; double-action does both.',materials:['Hardened Steel','MIM Steel']},
+    {svg:'trigger',name:'Trigger & Action',short:'Activates the firing mechanism',full:'The trigger/action system is the heart of a revolver. Single-action only fires when pre-cocked. Double-action cocks and releases the hammer in one trigger pull. The hand (or pawl) rotates the cylinder.',materials:['Steel','Stainless Steel']},
+    {svg:'frame',name:'Frame',short:'Structural foundation',full:'The frame is the revolver\'s skeleton. Size ranges from J-frame (compact) to X-frame (large). The frame houses the lockwork, cylinder crane, and grip. Forged frames are strongest.',materials:['Carbon Steel','Stainless Steel','Aluminum','Scandium Alloy']},
+    {svg:'extractor',name:'Crane & Yoke',short:'Cylinder swing-out mechanism',full:'The crane (or yoke) allows the cylinder to swing out for loading and unloading. It acts as a hinge, pivoting the entire cylinder assembly out of the frame.',materials:['Steel','Stainless']},
+    {svg:'ramrod',name:'Ejector Rod',short:'Pushes out spent cases',full:'The ejector rod runs through the center of the cylinder. Pushing it rearward activates the star ejector, which pushes all spent casings out simultaneously. Essential for fast reloads.',materials:['Steel','Stainless']},
+    {svg:'safety',name:'Transfer Bar Safety',short:'Prevents hammer contact',full:'A transfer bar rises between the hammer and firing pin only when the trigger is fully pulled. This prevents the gun from firing if dropped on the hammer.',materials:['Hardened Steel']},
+  ],
+  rifle: [
+    {svg:'bolt',name:'Bolt Assembly',short:'Locks, fires, extracts',full:'The bolt is the core of a bolt-action rifle. It locks the cartridge in the chamber, contains the firing pin, and extracts/ejects spent cases. Turning the bolt handle unlocks lugs from the receiver.',materials:['Chrome Moly Steel','Stainless']},
+    {svg:'barrel',name:'Barrel',short:'Accuracy & velocity',full:'Rifle barrels are typically 18-26" long with precision rifling. The bore diameter and rifling twist rate are matched to the cartridge for optimal accuracy. Free-floating barrels improve precision.',materials:['Chrome Moly','Stainless','Carbon Fiber Wrapped']},
+    {svg:'frame',name:'Receiver/Action',short:'Houses the bolt and trigger',full:'The receiver is the main body that contains the bolt, magazine well, and trigger mechanism. Bolt-action receivers can be long or short action depending on cartridge length.',materials:['Forged Steel','Billet Aluminum']},
+    {svg:'trigger',name:'Trigger Assembly',short:'Precision fire control',full:'Match-grade triggers are essential for accuracy. The trigger releases the sear, which releases the firing pin. Adjustable triggers allow tuning pull weight, creep, and overtravel.',materials:['Steel','Aluminum Housing']},
+    {svg:'magazine',name:'Magazine',short:'Ammunition storage',full:'Bolt-action rifles use either internal box magazines (fed by stripper clips) or detachable box magazines. Internal magazines are more rigid; detachable allow faster reloads.',materials:['Steel','Polymer','Aluminum']},
+    {svg:'stock',name:'Stock',short:'Ergonomic platform',full:'The stock provides the interface between shooter and rifle. It absorbs recoil, provides cheek weld for optic alignment, and supports the barreled action. Traditional stocks are walnut; modern are fiberglass/polymer.',materials:['Walnut','Fiberglass','Carbon Fiber','Polymer']},
+    {svg:'scope',name:'Scope Mount/Rail',short:'Optics attachment system',full:'Scope bases and rings mount magnified optics to the receiver. Picatinny or Weaver rails are standard. Proper mounting is critical — a bad mount ruins even the best scope.',materials:['Aluminum','Steel']},
+    {svg:'safety',name:'Safety',short:'Prevents accidental fire',full:'Most bolt-action safeties lock the firing pin or bolt. Three-position safeties allow: fire, safe with bolt locked, and safe with bolt free (for unloading). Always engage when not shooting.',materials:['Steel']},
+  ],
+  assault: [
+    {svg:'bolt',name:'Bolt Carrier Group',short:'Heart of the action',full:'The BCG is the engine of a semi/auto rifle. It contains the bolt, carrier, cam pin, firing pin, and gas key. Gas pushes the carrier rearward, rotating and unlocking the bolt to extract and cycle.',materials:['Carpenter 158 Steel','Chrome-lined','Nickel Boron']},
+    {svg:'barrel',name:'Barrel',short:'Chrome-lined for durability',full:'Assault rifle barrels must withstand high volumes of fire. Chrome lining prevents corrosion and erosion. Cold hammer-forged barrels are strongest. Twist rates like 1:7 stabilize heavier bullets.',materials:['Chrome Moly Vanadium','Cold Hammer Forged']},
+    {svg:'frame',name:'Upper & Lower Receiver',short:'Two-piece modular design',full:'The upper receiver houses the barrel, BCG, and charging handle. The lower houses the trigger, magazine well, and buffer tube. This split design allows easy customization and repair.',materials:['Forged 7075-T6 Aluminum','Billet Aluminum','Polymer']},
+    {svg:'gassystem',name:'Gas System',short:'Powers the action cycle',full:'Gas from the fired round enters a port in the barrel, travels through the gas tube, and pushes the bolt carrier rearward. Gas system length (carbine, mid, rifle) affects reliability and recoil.',materials:['Stainless Steel Gas Tube','Steel Gas Block']},
+    {svg:'trigger',name:'Trigger Group',short:'Fire control mechanism',full:'Includes trigger, hammer, disconnector, and springs. The disconnector catches the hammer during cycling to prevent runaway firing. Aftermarket triggers improve pull weight and reset.',materials:['Steel','MIM','Aluminum Housing']},
+    {svg:'magazine',name:'Magazine',short:'Detachable box magazine',full:'Standard STANAG magazines hold 30 rounds of 5.56mm. Made from aluminum or polymer. Magazine reliability is critical — most malfunctions trace back to bad magazines.',materials:['Aluminum','Polymer (Magpul PMAG)']},
+    {svg:'extractor',name:'Charging Handle',short:'Manual bolt manipulation',full:'The charging handle allows manual cycling of the bolt — for initial loading, clearing malfunctions, or performing press checks. Ambidextrous versions are popular upgrades.',materials:['Aluminum','Steel']},
+    {svg:'recoilspring',name:'Buffer & Spring',short:'Recoil management system',full:'The buffer and spring sit in the buffer tube behind the BCG. They absorb recoil energy and push the BCG forward to chamber the next round. Buffer weight affects cycling speed and recoil.',materials:['Steel Buffer','Carbine Spring','Tungsten Weights']},
+    {svg:'handguard',name:'Handguard/Rail',short:'Barrel shroud and accessory mount',full:'The handguard protects the shooter\'s hand from barrel heat and provides mounting points for lights, lasers, grips, and bipods. M-LOK and KeyMod are modern attachment systems.',materials:['Aluminum','Carbon Fiber','Polymer']},
+    {svg:'stock',name:'Stock',short:'Shoulder-mounted stability',full:'Adjustable stocks allow length-of-pull customization. Collapsible stocks improve portability. Fixed stocks are more rigid. The stock anchors the weapon to the shooter for recoil control.',materials:['Polymer','Aluminum','Carbon Fiber']},
+  ],
+  smg: [
+    {svg:'bolt',name:'Bolt',short:'Blowback operated mass',full:'Most SMGs use simple blowback operation — the bolt\'s mass alone keeps the action closed during firing. The bolt reciprocates, extracting, ejecting, and feeding rounds. Heavier bolts slow the rate of fire.',materials:['Steel','Tungsten Weighted']},
+    {svg:'barrel',name:'Barrel',short:'Short for compactness',full:'SMG barrels are typically 6-10" long, keeping the weapon compact. Some are threaded for suppressors. The short barrel means lower velocities than rifles, but adequate for pistol cartridges at close range.',materials:['Steel','Chrome-lined']},
+    {svg:'frame',name:'Receiver',short:'Houses the action',full:'The receiver contains the bolt, trigger group, and magazine well. Many SMG receivers are stamped from sheet metal for cheap mass production (like the Sten or MP40).',materials:['Stamped Steel','Machined Steel','Polymer']},
+    {svg:'trigger',name:'Trigger & Selector',short:'Fire mode control',full:'The fire selector typically offers semi-auto and full-auto modes. The trigger group includes the sear, which holds the bolt back until the trigger is pulled. Rate reducers may be included.',materials:['Steel']},
+    {svg:'magazine',name:'Magazine',short:'Feeds pistol cartridges',full:'SMG magazines hold 20-50+ rounds of pistol ammunition. The P90\'s unique top-mounted 50-round mag feeds from above. Drum magazines (like PPSh-41) hold 71 rounds but are heavy.',materials:['Steel','Polymer']},
+    {svg:'stock',name:'Stock',short:'Folding or retractable',full:'SMG stocks fold, telescope, or retract for concealment and vehicle use. Wire stocks are lightweight but less comfortable. Some models (like the MAC-10) can be fired without a stock.',materials:['Steel Wire','Polymer','Wood']},
+  ],
+  shotgun: [
+    {svg:'bolt',name:'Action/Pump',short:'Cycling mechanism',full:'Pump-action shotguns use a sliding forend to cycle the action. Pulling back unlocks the bolt, extracts and ejects. Pushing forward chambers a new round and locks. Semi-autos use gas or inertia.',materials:['Steel','Aluminum']},
+    {svg:'barrel',name:'Barrel',short:'Smooth or rifled bore',full:'Shotgun barrels are typically smooth-bore for shot patterns, or rifled for slugs. Choke tubes at the muzzle constrict the shot pattern. Barrel length affects balance and shot spread.',materials:['Chrome Moly Steel','Stainless']},
+    {svg:'frame',name:'Receiver',short:'Action housing',full:'The receiver contains the bolt, shell lifter, and trigger group. Aluminum receivers are lighter; steel is more durable. The ejection port is large enough for shotshells.',materials:['Aluminum','Steel']},
+    {svg:'trigger',name:'Trigger Assembly',short:'Fire control',full:'Shotgun triggers tend to be heavier than rifle triggers. Cross-bolt or tang safeties are common. Some tactical models offer extended trigger guards for gloved operation.',materials:['Steel']},
+    {svg:'magazine',name:'Tube Magazine',short:'Tubular shell storage',full:'Most pump and semi-auto shotguns use a tubular magazine under the barrel. Shells are loaded one at a time through a loading port. Magazine extensions increase capacity.',materials:['Steel','Aluminum']},
+    {svg:'choke',name:'Choke System',short:'Controls shot spread',full:'Interchangeable choke tubes screw into the muzzle to control shot pattern density. Full choke = tight pattern (long range). Cylinder = wide pattern (close range).',materials:['Steel','Stainless']},
+    {svg:'stock',name:'Stock & Forend',short:'Furniture',full:'The stock absorbs recoil. Pistol grips aid in tactical shooting. The forend (pump handle) is gripped to cycle the action. Synthetic stocks resist weather better than wood.',materials:['Polymer','Walnut','Birch','Fiberglass']},
+  ],
+  machinegun: [
+    {svg:'bolt',name:'Bolt & Operating System',short:'Sustained fire cycling',full:'Machine guns use gas-operated, recoil-operated, or externally powered actions designed for sustained automatic fire. The bolt must handle extreme heat and pressure over thousands of rounds.',materials:['Stellite-lined','Chrome Steel']},
+    {svg:'barrel',name:'Barrel (Quick-Change)',short:'Replaceable for heat',full:'MG barrels are designed for quick replacement when overheated. Sustained fire can reach 900°C. Carrying handles and quick-release latches allow barrel swaps in seconds.',materials:['Chrome-lined Steel','Stellite-lined']},
+    {svg:'frame',name:'Receiver',short:'Heavy-duty frame',full:'MG receivers must withstand extreme stress from sustained fire. They\'re heavier and more robust than rifle receivers, often milled from solid steel billets.',materials:['Machined Steel','Stamped Steel']},
+    {svg:'feedsystem',name:'Feed System',short:'Belt or magazine fed',full:'Belt-fed MGs use disintegrating or non-disintegrating links. The feed tray and pawls advance the belt with each cycle. Some MGs can also accept box magazines as backup.',materials:['Steel Links','Aluminum Feed Tray']},
+    {svg:'bipod',name:'Bipod/Tripod Mount',short:'Stable firing platform',full:'MGs require stable mounts for accuracy. Bipods allow prone fire. Tripods provide maximum stability for sustained fire and can include traverse and elevation mechanisms.',materials:['Steel','Aluminum','Titanium']},
+    {svg:'gassystem',name:'Gas Regulator',short:'Adjustable gas flow',full:'An adjustable gas regulator controls how much propellant gas operates the action. This allows tuning for different ammunition, suppressors, or adverse conditions.',materials:['Steel']},
+  ],
+  sniper: [
+    {svg:'bolt',name:'Precision Bolt',short:'Glass-smooth cycling',full:'Sniper bolts are hand-fitted for minimal play and maximum consistency. The bolt face must present the cartridge perfectly every time. Three-lug designs allow shorter bolt throw.',materials:['416 Stainless','Chrome Moly']},
+    {svg:'barrel',name:'Match-Grade Barrel',short:'Sub-MOA precision bore',full:'Sniper barrels are the highest quality available — lapped, stress-relieved, and tested for sub-MOA accuracy. Hand-lapped bores ensure uniformity. Button-rifled or cut-rifled for consistency.',materials:['416R Stainless','5R Rifled','Carbon Fiber Wrapped']},
+    {svg:'scope',name:'Optics/Scope',short:'High-magnification glass',full:'Precision scopes offer 10-40x magnification with mil-dot or MOA reticles. First/second focal plane, parallax adjustment, illuminated reticles, and ballistic turrets are standard features.',materials:['Aircraft Aluminum','ED Glass Lenses']},
+    {svg:'frame',name:'Chassis System',short:'Precision bedded platform',full:'Modern sniper rifles use aluminum chassis systems that rigidly bed the action. The barrel free-floats within the handguard. Adjustable cheek risers and LOP ensure consistent position.',materials:['7075-T6 Aluminum','Carbon Fiber']},
+    {svg:'trigger',name:'Match Trigger',short:'Ultra-precise fire control',full:'Sniper triggers break cleanly at 1.5-3 lbs with zero creep or overtravel. Adjustable for pull weight, sear engagement, and overtravel. A crisp trigger is essential for precision shooting.',materials:['Tool Steel','EDM Wire Cut']},
+    {svg:'magazine',name:'Detachable Magazine',short:'Quick-change ammo',full:'AICS-pattern magazines are the standard for bolt-action snipers. Metal construction ensures reliable feeding. Double-stack, single-feed designs balance capacity and reliability.',materials:['Steel','Aluminum','Polymer']},
+    {svg:'bipod',name:'Bipod',short:'Stable forward rest',full:'Harris or Atlas bipods provide a stable front rest. Cant and swivel features allow shooting on uneven terrain. Quick-detach mounting via Picatinny or ARCA rail.',materials:['Aluminum','Carbon Fiber']},
+    {svg:'muzzlebrake',name:'Muzzle Brake/Suppressor',short:'Recoil & signature reduction',full:'Muzzle brakes redirect gas to reduce felt recoil by up to 50%. Suppressors reduce sound and muzzle flash. Many sniper barrels are threaded for suppressor attachment.',materials:['Steel','Titanium','Inconel']},
+  ],
+  historical: [
+    {svg:'flintlock',name:'Flintlock Mechanism',short:'Spark ignition system',full:'The flintlock uses a piece of flint held in a cock (hammer). When released, the flint strikes a steel frizzen, creating sparks that fall into a flash pan containing priming powder, which ignites the main charge.',materials:['Iron','Flint','Brass']},
+    {svg:'barrel',name:'Barrel',short:'Smoothbore or rifled',full:'Historical barrels were made by wrapping iron around a mandrel and forge-welding. Later barrels were drilled from solid stock. Smoothbore muskets were inaccurate; rifled barrels improved accuracy dramatically.',materials:['Wrought Iron','Steel']},
+    {svg:'stock',name:'Stock',short:'Full-length wooden body',full:'Historical firearms used full-length wooden stocks that extended from butt to near the muzzle. Walnut and maple were favored. The stock absorbed recoil and protected the barrel from damage.',materials:['Walnut','Maple','Oak']},
+    {svg:'trigger',name:'Trigger & Lock',short:'Firing mechanism',full:'The lock is the complete firing mechanism — flintlock, percussion cap, or matchlock. It includes the hammer/cock, frizzen, mainspring, and sear. The quality of the lock determined reliability.',materials:['Iron','Steel','Brass']},
+    {svg:'bayonet',name:'Bayonet Lug',short:'Melee weapon mount',full:'Many military muskets and rifles had bayonet lugs allowing attachment of blade or socket bayonets. This turned the firearm into a spear for close combat — essential before reliable repeating firearms.',materials:['Steel','Iron']},
+    {svg:'ramrod',name:'Ramrod',short:'Muzzleloading tool',full:'The ramrod pushes the ball and powder charge down the muzzle. Usually stored under the barrel in a channel called thimbles. Made of wood or steel, it was essential equipment carried with the weapon.',materials:['Hickory Wood','Steel']},
+  ],
+};
+
+// ═══════════════════════════════════════════════════════════════
+// QUIZ DATABASE
+// ═══════════════════════════════════════════════════════════════
+
+const QUIZ_QUESTIONS = [
+  {q:'What caliber does the AK-47 fire?',a:'7.62x39mm',opts:['5.56mm NATO','7.62x39mm','.308 Winchester','5.45x39mm']},
+  {q:'Which country designed the Glock 17?',a:'Austria',opts:['Germany','Austria','Switzerland','USA']},
+  {q:'What was the M1 Garand chambered in?',a:'.30-06 Springfield',opts:['.308 Winchester','.30-06 Springfield','7.62x39mm','.303 British']},
+  {q:'The "Peacemaker" revolver is better known as the...',a:'Colt Single Action Army',opts:['S&W Model 29','Colt Single Action Army','Webley Mk VI','Ruger Redhawk']},
+  {q:'What is the rate of fire of the MG 42?',a:'~1200 rounds/min',opts:['~600 rpm','~800 rpm','~1200 rpm','~2000 rpm']},
+  {q:'Which SMG was known as the "Tommy Gun"?',a:'Thompson M1928',opts:['MP5','Thompson M1928','Sten Mk II','PPSh-41']},
+  {q:'The Barrett M82 fires which cartridge?',a:'.50 BMG',opts:['.338 Lapua','.408 CheyTac','.50 BMG','7.62mm NATO']},
+  {q:'Which rifle is called "the greatest battle implement ever devised"?',a:'M1 Garand',opts:['Lee-Enfield','Mauser Kar98k','M1 Garand','AK-47']},
+  {q:'The Walther PPK is famously associated with which fictional character?',a:'James Bond',opts:['John Wick','James Bond','Jason Bourne','Indiana Jones']},
+  {q:'What operation type do most SMGs use?',a:'Simple blowback',opts:['Gas operated','Recoil operated','Simple blowback','Lever action']},
+  {q:'Which was the first repeating rifle adopted by the US military?',a:'Spencer Repeating Rifle',opts:['Winchester 1873','Spencer Repeating Rifle','Henry Rifle','Sharps Rifle']},
+  {q:'What does "SAW" stand for in M249 SAW?',a:'Squad Automatic Weapon',opts:['Special Assault Weapon','Squad Automatic Weapon','Standard Army Weapon','Semi-Auto Warfare']},
+  {q:'The FN P90 uses what unique magazine design?',a:'Top-mounted 50-round horizontal magazine',opts:['Drum magazine','Helical magazine','Top-mounted 50-round horizontal magazine','Quad-stack box']},
+  {q:'Which shotgun is designated M1014 by the US Marines?',a:'Benelli M4',opts:['Remington 870','Mossberg 500','Benelli M4','SPAS-12']},
+  {q:'The Lee-Enfield is known for being the fastest bolt-action rifle. How many aimed rounds per minute?',a:'15 rounds/min',opts:['8 rounds/min','12 rounds/min','15 rounds/min','20 rounds/min']},
+  {q:'What type of ignition does a flintlock use?',a:'Flint striking steel to create sparks',opts:['Percussion cap','Flint striking steel to create sparks','Electric primer','Matchcord']},
+  {q:'"Hitler\'s Buzzsaw" is the nickname for which weapon?',a:'MG 42',opts:['MP 40','MG 42','StG 44','FG 42']},
+  {q:'What is the effective range of the CheyTac M200?',a:'Over 2000 meters',opts:['800 meters','1200 meters','1600 meters','Over 2000 meters']},
+  {q:'The H&K HK416 was reportedly used in which famous military operation?',a:'The Bin Laden raid (2011)',opts:['D-Day (1944)','The Bin Laden raid (2011)','Operation Desert Storm','Battle of Mogadishu']},
+  {q:'What does the "BCG" stand for in AR-15 terminology?',a:'Bolt Carrier Group',opts:['Barrel Caliber Gauge','Bolt Carrier Group','Brass Case Guide','Bore Cleaning Group']},
+];
+
+// ═══════════════════════════════════════════════════════════════
+// GUN SVG ILLUSTRATIONS (fallback when no image)
+// ═══════════════════════════════════════════════════════════════
+
+function getGunSVG(type, size='small', name='') {
+  const cls = size==='small'?'gun-svg':'big-gun-svg';
+  const c = '#8899aa', h = '#c8922a', d = '#334455', dk='#222e3a';
+  const label = name ? `<text x="50%" y="96%" text-anchor="middle" font-size="${size==='large'?9:6.5}" fill="${h}" font-family="monospace" letter-spacing="1.5">${name.length>22?name.substring(0,20)+'..':name}</text>` : '';
   const svgs = {
-    pistol: `<svg viewBox="0 0 200 90" xmlns="http://www.w3.org/2000/svg" class="${size==='small'?'gun-svg':'big-gun-svg'}">
-      <rect x="80" y="25" width="110" height="18" rx="2" fill="${color}"/>
-      <rect x="80" y="20" width="60" height="8" rx="1" fill="${dark}"/>
-      <rect x="175" y="28" width="18" height="10" rx="1" fill="${dark}"/>
-      <rect x="60" y="25" width="30" height="30" rx="2" fill="${color}"/>
-      <rect x="62" y="42" width="26" height="35" rx="3" fill="${dark}"/>
-      <rect x="64" y="44" width="22" height="12" rx="1" fill="${color}"/>
-      <rect x="80" y="43" width="30" height="4" rx="1" fill="${highlight}" opacity="0.6"/>
-      <circle cx="78" cy="29" r="2" fill="${highlight}"/>
-      <line x1="180" y1="30" x2="180" y2="43" stroke="${highlight}" stroke-width="1" opacity="0.5"/>
-    </svg>`,
-    revolver: `<svg viewBox="0 0 200 90" xmlns="http://www.w3.org/2000/svg" class="${size==='small'?'gun-svg':'big-gun-svg'}">
-      <rect x="90" y="30" width="100" height="15" rx="2" fill="${color}"/>
-      <circle cx="80" cy="35" r="22" fill="${dark}" stroke="${color}" stroke-width="2"/>
-      <circle cx="80" cy="35" r="8" fill="${color}"/>
-      <circle cx="80" cy="20" r="4" fill="${dark}" stroke="${highlight}" stroke-width="1"/>
-      <circle cx="80" cy="50" r="4" fill="${dark}" stroke="${highlight}" stroke-width="1"/>
-      <circle cx="65" cy="35" r="4" fill="${dark}" stroke="${highlight}" stroke-width="1"/>
-      <circle cx="95" cy="35" r="4" fill="${dark}" stroke="${highlight}" stroke-width="1"/>
-      <rect x="55" y="35" width="30" height="35" rx="3" fill="${dark}"/>
-      <rect x="57" y="37" width="26" height="12" rx="1" fill="${color}"/>
-      <rect x="175" y="32" width="18" height="8" rx="1" fill="${dark}"/>
-    </svg>`,
-    rifle: `<svg viewBox="0 0 220 65" xmlns="http://www.w3.org/2000/svg" class="${size==='small'?'gun-svg':'big-gun-svg'}">
-      <rect x="5" y="25" width="200" height="14" rx="2" fill="${color}"/>
-      <rect x="5" y="20" width="40" height="8" rx="1" fill="${dark}"/>
-      <rect x="195" y="27" width="22" height="8" rx="1" fill="${dark}"/>
-      <rect x="70" y="22" width="60" height="17" rx="1" fill="${dark}"/>
-      <rect x="75" y="39" width="25" height="18" rx="2" fill="${dark}"/>
-      <rect x="100" y="39" width="15" height="8" rx="1" fill="${color}" opacity="0.5"/>
-      <rect x="115" y="39" width="40" height="12" rx="1" fill="${dark}"/>
-      <rect x="130" y="33" width="4" height="6" rx="1" fill="${highlight}"/>
-      <line x1="90" y1="22" x2="90" y2="18" stroke="${highlight}" stroke-width="2"/>
-    </svg>`,
-    assault: `<svg viewBox="0 0 220 70" xmlns="http://www.w3.org/2000/svg" class="${size==='small'?'gun-svg':'big-gun-svg'}">
-      <rect x="15" y="25" width="180" height="16" rx="2" fill="${color}"/>
-      <rect x="15" y="20" width="30" height="8" rx="1" fill="${dark}"/>
-      <rect x="185" y="27" width="22" height="10" rx="1" fill="${dark}"/>
-      <rect x="65" y="24" width="55" height="18" rx="1" fill="${dark}"/>
-      <rect x="72" y="42" width="20" height="20" rx="2" fill="${dark}"/>
-      <rect x="95" y="42" width="30" height="14" rx="2" fill="${dark}"/>
-      <rect x="120" y="41" width="40" height="14" rx="2" fill="${dark}"/>
-      <rect x="82" y="25" width="4" height="10" rx="0" fill="${highlight}" opacity="0.4"/>
-      <rect x="108" y="25" width="4" height="10" rx="0" fill="${highlight}" opacity="0.4"/>
-      <rect x="95" y="20" width="20" height="4" rx="1" fill="${highlight}" opacity="0.3"/>
-    </svg>`,
-    smg: `<svg viewBox="0 0 200 75" xmlns="http://www.w3.org/2000/svg" class="${size==='small'?'gun-svg':'big-gun-svg'}">
-      <rect x="20" y="26" width="155" height="14" rx="2" fill="${color}"/>
-      <rect x="20" y="21" width="28" height="8" rx="1" fill="${dark}"/>
-      <rect x="160" y="28" width="18" height="9" rx="1" fill="${dark}"/>
-      <rect x="60" y="25" width="55" height="16" rx="1" fill="${dark}"/>
-      <rect x="65" y="41" width="18" height="24" rx="2" fill="${dark}"/>
-      <rect x="85" y="40" width="25" height="14" rx="2" fill="${dark}"/>
-      <rect x="110" y="40" width="38" height="12" rx="2" fill="${dark}"/>
-    </svg>`,
-    shotgun: `<svg viewBox="0 0 230 65" xmlns="http://www.w3.org/2000/svg" class="${size==='small'?'gun-svg':'big-gun-svg'}">
-      <rect x="5" y="26" width="215" height="14" rx="3" fill="${color}"/>
-      <rect x="5" y="21" width="25" height="8" rx="2" fill="${dark}"/>
-      <rect x="210" y="28" width="22" height="9" rx="1" fill="${dark}"/>
-      <rect x="5" y="40" width="215" height="8" rx="2" fill="${dark}" opacity="0.5"/>
-      <rect x="70" y="25" width="55" height="16" rx="1" fill="${dark}"/>
-      <rect x="75" y="41" width="22" height="18" rx="2" fill="${dark}"/>
-      <rect x="100" y="40" width="40" height="12" rx="2" fill="${dark}"/>
-    </svg>`,
-    machinegun: `<svg viewBox="0 0 230 80" xmlns="http://www.w3.org/2000/svg" class="${size==='small'?'gun-svg':'big-gun-svg'}">
-      <rect x="5" y="28" width="205" height="18" rx="2" fill="${color}"/>
-      <rect x="5" y="22" width="30" height="10" rx="2" fill="${dark}"/>
-      <rect x="200" y="30" width="25" height="12" rx="1" fill="${dark}"/>
-      <rect x="70" y="27" width="60" height="20" rx="1" fill="${dark}"/>
-      <rect x="75" y="47" width="22" height="25" rx="2" fill="${dark}"/>
-      <rect x="100" y="46" width="30" height="15" rx="2" fill="${dark}"/>
-      <rect x="130" y="46" width="40" height="15" rx="2" fill="${dark}"/>
-      <rect x="55" y="30" width="6" height="14" rx="1" fill="${dark}"/>
-      <rect x="5" y="46" width="65" height="6" rx="1" fill="${highlight}" opacity="0.3"/>
-    </svg>`,
-    sniper: `<svg viewBox="0 0 240 65" xmlns="http://www.w3.org/2000/svg" class="${size==='small'?'gun-svg':'big-gun-svg'}">
-      <rect x="10" y="26" width="215" height="12" rx="1" fill="${color}"/>
-      <rect x="10" y="21" width="20" height="7" rx="1" fill="${dark}"/>
-      <rect x="215" y="28" width="28" height="7" rx="1" fill="${dark}"/>
-      <rect x="120" y="16" width="60" height="10" rx="4" fill="${dark}" stroke="${highlight}" stroke-width="1"/>
-      <circle cx="130" cy="21" r="4" fill="none" stroke="${highlight}" stroke-width="1"/>
-      <circle cx="170" cy="21" r="4" fill="none" stroke="${highlight}" stroke-width="1"/>
-      <rect x="80" y="25" width="55" height="14" rx="1" fill="${dark}"/>
-      <rect x="88" y="39" width="18" height="22" rx="2" fill="${dark}"/>
-      <rect x="115" y="38" width="35" height="14" rx="2" fill="${dark}"/>
-      <line x1="105" y1="38" x2="98" y2="55" stroke="${color}" stroke-width="3"/>
-      <line x1="145" y1="39" x2="138" y2="52" stroke="${color}" stroke-width="3"/>
-    </svg>`,
-    historical: `<svg viewBox="0 0 230 60" xmlns="http://www.w3.org/2000/svg" class="${size==='small'?'gun-svg':'big-gun-svg'}">
-      <rect x="5" y="22" width="205" height="16" rx="2" fill="#8877aa"/>
-      <rect x="5" y="18" width="20" height="8" rx="1" fill="${dark}"/>
-      <ellipse cx="30" cy="30" rx="20" ry="10" fill="${dark}" opacity="0.5"/>
-      <rect x="50" y="20" width="160" height="12" rx="1" fill="#998899"/>
-      <rect x="100" y="32" width="60" height="22" rx="3" fill="#775566"/>
-      <rect x="160" y="32" width="48" height="18" rx="2" fill="#886677"/>
-      <circle cx="15" cy="30" r="6" fill="${dark}" stroke="#c8922a" stroke-width="1"/>
-    </svg>`,
+    pistol: `<svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg" class="${cls}">
+      <defs><linearGradient id="pg${size}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#99aabb"/><stop offset="100%" stop-color="#556677"/></linearGradient></defs>
+      <rect x="70" y="18" width="118" height="22" rx="1.5" fill="url(#pg${size})" stroke="#445" stroke-width="0.5"/>
+      <rect x="70" y="13" width="78" height="8" rx="1" fill="${d}"/>
+      <rect x="175" y="21" width="18" height="15" rx="1" fill="${dk}"/><circle cx="184" cy="28" r="2" fill="${d}"/>
+      <rect x="70" y="40" width="25" height="4" rx="1" fill="${h}" opacity="0.3"/>
+      <path d="M56,18 L75,18 L75,46 L56,46Z" fill="url(#pg${size})" stroke="#445" stroke-width="0.5"/>
+      <path d="M57,44 L74,44 L71,82 L60,82Z" fill="${d}" stroke="#3a4a5a" stroke-width="0.3"/>
+      <rect x="60" y="46" width="11" height="14" rx="1" fill="${c}" opacity="0.35"/>
+      <path d="M75,44 L88,44 L88,47 L75,47Z" fill="${dk}"/><circle cx="63" cy="23" r="1.8" fill="${h}" opacity="0.7"/>
+      <rect x="153" y="13" width="3" height="5.5" rx="0.5" fill="${h}" opacity="0.5"/>
+      ${[80,90,100,110,120,130,140].map(x=>`<line x1="${x}" y1="14" x2="${x}" y2="18" stroke="#556" stroke-width="0.3"/>`).join('')}
+      ${label}</svg>`,
+    revolver: `<svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg" class="${cls}">
+      <defs><radialGradient id="rv${size}"><stop offset="0%" stop-color="#556"/><stop offset="100%" stop-color="#334"/></radialGradient></defs>
+      <rect x="95" y="26" width="95" height="15" rx="2" fill="${c}" stroke="#445" stroke-width="0.5"/>
+      <rect x="183" y="28" width="14" height="10" rx="1" fill="${dk}"/>
+      <circle cx="82" cy="33" r="24" fill="url(#rv${size})" stroke="${c}" stroke-width="1.5"/>
+      <circle cx="82" cy="33" r="9" fill="${c}" opacity="0.3"/>
+      ${[[82,13],[82,53],[62,33],[102,33],[68,18],[96,48]].map(([cx,cy])=>`<circle cx="${cx}" cy="${cy}" r="5" fill="${dk}" stroke="${h}" stroke-width="0.6"/><circle cx="${cx}" cy="${cy}" r="2" fill="${d}"/>`).join('')}
+      <path d="M62,36 L78,36 L76,78 L64,78Z" fill="#554433" stroke="#443" stroke-width="0.5"/>
+      <path d="M72,16 L76,8 L82,8 L86,16" fill="${dk}" stroke="${c}" stroke-width="0.5"/>
+      ${label}</svg>`,
+    rifle: `<svg viewBox="0 0 220 70" xmlns="http://www.w3.org/2000/svg" class="${cls}">
+      <defs><linearGradient id="rf${size}" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#667"/><stop offset="50%" stop-color="#899"/><stop offset="100%" stop-color="#778"/></linearGradient></defs>
+      <rect x="3" y="24" width="200" height="13" rx="1.5" fill="url(#rf${size})" stroke="#445" stroke-width="0.5"/>
+      <rect x="3" y="19" width="40" height="8" rx="1" fill="${d}"/><rect x="195" y="26" width="24" height="8" rx="1" fill="${dk}"/>
+      <rect x="68" y="21" width="58" height="16" rx="1" fill="${d}" stroke="#3a4a5a" stroke-width="0.3"/>
+      <rect x="74" y="37" width="22" height="18" rx="2" fill="${dk}"/>
+      <rect x="115" y="37" width="42" height="12" rx="2" fill="#776655" stroke="#665544" stroke-width="0.3"/>
+      <rect x="157" y="35" width="40" height="14" rx="2" fill="#887766"/>
+      <rect x="128" y="31" width="4" height="6" rx="1" fill="${h}" opacity="0.6"/>
+      <line x1="88" y1="21" x2="88" y2="16" stroke="${h}" stroke-width="1.5"/>
+      ${label}</svg>`,
+    assault: `<svg viewBox="0 0 220 78" xmlns="http://www.w3.org/2000/svg" class="${cls}">
+      <defs><linearGradient id="ar${size}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#8899aa"/><stop offset="100%" stop-color="#556677"/></linearGradient></defs>
+      <rect x="12" y="24" width="180" height="15" rx="1.5" fill="url(#ar${size})" stroke="#445" stroke-width="0.5"/>
+      <rect x="12" y="18" width="32" height="9" rx="1" fill="${dk}"/><rect x="186" y="27" width="22" height="10" rx="1" fill="${dk}"/>
+      <rect x="12" y="39" width="44" height="5" rx="1" fill="${d}" opacity="0.5"/>
+      <rect x="62" y="22" width="58" height="18" rx="1" fill="${d}" stroke="#3a4a5a" stroke-width="0.3"/>
+      <rect x="70" y="40" width="18" height="20" rx="1.5" fill="${dk}"/><path d="M71,42 L86,42 L84,58 L73,58Z" fill="${dk}"/>
+      <rect x="92" y="40" width="26" height="12" rx="1" fill="${d}"/>
+      <rect x="118" y="38" width="44" height="14" rx="2" fill="${d}"/><circle cx="140" cy="45" r="3" fill="${dk}"/>
+      <rect x="92" y="15" width="28" height="7" rx="3" fill="${dk}" stroke="${h}" stroke-width="0.5"/>
+      <circle cx="100" cy="18.5" r="2.5" fill="none" stroke="${h}" stroke-width="0.4"/>
+      <circle cx="113" cy="18.5" r="2.5" fill="none" stroke="${h}" stroke-width="0.4"/>
+      ${label}</svg>`,
+    smg: `<svg viewBox="0 0 200 82" xmlns="http://www.w3.org/2000/svg" class="${cls}">
+      <defs><linearGradient id="sm${size}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#8899aa"/><stop offset="100%" stop-color="#556677"/></linearGradient></defs>
+      <rect x="18" y="24" width="150" height="14" rx="1.5" fill="url(#sm${size})" stroke="#445" stroke-width="0.5"/>
+      <rect x="18" y="18" width="28" height="9" rx="1" fill="${dk}"/><rect x="158" y="26" width="18" height="10" rx="1" fill="${dk}"/>
+      <rect x="56" y="22" width="52" height="16" rx="1" fill="${d}" stroke="#3a4a5a" stroke-width="0.3"/>
+      <rect x="62" y="38" width="15" height="24" rx="1.5" fill="${dk}"/><path d="M63,40 L75,40 L73,60 L65,60Z" fill="${dk}"/>
+      <rect x="82" y="38" width="24" height="13" rx="1" fill="${d}"/><rect x="106" y="36" width="38" height="14" rx="2" fill="${d}"/>
+      <rect x="18" y="38" width="38" height="4" rx="1" fill="${d}" opacity="0.4"/>
+      ${label}</svg>`,
+    shotgun: `<svg viewBox="0 0 230 70" xmlns="http://www.w3.org/2000/svg" class="${cls}">
+      <defs><linearGradient id="sg${size}" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#778"/><stop offset="100%" stop-color="#99a"/></linearGradient></defs>
+      <rect x="3" y="22" width="215" height="14" rx="2.5" fill="url(#sg${size})" stroke="#445" stroke-width="0.5"/>
+      <rect x="3" y="36" width="215" height="7" rx="2" fill="${d}" opacity="0.4"/>
+      <rect x="3" y="17" width="24" height="8" rx="2" fill="${dk}"/><rect x="210" y="24" width="20" height="10" rx="1" fill="${dk}"/>
+      <rect x="65" y="20" width="55" height="16" rx="1" fill="${d}" stroke="#3a4a5a" stroke-width="0.3"/>
+      <rect x="70" y="36" width="22" height="17" rx="2" fill="#776655"/>
+      <rect x="96" y="36" width="38" height="12" rx="2" fill="#665544"/>
+      <rect x="134" y="34" width="52" height="14" rx="2" fill="#776655" stroke="#665544" stroke-width="0.3"/>
+      ${label}</svg>`,
+    machinegun: `<svg viewBox="0 0 230 85" xmlns="http://www.w3.org/2000/svg" class="${cls}">
+      <defs><linearGradient id="mg${size}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#99aabb"/><stop offset="100%" stop-color="#556677"/></linearGradient></defs>
+      <rect x="3" y="24" width="205" height="18" rx="2" fill="url(#mg${size})" stroke="#445" stroke-width="0.5"/>
+      <rect x="3" y="18" width="30" height="10" rx="1.5" fill="${dk}"/><rect x="200" y="27" width="26" height="12" rx="1" fill="${dk}"/>
+      <rect x="66" y="22" width="62" height="20" rx="1" fill="${d}" stroke="#3a4a5a" stroke-width="0.3"/>
+      <rect x="73" y="42" width="22" height="26" rx="2" fill="${dk}"/>
+      <rect x="100" y="42" width="30" height="14" rx="2" fill="${d}"/><rect x="130" y="40" width="44" height="16" rx="2" fill="${d}"/>
+      <rect x="48" y="28" width="8" height="14" rx="1" fill="${dk}"/>
+      <rect x="3" y="42" width="65" height="5" rx="1.5" fill="${h}" opacity="0.2"/>
+      <path d="M73,68 L65,80 M93,68 L85,80" stroke="${c}" stroke-width="2" stroke-linecap="round"/>
+      ${label}</svg>`,
+    sniper: `<svg viewBox="0 0 240 72" xmlns="http://www.w3.org/2000/svg" class="${cls}">
+      <defs><linearGradient id="sn${size}" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#667"/><stop offset="100%" stop-color="#899"/></linearGradient></defs>
+      <rect x="8" y="24" width="215" height="12" rx="1" fill="url(#sn${size})" stroke="#445" stroke-width="0.5"/>
+      <rect x="8" y="19" width="20" height="8" rx="1" fill="${dk}"/><rect x="216" y="26" width="24" height="8" rx="1" fill="${dk}"/>
+      <rect x="118" y="13" width="62" height="10" rx="4.5" fill="${dk}" stroke="${h}" stroke-width="0.7"/>
+      <circle cx="128" cy="18" r="4" fill="none" stroke="${h}" stroke-width="0.5"/>
+      <line x1="125" y1="18" x2="131" y2="18" stroke="${h}" stroke-width="0.3"/>
+      <line x1="128" y1="15" x2="128" y2="21" stroke="${h}" stroke-width="0.3"/>
+      <circle cx="170" cy="18" r="4" fill="none" stroke="${h}" stroke-width="0.5"/>
+      <rect x="78" y="22" width="55" height="14" rx="1" fill="${d}" stroke="#3a4a5a" stroke-width="0.3"/>
+      <rect x="86" y="36" width="18" height="22" rx="2" fill="${dk}"/>
+      <rect x="113" y="35" width="38" height="13" rx="2" fill="${d}"/>
+      <line x1="102" y1="36" x2="95" y2="55" stroke="${c}" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="142" y1="36" x2="135" y2="52" stroke="${c}" stroke-width="2.5" stroke-linecap="round"/>
+      ${label}</svg>`,
+    historical: `<svg viewBox="0 0 230 68" xmlns="http://www.w3.org/2000/svg" class="${cls}">
+      <defs><linearGradient id="hs${size}" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#887766"/><stop offset="100%" stop-color="#aa9988"/></linearGradient></defs>
+      <rect x="3" y="20" width="205" height="14" rx="2" fill="url(#hs${size})" stroke="#776655" stroke-width="0.5"/>
+      <rect x="48" y="18" width="158" height="10" rx="1" fill="#998888"/>
+      <ellipse cx="26" cy="27" rx="18" ry="8" fill="${dk}" opacity="0.3"/>
+      <rect x="98" y="30" width="58" height="22" rx="3" fill="#776666" stroke="#665555" stroke-width="0.3"/>
+      <rect x="156" y="30" width="50" height="18" rx="2" fill="#887777"/>
+      <circle cx="10" cy="27" r="6" fill="${dk}" stroke="${h}" stroke-width="0.8"/><circle cx="10" cy="27" r="2.5" fill="${d}"/>
+      <path d="M58,20 L66,12 L70,15 L63,22" fill="${c}" stroke="${dk}" stroke-width="0.4"/>
+      ${label}</svg>`,
   };
   return svgs[type] || svgs['pistol'];
 }
 
 // ═══════════════════════════════════════════════════════════════
-// RENDER GUNS
+// RENDERING
 // ═══════════════════════════════════════════════════════════════
 
 let currentCategory = 'all';
 let currentSearch = '';
+
+function getGunImage(gun) {
+  return getGunSVG(gun.type, 'small', gun.name);
+}
 
 function renderGuns() {
   const grid = document.getElementById('guns-grid');
@@ -1631,7 +2146,7 @@ function renderGuns() {
     : filtered.map(g => `
       <div class="gun-card" onclick="openDetail('${g.id}')">
         <div class="gun-card-img">
-          ${getGunSVG(g.type)}
+          ${getGunImage(g)}
           <div class="gun-card-era">${g.era}</div>
           <div class="gun-card-origin">${g.country}</div>
         </div>
@@ -1652,7 +2167,6 @@ function renderGuns() {
       </div>
     `).join('');
 
-  // Update counts
   updateCounts();
 }
 
@@ -1673,27 +2187,31 @@ function filterCategory(cat) {
   renderGuns();
 }
 
-function filterGuns(q) {
-  currentSearch = q;
-  renderGuns();
-}
+function filterGuns(q) { currentSearch = q; renderGuns(); }
 
 // ═══════════════════════════════════════════════════════════════
 // NAVIGATION
 // ═══════════════════════════════════════════════════════════════
 
-function showSection(section) {
-  document.getElementById('catalog-section').style.display = 'none';
-  document.getElementById('builder-section').classList.remove('active');
-  document.getElementById('library-section').classList.remove('active');
+const sections = ['catalog','ammo','compare','timeline','quiz','builder','library'];
 
+function showSection(section) {
+  sections.forEach(s => {
+    const el = document.getElementById(s + '-section');
+    if(el) { el.style.display = s === section ? 'block' : 'none'; if(el.classList.contains('section-page')) el.classList.toggle('active', s === section); }
+  });
   if(section === 'catalog') document.getElementById('catalog-section').style.display = 'block';
-  else if(section === 'builder') document.getElementById('builder-section').classList.add('active');
-  else if(section === 'library') document.getElementById('library-section').classList.add('active');
 
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  const map = {catalog:0, builder:1, library:2};
-  document.querySelectorAll('.nav-btn')[map[section]].classList.add('active');
+  const navBtns = document.querySelectorAll('.nav-btn');
+  const idx = sections.indexOf(section);
+  if(navBtns[idx]) navBtns[idx].classList.add('active');
+
+  document.querySelectorAll('.mob-nav-btn').forEach(b => b.classList.remove('active'));
+  const mobBtns = document.querySelectorAll('.mob-nav-btn');
+  if(mobBtns[idx]) mobBtns[idx].classList.add('active');
+
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -1728,17 +2246,13 @@ function buildDetailBody(gun) {
   const bars = ['damage','accuracy','range','reload','rate'].map(k => {
     const v = gun.stats[k] || 50;
     const labels = {damage:'DAMAGE',accuracy:'ACCURACY',range:'RANGE',reload:'RELOAD',rate:'FIRE RATE'};
-    return `<div class="stat-bar-row">
-      <div class="stat-bar-label">${labels[k]}</div>
-      <div class="stat-bar"><div class="stat-bar-fill" style="width:${v}%"></div></div>
-      <div class="stat-bar-val">${v}</div>
-    </div>`;
+    return `<div class="stat-bar-row"><div class="stat-bar-label">${labels[k]}</div><div class="stat-bar"><div class="stat-bar-fill" style="width:${v}%"></div></div><div class="stat-bar-val">${v}</div></div>`;
   }).join('');
 
+  const imgHTML = getGunSVG(gun.type, 'large', gun.name);
+
   body.innerHTML = `
-    <div class="gun-visual-panel">
-      ${getGunSVG(gun.type, 'large')}
-    </div>
+    <div class="gun-visual-panel">${imgHTML}</div>
     <div class="specs-sidebar">
       <div class="spec-block">
         <div class="spec-block-title">SPECIFICATIONS</div>
@@ -1755,32 +2269,118 @@ function buildDetailBody(gun) {
       </div>
     </div>
     <div class="detail-tabs">
-      <button class="detail-tab active" onclick="switchTab('history')">📜 History</button>
-      <button class="detail-tab" onclick="switchTab('parts')">🔧 Parts Breakdown</button>
-      <button class="detail-tab" onclick="switchTab('variants')">🔀 Variants & Service</button>
+      <button class="detail-tab active" onclick="switchTab('history',this)">📜 History</button>
+      <button class="detail-tab" onclick="switchTab('parts',this)">🔧 Exploded Parts</button>
+      <button class="detail-tab" onclick="switchTab('variants',this)">🔀 Variants & Service</button>
     </div>
     <div class="detail-tab-content" id="tab-content">
-      <div class="ai-loading">
-        <div class="ai-spinner"></div>
-        <div class="ai-loading-text">LOADING ARMORY DATABASE...</div>
-      </div>
+      <div class="ai-loading"><div class="ai-spinner"></div><div class="ai-loading-text">LOADING ARMORY DATABASE...</div></div>
     </div>
   `;
 }
 
-function switchTab(tab) {
+function switchTab(tab, btn) {
   currentTab = tab;
   document.querySelectorAll('.detail-tab').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
+  if(btn) btn.classList.add('active');
   loadTabContent(tab);
 }
 
+// ═══════════════════════════════════════════════════════════════
+// EXPLODED PARTS VIEW (Interactive)
+// ═══════════════════════════════════════════════════════════════
+
+function renderExplodedParts(gun) {
+  const parts = PARTS_BY_TYPE[gun.type] || PARTS_BY_TYPE.pistol;
+  const content = document.getElementById('tab-content');
+
+  let html = `
+    <div class="exploded-view">
+      <div class="exploded-instruction">👆 TAP ANY PART TO EXPLORE — SEE WHAT IT LOOKS LIKE AND HOW IT WORKS</div>
+      <div class="parts-container" id="parts-container">
+        ${parts.map((p, i) => {
+          const svgKey = p.svg || 'barrel';
+          return `
+          <div class="part-piece" onclick="togglePart(${i})" id="part-${i}">
+            <div style="width:100%;height:60px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;background:rgba(0,0,0,0.3);border:1px solid var(--border);overflow:hidden">
+              ${getPartSVG(svgKey)}
+            </div>
+            <div class="part-number">PART ${String(i+1).padStart(2,'0')}</div>
+            <div class="part-name">${p.name}</div>
+            <div class="part-short-desc">${p.short}</div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div class="part-detail-panel" id="part-detail-panel"></div>
+    </div>
+  `;
+  content.innerHTML = html;
+}
+
+let activePart = -1;
+
+function togglePart(idx) {
+  const gun = currentGun;
+  if(!gun) return;
+  const parts = PARTS_BY_TYPE[gun.type] || PARTS_BY_TYPE.pistol;
+  const part = parts[idx];
+  const panel = document.getElementById('part-detail-panel');
+
+  document.querySelectorAll('.part-piece').forEach(p => p.classList.remove('active'));
+
+  if(activePart === idx) {
+    activePart = -1;
+    panel.classList.remove('show');
+    return;
+  }
+
+  activePart = idx;
+  document.getElementById('part-' + idx).classList.add('active');
+  const svgKey = part.svg || 'barrel';
+
+  panel.innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start">
+      <div>
+        <div style="background:rgba(0,0,0,0.4);border:1px solid var(--border);padding:20px;display:flex;align-items:center;justify-content:center;min-height:120px;margin-bottom:12px">
+          <div style="width:100%;max-width:300px">${getPartSVG(svgKey)}</div>
+        </div>
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-muted);letter-spacing:1px;text-align:center">
+          TECHNICAL DIAGRAM · PART ${String(idx+1).padStart(2,'0')} OF ${parts.length}
+        </div>
+      </div>
+      <div>
+        <h3>${part.name}</h3>
+        <div style="font-family:var(--font-mono);font-size:10px;color:var(--gold);letter-spacing:2px;margin-bottom:12px">${gun.name.toUpperCase()} · ${gun.type.toUpperCase()}</div>
+        <div class="part-function">${part.full}</div>
+        <div style="margin-top:14px">
+          <div class="spec-block-title">COMMON MATERIALS</div>
+          <div class="part-materials">
+            ${part.materials.map(m => `<span class="material-tag">${m}</span>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  panel.classList.add('show');
+  panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// ═══════════════════════════════════════════════════════════════
+// AI TAB CONTENT
+// ═══════════════════════════════════════════════════════════════
+
 async function loadTabContent(tab) {
   if(!currentGun) return;
-  const cacheKey = currentGun.id + '_' + tab;
   const content = document.getElementById('tab-content');
   if(!content) return;
 
+  // Parts tab uses local data — no API needed
+  if(tab === 'parts') {
+    renderExplodedParts(currentGun);
+    return;
+  }
+
+  const cacheKey = currentGun.id + '_' + tab;
   if(aiCache[cacheKey]) {
     content.innerHTML = '<div class="ai-content">' + aiCache[cacheKey] + '</div>';
     return;
@@ -1789,9 +2389,8 @@ async function loadTabContent(tab) {
   content.innerHTML = `<div class="ai-loading"><div class="ai-spinner"></div><div class="ai-loading-text">QUERYING AI DATABASE...</div></div>`;
 
   const prompts = {
-    history: `You are an expert firearms historian and encyclopedia writer. Write a detailed, engaging history of the ${currentGun.name} (${currentGun.era}, ${currentGun.origin}). Include: origin and development story, key designers/inventors, why it was created, its military or civilian use history, famous conflicts or events it was used in, interesting stories and records, its legacy and influence. Format with HTML using <h3> for sections and <p> for paragraphs and <ul><li> for lists. Use <strong> for key terms. Make it educational and exciting for a young firearms enthusiast. Be thorough — at least 400 words.`,
-    parts: `You are an expert gunsmith and firearms educator. Provide a detailed parts breakdown of the ${currentGun.name}. List and explain EVERY major component. For each part, explain what it is, where it is located, and what function it serves. Start with a brief intro paragraph, then list 10-15 specific parts. Format: <h3>Parts Overview</h3> <p>intro</p> then use <ul> with <li> items formatted as: <strong>Part Name</strong> — description of the part and its function. Make it educational and detailed for someone learning how firearms work.`,
-    variants: `You are a firearms expert. Describe the major variants, models, and service history of the ${currentGun.name}. Include: different versions and what changed between them, countries that adopted it, conflicts it served in, special or limited editions, current production status, civilian vs military versions, and interesting modifications. Format with <h3> headers and <p> paragraphs and <ul><li> lists. Be comprehensive.`
+    history: `You are an expert firearms historian. Write a detailed, engaging history of the ${currentGun.name} (${currentGun.era}, ${currentGun.origin}). Include: origin story, key designers, why it was created, military/civilian use, famous conflicts, interesting facts, and its legacy. Format with HTML: <h3> for sections, <p> for paragraphs, <ul><li> for lists, <strong> for key terms. Be thorough — at least 400 words. Make it educational and exciting.`,
+    variants: `You are a firearms expert. Describe the major variants, models, and service history of the ${currentGun.name}. Include: different versions, countries that adopted it, conflicts it served in, special editions, current status, civilian vs military versions, and interesting modifications. Format with <h3> <p> <ul><li>. Be comprehensive.`
   };
 
   try {
@@ -1800,7 +2399,7 @@ async function loadTabContent(tab) {
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({
         model: "claude-sonnet-4-20250514",
-        max_tokens: 1000,
+        max_tokens: 1500,
         messages: [{role: "user", content: prompts[tab]}]
       })
     });
@@ -1809,12 +2408,240 @@ async function loadTabContent(tab) {
     aiCache[cacheKey] = text;
     if(content) content.innerHTML = '<div class="ai-content">' + text + '</div>';
   } catch(err) {
-    if(content) content.innerHTML = `<div class="ai-content"><p style="color:var(--red-bright)">⚠ Error loading content. Check your connection.</p></div>`;
+    content.innerHTML = `<div class="ai-content"><p style="color:var(--red-bright)">⚠ Error loading content. Please try again.</p><p style="color:var(--text-muted);font-size:13px;margin-top:8px">Tip: Make sure you're connected to the internet.</p></div>`;
   }
 }
 
 // ═══════════════════════════════════════════════════════════════
-// CUSTOM GUN BUILDER
+// AMMUNITION ENCYCLOPEDIA
+// ═══════════════════════════════════════════════════════════════
+
+function renderAmmo() {
+  const grid = document.getElementById('ammo-grid');
+  grid.innerHTML = AMMO.map(a => `
+    <div class="ammo-card" onclick="showAmmoDetail('${a.id}')">
+      <div class="ammo-type">${a.type}</div>
+      <div class="ammo-name">${a.name}</div>
+      <div class="ammo-stats">
+        <div class="ammo-stat"><span class="ammo-stat-val">${a.diameter}</span><span class="ammo-stat-label">Diameter</span></div>
+        <div class="ammo-stat"><span class="ammo-stat-val">${a.velocity.split(' ')[0]}</span><span class="ammo-stat-label">${a.velocity.includes('fps')?'FPS':'M/S'}</span></div>
+        <div class="ammo-stat"><span class="ammo-stat-val">${a.energy.split(' ')[0]}</span><span class="ammo-stat-label">FT·LBS</span></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+let currentAmmo = null;
+
+async function showAmmoDetail(id) {
+  const ammo = AMMO.find(a => a.id === id);
+  if(!ammo) return;
+  currentAmmo = ammo;
+  const box = document.getElementById('ammo-detail-box');
+  box.classList.add('show');
+  box.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <div>
+        <div style="font-family:var(--font-mono);font-size:10px;color:var(--gold);letter-spacing:3px">${ammo.type.toUpperCase()}</div>
+        <div style="font-family:var(--font-title);font-size:32px;letter-spacing:2px;color:var(--gold-light)">${ammo.name}</div>
+      </div>
+      <button onclick="document.getElementById('ammo-detail-box').classList.remove('show')" style="background:none;border:1px solid var(--border);color:var(--text-dim);padding:6px 12px;cursor:pointer;font-family:var(--font-mono);font-size:11px">✕ CLOSE</button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;margin-bottom:16px">
+      <div class="spec-block" style="padding:12px"><div class="spec-block-title" style="margin-bottom:6px">DIAMETER</div><div style="font-family:var(--font-title);font-size:22px;color:var(--gold)">${ammo.diameter}</div></div>
+      <div class="spec-block" style="padding:12px"><div class="spec-block-title" style="margin-bottom:6px">VELOCITY</div><div style="font-family:var(--font-title);font-size:22px;color:var(--gold)">${ammo.velocity}</div></div>
+      <div class="spec-block" style="padding:12px"><div class="spec-block-title" style="margin-bottom:6px">ENERGY</div><div style="font-family:var(--font-title);font-size:22px;color:var(--gold)">${ammo.energy}</div></div>
+    </div>
+    <div class="spec-block" style="padding:16px;margin-bottom:12px">
+      <div class="spec-block-title">PRIMARY USE</div>
+      <p style="color:var(--text-dim);font-size:14px;line-height:1.6">${ammo.use}</p>
+    </div>
+    <div class="spec-block" style="padding:16px">
+      <div class="spec-block-title">COMMON FIREARMS</div>
+      <p style="color:var(--text-dim);font-size:14px;line-height:1.6">${ammo.guns}</p>
+    </div>
+  `;
+  box.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// ═══════════════════════════════════════════════════════════════
+// COMPARISON TOOL
+// ═══════════════════════════════════════════════════════════════
+
+let compareGuns = [null, null];
+let comparePickerSlot = -1;
+
+function openComparePicker(slot) {
+  if(document.getElementById('compare-slot-' + slot).classList.contains('filled')) return;
+  comparePickerSlot = slot;
+  const picker = document.getElementById('compare-picker');
+  picker.classList.add('show');
+  picker.innerHTML = GUNS.map(g => `
+    <div class="compare-picker-item" onclick="selectCompareGun('${g.id}')">
+      <span>${g.country}</span>
+      <strong>${g.name}</strong>
+      <span style="color:var(--text-muted);font-size:11px">${g.caliber}</span>
+    </div>
+  `).join('');
+  picker.scrollIntoView({behavior:'smooth'});
+}
+
+function selectCompareGun(id) {
+  const gun = GUNS.find(g => g.id === id);
+  if(!gun) return;
+  compareGuns[comparePickerSlot] = gun;
+  document.getElementById('compare-picker').classList.remove('show');
+  renderCompareSlot(comparePickerSlot, gun);
+}
+
+function renderCompareSlot(slot, gun) {
+  const el = document.getElementById('compare-slot-' + slot);
+  el.classList.add('filled');
+  const gunVisual = `<div style="display:flex;align-items:center;justify-content:center;height:100px;background:rgba(0,0,0,0.2);border:1px solid var(--border);margin-bottom:8px">${getGunSVG(gun.type,'small',gun.name)}</div>`;
+  const statNames = {damage:'DAMAGE',accuracy:'ACCURACY',range:'RANGE',reload:'RELOAD',rate:'FIRE RATE'};
+  const colors = {damage:'#ff4757',accuracy:'#74b9ff',range:'#00b894',reload:'#e8b84b',rate:'#a29bfe'};
+  const otherGun = compareGuns[slot === 0 ? 1 : 0];
+
+  el.innerHTML = `
+    <div class="compare-gun-info">
+      <div style="text-align:center;margin-bottom:8px">
+        <button onclick="event.stopPropagation();clearCompareSlot(${slot})" style="background:none;border:1px solid var(--border);color:var(--text-muted);padding:4px 10px;cursor:pointer;font-family:var(--font-mono);font-size:9px;margin-bottom:8px">✕ CHANGE</button>
+      </div>
+      ${gunVisual}
+      <div style="font-family:var(--font-title);font-size:24px;letter-spacing:2px;color:var(--gold);text-align:center;margin:8px 0">${gun.name}</div>
+      <div style="text-align:center;margin-bottom:12px">
+        <span class="spec-tag">${gun.caliber}</span>
+        <span class="spec-tag">${gun.origin}</span>
+        <span class="spec-tag">${gun.era}</span>
+      </div>
+      <div class="compare-bar-wrap">
+        ${Object.keys(statNames).map(k => {
+          const v = gun.stats[k] || 50;
+          const otherV = otherGun ? (otherGun.stats[k] || 50) : 0;
+          const winner = otherGun && v > otherV;
+          return `<div class="compare-bar-row">
+            <div class="compare-bar-label">${statNames[k]}</div>
+            <div class="compare-bar"><div class="compare-bar-fill" style="width:${v}%;background:${winner ? colors[k] : 'var(--gold)'}"></div></div>
+            <div class="compare-bar-val" style="${winner ? 'color:'+colors[k]+';font-weight:bold' : ''}">${v}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+  `;
+
+  // Re-render the other slot to update colors
+  if(otherGun && compareGuns[0] && compareGuns[1]) {
+    const otherSlot = slot === 0 ? 1 : 0;
+    renderCompareSlot(otherSlot, otherGun);
+  }
+}
+
+function clearCompareSlot(slot) {
+  compareGuns[slot] = null;
+  const el = document.getElementById('compare-slot-' + slot);
+  el.classList.remove('filled');
+  el.innerHTML = `<div class="compare-prompt">+ SELECT<br/>FIREARM ${slot+1}</div>`;
+  el.onclick = () => openComparePicker(slot);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TIMELINE
+// ═══════════════════════════════════════════════════════════════
+
+function renderTimeline() {
+  const wrap = document.getElementById('timeline-wrap');
+  const sorted = [...GUNS].sort((a,b) => parseInt(a.era) - parseInt(b.era));
+  wrap.innerHTML = `<div class="timeline-line"></div>` + sorted.map(g => `
+    <div class="timeline-item" onclick="openDetail('${g.id}')">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">${g.era}</div>
+      <div class="timeline-title">${g.country} ${g.name}</div>
+      <div class="timeline-desc">${g.desc}</div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// QUIZ
+// ═══════════════════════════════════════════════════════════════
+
+let quizState = { current: 0, score: 0, answered: false, questions: [] };
+
+function startQuiz() {
+  quizState.questions = [...QUIZ_QUESTIONS].sort(() => Math.random() - 0.5).slice(0, 10);
+  quizState.current = 0;
+  quizState.score = 0;
+  quizState.answered = false;
+  renderQuizQuestion();
+}
+
+function renderQuizQuestion() {
+  const container = document.getElementById('quiz-container');
+  const q = quizState.questions[quizState.current];
+  if(!q) { renderQuizResults(); return; }
+
+  const shuffled = [...q.opts].sort(() => Math.random() - 0.5);
+
+  container.innerHTML = `
+    <div class="quiz-score-bar">
+      <div><span class="quiz-score-label">SCORE</span><br/><span class="quiz-score-val">${quizState.score}/${quizState.questions.length}</span></div>
+      <div style="flex:1"></div>
+      <div><span class="quiz-score-label">QUESTION</span><br/><span class="quiz-score-val">${quizState.current + 1}/${quizState.questions.length}</span></div>
+    </div>
+    <div class="quiz-question-box">
+      <div class="quiz-q-number">QUESTION ${quizState.current + 1}</div>
+      <div class="quiz-question">${q.q}</div>
+    </div>
+    <div class="quiz-options">
+      ${shuffled.map((opt, i) => `
+        <button class="quiz-option" onclick="answerQuiz(this, '${opt.replace(/'/g, "\\'")}', '${q.a.replace(/'/g, "\\'")}')">${opt}</button>
+      `).join('')}
+    </div>
+  `;
+}
+
+function answerQuiz(btn, chosen, correct) {
+  if(quizState.answered) return;
+  quizState.answered = true;
+
+  const isCorrect = chosen === correct;
+  if(isCorrect) quizState.score++;
+
+  document.querySelectorAll('.quiz-option').forEach(b => {
+    b.classList.add('disabled');
+    if(b.textContent === correct) b.classList.add('correct');
+    if(b === btn && !isCorrect) b.classList.add('wrong');
+  });
+
+  setTimeout(() => {
+    quizState.current++;
+    quizState.answered = false;
+    renderQuizQuestion();
+  }, 1500);
+}
+
+function renderQuizResults() {
+  const container = document.getElementById('quiz-container');
+  const pct = Math.round((quizState.score / quizState.questions.length) * 100);
+  let rank = 'Recruit';
+  if(pct >= 90) rank = 'Master Armorer';
+  else if(pct >= 70) rank = 'Expert Marksman';
+  else if(pct >= 50) rank = 'Sharpshooter';
+  else if(pct >= 30) rank = 'Rifleman';
+
+  container.innerHTML = `
+    <div class="quiz-question-box">
+      <div class="quiz-q-number">QUIZ COMPLETE</div>
+      <div class="quiz-question" style="font-size:48px;font-family:var(--font-title);color:var(--gold)">${quizState.score}/${quizState.questions.length}</div>
+      <div style="font-family:var(--font-sub);font-size:20px;color:var(--text);margin-top:8px">${rank}</div>
+      <div style="color:var(--text-muted);margin-top:8px">${pct}% accuracy</div>
+    </div>
+    <button class="btn-generate" onclick="startQuiz()" style="max-width:300px;margin:20px auto;display:block">🔄 PLAY AGAIN</button>
+  `;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CUSTOM BUILDER
 // ═══════════════════════════════════════════════════════════════
 
 async function generateCustomGun() {
@@ -1831,10 +2658,9 @@ async function generateCustomGun() {
   result.classList.add('show');
   content.innerHTML = `<div class="ai-loading"><div class="ai-spinner"></div><div class="ai-loading-text">FORGING YOUR FIREARM...</div></div>`;
 
-  // Show visual
   document.getElementById('custom-gun-visual').style.display = 'block';
   document.querySelector('.builder-preview-text').style.display = 'none';
-  document.getElementById('custom-gun-visual').innerHTML = getGunSVG(type, 'large') + `<div style="font-family:var(--font-title);font-size:20px;letter-spacing:3px;color:var(--gold);margin-top:16px">${name}</div>`;
+  document.getElementById('custom-gun-visual').innerHTML = getGunSVG(type, 'large') + `<div style="font-family:var(--font-title);font-size:20px;letter-spacing:3px;color:var(--gold);margin-top:12px">${name}</div>`;
 
   try {
     const response = await fetch("https://api.anthropic.com/v1/messages", {
@@ -1843,35 +2669,23 @@ async function generateCustomGun() {
       body: JSON.stringify({
         model: "claude-sonnet-4-20250514",
         max_tokens: 1000,
-        messages: [{role:"user", content:`You are a master gunsmith. Create a complete spec sheet and description for a custom firearm with these specs:
-Name: "${name}"
-Type: ${type}
-Caliber: ${caliber}
-Barrel: ${barrel}
-Frame: ${material}
-Finish: ${finish}
-Special Feature: ${features}
-
-Provide: 1) A cool 2-3 sentence description of this unique firearm. 2) Estimated specs: effective range, muzzle velocity, rate of fire. 3) A "Gunsmith's Note" describing any tradeoffs or special characteristics. 4) Rate it 1-10 for: Power, Accuracy, Reliability, Concealability.
-Format with HTML using <h3> for sections and <p> and <ul><li>. Make it exciting!`}]
+        messages: [{role:"user", content:`You are a master gunsmith. Create a spec sheet for: Name: "${name}", Type: ${type}, Caliber: ${caliber}, Barrel: ${barrel}, Frame: ${material}, Finish: ${finish}, Feature: ${features}. Provide: 1) 2-3 sentence description. 2) Specs: range, velocity, rate of fire. 3) Gunsmith's Note about tradeoffs. 4) Rate 1-10: Power, Accuracy, Reliability, Concealability. Format with HTML <h3> <p> <ul><li>.`}]
       })
     });
     const data = await response.json();
     const text = data.content?.[0]?.text || '';
     content.innerHTML = `
-      <div style="font-family:var(--font-title);font-size:32px;letter-spacing:3px;color:var(--gold);margin-bottom:16px">${name}</div>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px">
+      <div style="font-family:var(--font-title);font-size:28px;letter-spacing:3px;color:var(--gold);margin-bottom:12px">${name}</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
         <span class="spec-tag">${type.toUpperCase()}</span>
         <span class="spec-tag">${caliber}</span>
-        <span class="spec-tag">${barrel} BARREL</span>
-        <span class="spec-tag">${material.toUpperCase()}</span>
-        <span class="spec-tag">${finish.toUpperCase()}</span>
-        <span class="spec-tag">${features.toUpperCase()}</span>
+        <span class="spec-tag">${barrel}</span>
+        <span class="spec-tag">${material}</span>
+        <span class="spec-tag">${finish}</span>
+        <span class="spec-tag">${features}</span>
       </div>
       <div class="ai-content">${text}</div>
-      <div style="margin-top:20px;display:flex;gap:12px">
-        <button class="btn-details" onclick="fireGun(this,'${type}','${name}')">🔫 TEST FIRE</button>
-      </div>
+      <button class="btn-details" style="margin-top:16px" onclick="fireGun(this,'${type}','${name}')">🔫 TEST FIRE</button>
     `;
   } catch(err) {
     content.innerHTML = `<p style="color:var(--red-bright)">Error generating firearm. Try again.</p>`;
@@ -1881,6 +2695,26 @@ Format with HTML using <h3> for sections and <p> and <ul><li>. Make it exciting!
 // ═══════════════════════════════════════════════════════════════
 // LIBRARY
 // ═══════════════════════════════════════════════════════════════
+
+const QUICK_QUESTIONS = [
+  'How does a semi-automatic pistol work?',
+  'What is the history of the AK-47?',
+  'Explain the parts of a revolver',
+  'What made the M16 famous?',
+  'Difference between bolt-action and semi-auto',
+  'History of the Colt 1911 pistol',
+  'What are the most famous WWI rifles?',
+  'How does a shotgun shell work?',
+  'What is the difference between 5.56 and .223?',
+  'How does recoil operation work in firearms?',
+];
+
+function renderQuickQuestions() {
+  const container = document.getElementById('quick-questions');
+  container.innerHTML = QUICK_QUESTIONS.map(q => `
+    <button class="quick-q-btn" onclick="quickQ(this.textContent)">${q}</button>
+  `).join('');
+}
 
 async function askLibrary() {
   const q = document.getElementById('library-question').value.trim();
@@ -1895,8 +2729,8 @@ async function askLibrary() {
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({
         model: "claude-sonnet-4-20250514",
-        max_tokens: 1000,
-        messages: [{role:"user",content:`You are an expert firearms historian and educator. Answer this question in detail: "${q}". Format with HTML using <h3> for sections, <p> for paragraphs, and <ul><li> for lists. Make it educational, accurate, and engaging for a firearms enthusiast. Use <strong> for important terms.`}]
+        max_tokens: 1500,
+        messages: [{role:"user",content:`You are an expert firearms historian and educator. Answer this question in detail: "${q}". Format with HTML using <h3> for sections, <p> for paragraphs, and <ul><li> for lists. Use <strong> for important terms. Make it educational, accurate, and engaging.`}]
       })
     });
     const data = await response.json();
@@ -1910,11 +2744,10 @@ async function askLibrary() {
 function quickQ(q) {
   document.getElementById('library-question').value = q;
   askLibrary();
-  document.getElementById('library-section').scrollIntoView({behavior:'smooth'});
 }
 
 // ═══════════════════════════════════════════════════════════════
-// SOUND ENGINE — Web Audio API Gunshot Synthesis
+// SOUND ENGINE
 // ═══════════════════════════════════════════════════════════════
 
 let audioCtx = null;
@@ -1928,8 +2761,6 @@ function getAudioCtx() {
 function fireGunSound(type) {
   const ctx = getAudioCtx();
   const now = ctx.currentTime;
-
-  // Noise source
   const bufferSize = ctx.sampleRate * 0.5;
   const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
   const data = buffer.getChannelData(0);
@@ -1938,34 +2769,29 @@ function fireGunSound(type) {
   const noise = ctx.createBufferSource();
   noise.buffer = buffer;
 
-  // Settings by gun type
   const settings = {
-    pistol:    {freq:180, decay:0.18, bang:0.08, lowpass:2800, gain:1.0},
-    revolver:  {freq:140, decay:0.25, bang:0.1,  lowpass:2200, gain:1.1},
-    rifle:     {freq:120, decay:0.35, bang:0.12, lowpass:3500, gain:1.2},
-    assault:   {freq:200, decay:0.15, bang:0.07, lowpass:3200, gain:1.0},
-    smg:       {freq:280, decay:0.12, bang:0.06, lowpass:2500, gain:0.9},
-    shotgun:   {freq:80,  decay:0.45, bang:0.15, lowpass:1800, gain:1.4},
-    machinegun:{freq:220, decay:0.12, bang:0.06, lowpass:3000, gain:1.0},
-    sniper:    {freq:90,  decay:0.55, bang:0.18, lowpass:4000, gain:1.3},
-    historical:{freq:100, decay:0.55, bang:0.2,  lowpass:1500, gain:1.3},
+    pistol:{freq:180,decay:0.18,bang:0.08,lowpass:2800,gain:1.0},
+    revolver:{freq:140,decay:0.25,bang:0.1,lowpass:2200,gain:1.1},
+    rifle:{freq:120,decay:0.35,bang:0.12,lowpass:3500,gain:1.2},
+    assault:{freq:200,decay:0.15,bang:0.07,lowpass:3200,gain:1.0},
+    smg:{freq:280,decay:0.12,bang:0.06,lowpass:2500,gain:0.9},
+    shotgun:{freq:80,decay:0.45,bang:0.15,lowpass:1800,gain:1.4},
+    machinegun:{freq:220,decay:0.12,bang:0.06,lowpass:3000,gain:1.0},
+    sniper:{freq:90,decay:0.55,bang:0.18,lowpass:4000,gain:1.3},
+    historical:{freq:100,decay:0.55,bang:0.2,lowpass:1500,gain:1.3},
   };
 
   const s = settings[type] || settings.pistol;
-
-  // Lowpass filter
   const filter = ctx.createBiquadFilter();
   filter.type = 'lowpass';
   filter.frequency.value = s.lowpass;
 
-  // Gain envelope (bang + decay)
   const gainNode = ctx.createGain();
   gainNode.gain.setValueAtTime(0, now);
   gainNode.gain.linearRampToValueAtTime(s.gain, now + 0.002);
   gainNode.gain.exponentialRampToValueAtTime(s.gain * 0.3, now + s.bang);
   gainNode.gain.exponentialRampToValueAtTime(0.001, now + s.bang + s.decay);
 
-  // Tone oscillator for the "bang" punch
   const osc = ctx.createOscillator();
   osc.type = 'sawtooth';
   osc.frequency.setValueAtTime(s.freq * 2, now);
@@ -1998,8 +2824,8 @@ function spawnMuzzleFlash(x, y) {
   const el = document.createElement('div');
   el.className = 'muzzle-flash';
   el.textContent = '💥';
-  el.style.left = (x - 24) + 'px';
-  el.style.top = (y - 24) + 'px';
+  el.style.left = (x - 21) + 'px';
+  el.style.top = (y - 21) + 'px';
   document.body.appendChild(el);
   setTimeout(() => el.remove(), 400);
 }
@@ -2026,10 +2852,7 @@ function fireGunDetail() {
   showToast('🔫 FIRED: ' + currentGun.name);
 }
 
-// ═══════════════════════════════════════════════════════════════
-// TOAST
-// ═══════════════════════════════════════════════════════════════
-
+// Toast
 let toastTimeout;
 function showToast(msg) {
   const t = document.getElementById('toast');
@@ -2039,10 +2862,7 @@ function showToast(msg) {
   toastTimeout = setTimeout(() => t.classList.remove('show'), 2000);
 }
 
-// ═══════════════════════════════════════════════════════════════
-// KEYBOARD SHORTCUTS
-// ═══════════════════════════════════════════════════════════════
-
+// Keyboard
 document.addEventListener('keydown', e => {
   if(e.key === 'Escape') closeDetail();
   if(e.key === ' ' && currentGun && document.getElementById('detail-overlay').classList.contains('open')) {
@@ -2056,6 +2876,18 @@ document.addEventListener('keydown', e => {
 // ═══════════════════════════════════════════════════════════════
 
 renderGuns();
+renderAmmo();
+renderTimeline();
+renderQuickQuestions();
+startQuiz();
+
+// Hide non-catalog sections on load
+sections.forEach(s => {
+  if(s !== 'catalog') {
+    const el = document.getElementById(s + '-section');
+    if(el) el.style.display = 'none';
+  }
+});
 </script>
 </body>
 </html>
