@@ -2353,12 +2353,51 @@ function switchTab(tab, btn) {
 // EXPLODED PARTS VIEW (Interactive)
 // ═══════════════════════════════════════════════════════════════
 
+// Real labeled diagrams for specific guns (local files in repo)
+const GUN_DIAGRAMS = {
+  glock17: {
+    external: 'Glock-17-pistol_nomenclature.jpg',
+    cutaway: '82psys259np81.jpg',
+    externalAlt: 'Glock 17 external parts nomenclature diagram',
+    cutawayAlt: 'Glock 17 internal cutaway — Inside the Glock 17'
+  }
+};
+
 function renderExplodedParts(gun) {
   const parts = PARTS_BY_TYPE[gun.type] || PARTS_BY_TYPE.pistol;
   const content = document.getElementById('tab-content');
+  const diagrams = GUN_DIAGRAMS[gun.id];
+
+  const diagramSection = diagrams ? `
+    <div style="margin-bottom:24px">
+      <div style="font-family:var(--font-mono);font-size:10px;color:var(--gold);letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;text-align:center">
+        📸 REAL LABELED DIAGRAMS · ${gun.name.toUpperCase()}
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div style="background:rgba(0,0,0,0.4);border:1px solid var(--border-glow);padding:8px;border-radius:2px">
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-muted);letter-spacing:2px;margin-bottom:6px">EXTERNAL NOMENCLATURE</div>
+          <img src="${diagrams.external}" alt="${diagrams.externalAlt}"
+            style="width:100%;border-radius:2px;display:block;cursor:pointer"
+            onclick="this.style.position=this.style.position?'':'fixed';this.style.inset='0';this.style.zIndex='9999';this.style.width='100vw';this.style.height='100vh';this.style.objectFit='contain';this.style.background='rgba(0,0,0,0.95)';this.style.cursor='zoom-out'"
+            onerror="this.parentElement.style.display='none'"
+            title="Click to enlarge"/>
+          <div style="font-family:var(--font-mono);font-size:8px;color:var(--text-muted);margin-top:4px;text-align:center">Click to enlarge</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.4);border:1px solid var(--border-glow);padding:8px;border-radius:2px">
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-muted);letter-spacing:2px;margin-bottom:6px">INTERNAL CUTAWAY</div>
+          <img src="${diagrams.cutaway}" alt="${diagrams.cutawayAlt}"
+            style="width:100%;border-radius:2px;display:block;cursor:pointer"
+            onclick="this.style.position=this.style.position?'':'fixed';this.style.inset='0';this.style.zIndex='9999';this.style.width='100vw';this.style.height='100vh';this.style.objectFit='contain';this.style.background='rgba(0,0,0,0.95)';this.style.cursor='zoom-out'"
+            onerror="this.parentElement.style.display='none'"
+            title="Click to enlarge"/>
+          <div style="font-family:var(--font-mono);font-size:8px;color:var(--text-muted);margin-top:4px;text-align:center">Click to enlarge</div>
+        </div>
+      </div>
+    </div>` : '';
 
   let html = `
     <div class="exploded-view">
+      ${diagramSection}
       <div class="exploded-instruction">👆 TAP ANY PART TO EXPLORE — SEE WHAT IT LOOKS LIKE AND HOW IT WORKS</div>
       <div class="parts-container" id="parts-container">
         ${parts.map((p, i) => {
